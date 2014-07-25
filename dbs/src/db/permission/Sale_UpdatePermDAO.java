@@ -21,6 +21,7 @@ public class Sale_UpdatePermDAO extends PermissionDAO<Sale, Sale_UpdatePerm> {
 
     public Sale_UpdatePermDAO(UserRegister userRegister, Register<Sale> register) {
         super(userRegister, register);
+        table = "update_sale_perm";
     }
 
     @Override
