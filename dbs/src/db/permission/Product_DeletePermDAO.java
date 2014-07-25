@@ -38,7 +38,7 @@ public class Product_DeletePermDAO extends PermissionDAO<Product, Product_Delete
             String sql = "INSERT INTO "+table+" ('target_product_id', 'executor_user_id') VALUES("+targetProductId+", "+executorUserId+");";
             st.execute(sql);
         } catch (SQLException ex) {
-            Logger.getLogger(Product_DeletePermDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
     }
 
@@ -53,7 +53,7 @@ public class Product_DeletePermDAO extends PermissionDAO<Product, Product_Delete
             String sql = "DELETE FROM "+table+" WHERE target_product_id="+targetProductId+" AND executor_user_id="+executorUserId+";";
             st.execute(sql);
         } catch (SQLException ex) {
-            Logger.getLogger(Product_DeletePermDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
     }
 
@@ -73,7 +73,7 @@ public class Product_DeletePermDAO extends PermissionDAO<Product, Product_Delete
                 }
             }
         } catch (SQLException ex) {
-            Logger.getLogger(Product_DeletePermDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
         return null;
     }
@@ -97,7 +97,7 @@ public class Product_DeletePermDAO extends PermissionDAO<Product, Product_Delete
             }
             return product_DeletePerms;
         } catch (SQLException ex) {
-            Logger.getLogger(Product_DeletePermDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
         return null;
     }
