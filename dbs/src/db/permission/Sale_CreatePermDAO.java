@@ -50,7 +50,7 @@ public class Sale_CreatePermDAO extends PermissionDAO<Sale, Sale_CreatePerm> {
             String sql = "INSERT INTO "+table+" ('executor_user_id', 'parent_store_id', 'parent_dealer_id') VALUES("+executorUserId+", "+parentStoreId+", "+parentDealerId+");";
             st.execute(sql);
         } catch (SQLException ex) {
-            Logger.getLogger(Product_CreatePermDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
     }
 
@@ -101,7 +101,7 @@ public class Sale_CreatePermDAO extends PermissionDAO<Sale, Sale_CreatePerm> {
                 }
             }
         } catch (SQLException ex) {
-            Logger.getLogger(Product_CreatePermDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
         return null;
     }
@@ -122,7 +122,7 @@ public class Sale_CreatePermDAO extends PermissionDAO<Sale, Sale_CreatePerm> {
                 }
             }
         } catch (SQLException ex) {
-            Logger.getLogger(Product_CreatePermDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
         return null;
     }
