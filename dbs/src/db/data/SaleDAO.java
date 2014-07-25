@@ -1,4 +1,3 @@
-
 package db.data;
 
 import abstracts.DataDAO;
@@ -20,7 +19,7 @@ import model.data.StoreRegister;
  * @author Patrick
  */
 public class SaleDAO extends DataDAO<Sale> {
-    
+
     private DealerRegister dealerRegister;
     private StoreRegister storeRegister;
 
@@ -47,12 +46,14 @@ public class SaleDAO extends DataDAO<Sale> {
                 parentDealerId = source.getParentDealer().getId();
             }
 
+            int id = -1;
             String sql = "INSERT INTO sale (name, description, picture, price, parent_store_id, parent_dealer_id) VALUES('" + name + "', '" + description + "', " + picture + ", " + price + ", " + parentStoreId + ", " + parentDealerId + ");";
             statement.execute(sql);
-            ResultSet rs = statement.executeQuery("SELECT LAST_INSERT_ID();");
-            rs.next();
-            int id = rs.getInt(1);
-
+            try (ResultSet rs = statement.executeQuery("SELECT LAST_INSERT_ID();")) {
+                while (rs.next()) {
+                    id = rs.getInt(1);
+                }
+            }
             return id;
         } catch (SQLException ex) {
             Logger.getLogger(DealerDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -103,29 +104,28 @@ public class SaleDAO extends DataDAO<Sale> {
     public Sale select(int id) {
         try {
             Statement statement = DBTool.getStatement();
-
+            Sale sale = null;
             String sql = "SELECT * FROM sale WHERE id_sale=" + id;
-            ResultSet rs = statement.executeQuery(sql);
-            rs.next();
-            int parentStoreId = rs.getInt(6);
-            int parentDealerId = rs.getInt(7);
-            Store parentStore = null;
-            Dealer parentDealer = null;
-            if (parentStoreId != 0) {
-                parentStore = storeRegister.get(parentStoreId);
-            }
-            if (parentDealerId != 0) {
-                parentDealer = dealerRegister.get(parentDealerId);
-            }
+            try (ResultSet rs = statement.executeQuery(sql)) {
+                while (rs.next()) {
+                    int parentStoreId = rs.getInt(6);
+                    int parentDealerId = rs.getInt(7);
+                    Store parentStore = null;
+                    Dealer parentDealer = null;
+                    if (parentStoreId != 0) {
+                        parentStore = storeRegister.get(parentStoreId);
+                    }
+                    if (parentDealerId != 0) {
+                        parentDealer = dealerRegister.get(parentDealerId);
+                    }
 
-            Sale sale;
-
-            if (parentStore != null) {
-                sale = new Sale(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getDouble(5), parentStore);
-            } else {
-                sale = new Sale(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getDouble(5), parentDealer);
+                    if (parentStore != null) {
+                        sale = new Sale(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getDouble(5), parentStore);
+                    } else {
+                        sale = new Sale(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getDouble(5), parentDealer);
+                    }
+                }
             }
-
             return sale;
         } catch (SQLException ex) {
             Logger.getLogger(DealerDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -140,39 +140,36 @@ public class SaleDAO extends DataDAO<Sale> {
             Statement st = DBTool.getStatement();
 
             String sql = "SELECT * FROM sale;";
-            ResultSet rs = st.executeQuery(sql);
-
-            while (rs.next()) {
-                int parentStoreId = rs.getInt(6);
-                int parentDealerId = rs.getInt(7);
-                Store parentStore = null;
-                Dealer parentDealer = null;
-                if (parentStoreId != 0) {
-                    parentStore = storeRegister.get(parentStoreId);
+            try (ResultSet rs = st.executeQuery(sql)) {
+                while (rs.next()) {
+                    int parentStoreId = rs.getInt(6);
+                    int parentDealerId = rs.getInt(7);
+                    Store parentStore = null;
+                    Dealer parentDealer = null;
+                    if (parentStoreId != 0) {
+                        parentStore = storeRegister.get(parentStoreId);
+                    }
+                    if (parentDealerId != 0) {
+                        parentDealer = dealerRegister.get(parentDealerId);
+                    }
+                    
+                    Sale sale;
+                    
+                    if (parentStore != null) {
+                        sale = new Sale(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getDouble(5), parentStore);
+                    } else {
+                        sale = new Sale(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getDouble(5), parentDealer);
+                    }
+                    
+                    sales.add(sale);
                 }
-                if (parentDealerId != 0) {
-                    parentDealer = dealerRegister.get(parentDealerId);
-                }
-
-                Sale sale;
-
-                if (parentStore != null) {
-                    sale = new Sale(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getDouble(5), parentStore);
-                } else {
-                    sale = new Sale(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getDouble(5), parentDealer);
-                }
-                
-                sales.add(sale);
             }
-            
-            rs.close();
-            
+
             return sales;
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
-
 
 }

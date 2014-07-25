@@ -47,13 +47,14 @@ public class UserDAO extends DataDAO<User> {
             if (source.getParentDealer() != null) {
                 parentDealerId = source.getParentDealer().getId();
             }
-
+            int id = -1;
             String sql = "INSERT INTO user (name, username, password, email, phone, parent_store_id, parent_dealer_id) VALUES('" + name + "', '" + username + "', '" + password + "', '" + email + "', '" + phone + "', " + parentStoreId + ", " + parentDealerId + ");";
             st.execute(sql);
-            ResultSet rs = st.executeQuery("SELECT LAST_INSERT_ID();");
-            rs.next();
-            int id = rs.getInt(1);
-
+            try (ResultSet rs = st.executeQuery("SELECT LAST_INSERT_ID();")) {
+                while (rs.next()) {
+                    id = rs.getInt(1);
+                }
+            }
             return id;
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -105,30 +106,28 @@ public class UserDAO extends DataDAO<User> {
     public User select(int id) {
         try {
             Statement st = DBTool.getStatement();
-
+            User user = null;
             String sql = "SELECT * FROM user WHERE id_user=" + id + ";";
-            ResultSet rs = st.executeQuery(sql);
-
-            rs.next();
-            int parentStoreId = rs.getInt(7);
-            int parentDealerId = rs.getInt(8);
-            Store parentStore = null;
-            Dealer parentDealer = null;
-            if (parentStoreId != 0) {
-                parentStore = storeRegister.get(parentStoreId);
+            try (ResultSet rs = st.executeQuery(sql)) {
+                while (rs.next()) {
+                    int parentStoreId = rs.getInt(7);
+                    int parentDealerId = rs.getInt(8);
+                    Store parentStore = null;
+                    Dealer parentDealer = null;
+                    if (parentStoreId != 0) {
+                        parentStore = storeRegister.get(parentStoreId);
+                    }
+                    if (parentDealerId != 0) {
+                        parentDealer = dealerRegister.get(parentDealerId);
+                    }
+                    
+                    if (parentStore != null) {
+                        user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), parentStore);
+                    } else {
+                        user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), parentDealer);
+                    }
+                }
             }
-            if (parentDealerId != 0) {
-                parentDealer = dealerRegister.get(parentDealerId);
-            }
-
-            User user;
-
-            if (parentStore != null) {
-                user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), parentStore);
-            } else {
-                user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), parentDealer);
-            }
-
             return user;
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -143,30 +142,29 @@ public class UserDAO extends DataDAO<User> {
             Statement st = DBTool.getStatement();
 
             String sql = "SELECT * FROM user;";
-            ResultSet rs = st.executeQuery(sql);
-
-            while (rs.next()) {
-                int parentStoreId = rs.getInt(7);
-                int parentDealerId = rs.getInt(8);
-                Store parentStore = null;
-                Dealer parentDealer = null;
-                if (parentStoreId != 0) {
-                    parentStore = storeRegister.get(parentStoreId);
+            try (ResultSet rs = st.executeQuery(sql)) {
+                while (rs.next()) {
+                    int parentStoreId = rs.getInt(7);
+                    int parentDealerId = rs.getInt(8);
+                    Store parentStore = null;
+                    Dealer parentDealer = null;
+                    if (parentStoreId != 0) {
+                        parentStore = storeRegister.get(parentStoreId);
+                    }
+                    if (parentDealerId != 0) {
+                        parentDealer = dealerRegister.get(parentDealerId);
+                    }
+                    
+                    User user;
+                    
+                    if (parentStore != null) {
+                        user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), parentStore);
+                    } else {
+                        user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), parentDealer);
+                    }
+                    users.add(user);
                 }
-                if (parentDealerId != 0) {
-                    parentDealer = dealerRegister.get(parentDealerId);
-                }
-
-                User user;
-
-                if (parentStore != null) {
-                    user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), parentStore);
-                } else {
-                    user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), parentDealer);
-                }
-                users.add(user);
             }
-
             return users;
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);

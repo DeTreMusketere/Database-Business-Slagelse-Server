@@ -46,12 +46,14 @@ public class ProductDAO extends DataDAO<Product> {
                 parentDealerId = source.getParentDealer().getId();
             }
 
+            int id = -1;
             String sql = "INSERT INTO product (name, description, picture, price, parent_store_id, parent_dealer_id) VALUES('" + name + "', '" + description + "', " + picture + ", " + price + ", " + parentStoreId + ", " + parentDealerId + ");";
             statement.execute(sql);
-            ResultSet rs = statement.executeQuery("SELECT LAST_INSERT_ID();");
-            rs.next();
-            int id = rs.getInt(1);
-
+            try (ResultSet rs = statement.executeQuery("SELECT LAST_INSERT_ID();")) {
+                while (rs.next()) {
+                    id = rs.getInt(1);
+                }
+            }
             return id;
         } catch (SQLException ex) {
             Logger.getLogger(DealerDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -102,29 +104,28 @@ public class ProductDAO extends DataDAO<Product> {
     public Product select(int id) {
         try {
             Statement statement = DBTool.getStatement();
-
+            Product product = null;
             String sql = "SELECT * FROM product WHERE id_product=" + id;
-            ResultSet rs = statement.executeQuery(sql);
-            rs.next();
-            int parentStoreId = rs.getInt(6);
-            int parentDealerId = rs.getInt(7);
-            Store parentStore = null;
-            Dealer parentDealer = null;
-            if (parentStoreId != 0) {
-                parentStore = storeRegister.get(parentStoreId);
+            try (ResultSet rs = statement.executeQuery(sql)) {
+                while (rs.next()) {
+                    int parentStoreId = rs.getInt(6);
+                    int parentDealerId = rs.getInt(7);
+                    Store parentStore = null;
+                    Dealer parentDealer = null;
+                    if (parentStoreId != 0) {
+                        parentStore = storeRegister.get(parentStoreId);
+                    }
+                    if (parentDealerId != 0) {
+                        parentDealer = dealerRegister.get(parentDealerId);
+                    }
+                    
+                    if (parentStore != null) {
+                        product = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getDouble(5), parentStore);
+                    } else {
+                        product = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getDouble(5), parentDealer);
+                    }
+                }
             }
-            if (parentDealerId != 0) {
-                parentDealer = dealerRegister.get(parentDealerId);
-            }
-
-            Product product;
-
-            if (parentStore != null) {
-                product = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getDouble(5), parentStore);
-            } else {
-                product = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getDouble(5), parentDealer);
-            }
-
             return product;
         } catch (SQLException ex) {
             Logger.getLogger(DealerDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -139,33 +140,31 @@ public class ProductDAO extends DataDAO<Product> {
             Statement st = DBTool.getStatement();
 
             String sql = "SELECT * FROM product;";
-            ResultSet rs = st.executeQuery(sql);
-
-            while (rs.next()) {
-                int parentStoreId = rs.getInt(6);
-                int parentDealerId = rs.getInt(7);
-                Store parentStore = null;
-                Dealer parentDealer = null;
-                if (parentStoreId != 0) {
-                    parentStore = storeRegister.get(parentStoreId);
+            try (ResultSet rs = st.executeQuery(sql)) {
+                while (rs.next()) {
+                    int parentStoreId = rs.getInt(6);
+                    int parentDealerId = rs.getInt(7);
+                    Store parentStore = null;
+                    Dealer parentDealer = null;
+                    if (parentStoreId != 0) {
+                        parentStore = storeRegister.get(parentStoreId);
+                    }
+                    if (parentDealerId != 0) {
+                        parentDealer = dealerRegister.get(parentDealerId);
+                    }
+                    
+                    Product product;
+                    
+                    if (parentStore != null) {
+                        product = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getDouble(5), parentStore);
+                    } else {
+                        product = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getDouble(5), parentDealer);
+                    }
+                    
+                    products.add(product);
                 }
-                if (parentDealerId != 0) {
-                    parentDealer = dealerRegister.get(parentDealerId);
-                }
-
-                Product product;
-
-                if (parentStore != null) {
-                    product = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getDouble(5), parentStore);
-                } else {
-                    product = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getDouble(5), parentDealer);
-                }
-                
-                products.add(product);
             }
-            
-            rs.close();
-            
+
             return products;
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);

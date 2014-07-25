@@ -24,13 +24,14 @@ public class TagDAO extends DataDAO<Tag> {
             
             String name = source.getName();
             String description = source.getDescription();
-            
+            int id = -1;
             String sql = "INSERT INTO tag (name, description) VALUES('"+name+"', '"+description+"');";
             st.execute(sql);
-            ResultSet rs = st.executeQuery("SELECT LAST_INSERT_ID();");
-            rs.next();
-            int id = rs.getInt(1);
-
+            try (ResultSet rs = st.executeQuery("SELECT LAST_INSERT_ID();")) {
+                while(rs.next()){
+                    id = rs.getInt(1);
+                }
+            }
             return id;
         } catch (SQLException ex) {
             Logger.getLogger(TagDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -71,12 +72,13 @@ public class TagDAO extends DataDAO<Tag> {
     public Tag select(int id) {
         try {
             Statement st = DBTool.getStatement();
-            
+            Tag tag = null;
             String sql = "SELECT * FROM tag WHERE id_tag="+id+";";
-            ResultSet rs = st.executeQuery(sql);
-            
-            rs.next();
-            Tag tag = new Tag(rs.getInt(1), rs.getString(2), rs.getString(3));
+            try (ResultSet rs = st.executeQuery(sql)) {
+                while(rs.next()){
+                    tag = new Tag(rs.getInt(1), rs.getString(2), rs.getString(3));
+                }
+            }
             return tag;
         } catch (SQLException ex) {
             Logger.getLogger(TagDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -91,11 +93,11 @@ public class TagDAO extends DataDAO<Tag> {
             Statement st = DBTool.getStatement();
             
             String sql = "SELECT * FROM tag;";
-            ResultSet rs = st.executeQuery(sql);
-            
-            while(rs.next()) {
-                Tag tag = new Tag(rs.getInt(1), rs.getString(2), rs.getString(3));
-                tags.add(tag);
+            try (ResultSet rs = st.executeQuery(sql)) {
+                while(rs.next()) {
+                    Tag tag = new Tag(rs.getInt(1), rs.getString(2), rs.getString(3));
+                    tags.add(tag);
+                }
             }
             
             return tags;

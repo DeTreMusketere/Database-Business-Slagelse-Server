@@ -35,13 +35,14 @@ public class StoreDAO extends DataDAO<Store> {
             String phone = source.getPhone();
             int picture = source.getPicture();
             int parentDealerId = source.getParent().getId();
-
+            int id = -1;
             String sql = "INSERT INTO store (name, address, phone, picture, parent_dealer_id) VALUES('" + name + "', '" + address + "', '" + phone + "', " + picture + ", " + parentDealerId + ");";
             st.execute(sql);
-            ResultSet rs = st.executeQuery("SELECT LAST_INSERT_ID();");
-            rs.next();
-            int id = rs.getInt(1);
-
+            try (ResultSet rs = st.executeQuery("SELECT LAST_INSERT_ID();")) {
+                while (rs.next()) {
+                    id = rs.getInt(1);
+                }
+            }
             return id;
         } catch (SQLException ex) {
             Logger.getLogger(StoreDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -85,18 +86,19 @@ public class StoreDAO extends DataDAO<Store> {
     public Store select(int id) {
         try {
             Statement statement = DBTool.getStatement();
-
+            Store store = null;
             String sql = "SELECT * FROM store WHERE id_store=" + id;
-            ResultSet rs = statement.executeQuery(sql);
-            rs.next();
-            int parentDealerId = rs.getInt(6);
-            Dealer parentDealer = null;
-            if (parentDealerId != 0) {
-                parentDealer = dealerRegister.get(parentDealerId);
+            try (ResultSet rs = statement.executeQuery(sql)) {
+                while (rs.next()) {
+                    int parentDealerId = rs.getInt(6);
+                    Dealer parentDealer = null;
+                    if (parentDealerId != 0) {
+                        parentDealer = dealerRegister.get(parentDealerId);
+                    }
+
+                    store = new Store(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), parentDealer);
+                }
             }
-
-            Store store = new Store(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), parentDealer);
-
             return store;
         } catch (SQLException ex) {
             Logger.getLogger(DealerDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -111,17 +113,17 @@ public class StoreDAO extends DataDAO<Store> {
             Statement st = DBTool.getStatement();
 
             String sql = "SELECT * FROM store;";
-            ResultSet rs = st.executeQuery(sql);
-
-            while (rs.next()) {
-                int parentDealerId = rs.getInt(6);
-                Dealer parentDealer = null;
-                if (parentDealerId != 0) {
-                    parentDealer = dealerRegister.get(parentDealerId);
+            try (ResultSet rs = st.executeQuery(sql)) {
+                while (rs.next()) {
+                    int parentDealerId = rs.getInt(6);
+                    Dealer parentDealer = null;
+                    if (parentDealerId != 0) {
+                        parentDealer = dealerRegister.get(parentDealerId);
+                    }
+                    
+                    Store store = new Store(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), parentDealer);
+                    stores.add(store);
                 }
-
-                Store store = new Store(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), parentDealer);
-                stores.add(store);
             }
             return stores;
         } catch (SQLException ex) {
