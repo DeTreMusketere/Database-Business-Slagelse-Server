@@ -55,27 +55,6 @@ public class Store_ReadPermDAO extends PermissionDAO<Store, Store_ReadPerm> {
     }
 
     @Override
-    public Store_ReadPerm select(User executor, Store target) {
-        try {
-            Statement st = DBTool.getStatement();
-            
-            int targetStoreId = target.getId();
-            int executorUserId = executor.getId();
-            
-            String sql = "SELECT * FROM "+table+" WHERE target_store_id="+targetStoreId+" AND executor_user_id="+executorUserId+";";
-            try (ResultSet rs = st.executeQuery(sql)) {
-                while(rs.next()) {
-                    Store_ReadPerm store_ReadPerm = new Store_ReadPerm(target, executor);
-                    return store_ReadPerm;
-                }
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
     public ArrayList<Store_ReadPerm> select(User executor) {
         ArrayList<Store_ReadPerm> store_ReadPerms = new ArrayList<>();
         try {

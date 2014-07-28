@@ -55,27 +55,6 @@ public class Store_UpdatePermDAO extends PermissionDAO<Store, Store_UpdatePerm> 
     }
 
     @Override
-    public Store_UpdatePerm select(User executor, Store target) {
-        try {
-            Statement st = DBTool.getStatement();
-            
-            int targetStoreId = target.getId();
-            int executorUserId = executor.getId();
-            
-            String sql = "SELECT * FROM "+table+" WHERE target_store_id="+targetStoreId+" AND executor_user_id="+executorUserId+";";
-            try (ResultSet rs = st.executeQuery(sql)) {
-                while(rs.next()) {
-                    Store_UpdatePerm store_UpdatePerm = new Store_UpdatePerm(target, executor);
-                    return store_UpdatePerm;
-                }
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
     public ArrayList<Store_UpdatePerm> select(User executor) {
         ArrayList<Store_UpdatePerm> store_UpdatePerms = new ArrayList<>();
         try {

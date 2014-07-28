@@ -56,11 +56,6 @@ public class Dealer_CreatePermDAO extends PermissionDAO<Object, Dealer_CreatePer
             ex.printStackTrace();
         }
     }
-
-    @Override
-    public Dealer_CreatePerm select(User executor, Object target) {
-        throw new UnsupportedOperationException("Method not supported");
-    }
     
     /**
      * Selects a PERMISSIONTYPE object based on executorUser

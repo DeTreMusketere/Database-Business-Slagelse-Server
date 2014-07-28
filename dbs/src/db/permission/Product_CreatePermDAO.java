@@ -7,8 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.data.Dealer;
 import model.data.DealerRegister;
 import model.data.Product;
@@ -85,32 +83,6 @@ public class Product_CreatePermDAO extends PermissionDAO<Product, Product_Create
             ex.printStackTrace();
         }
     }
-
-    @Override
-    public Product_CreatePerm select(User executor, Product target) {
-        throw new UnsupportedOperationException("Method not supported");
-    }
-    
-    public Product_CreatePerm select2(User executor, Dealer parent) {
-        try {
-            Statement st = DBTool.getStatement();
-            
-            int executorUserId = executor.getId();
-            int parentDealerId = parent.getId();
-            int parentStoreId = 0;
-            
-            String sql = "SELECT * FROM "+table+" WHERE executor_user_id="+executorUserId+" AND parent_dealer_id="+parentDealerId+" AND parent_store_id="+parentStoreId+";";
-            try (ResultSet rs = st.executeQuery(sql)) {
-                while(rs.next()) {
-                    Product_CreatePerm product_CreatePerm = new Product_CreatePerm(executor, parent);
-                    return product_CreatePerm;
-                }
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return null;
-    }
     
     @Override
     public ArrayList<Product_CreatePerm> select(User executor) {
@@ -139,27 +111,6 @@ public class Product_CreatePermDAO extends PermissionDAO<Product, Product_Create
                 }
             }
             return product_CreatePerms;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return null;
-    }
-    
-    public Product_CreatePerm select2(User executor, Store parent) {
-        try {
-            Statement st = DBTool.getStatement();
-            
-            int executorUserId = executor.getId();
-            int parentDealerId = parent.getParent().getId();
-            int parentStoreId = parent.getId();
-            
-            String sql = "SELECT * FROM "+table+" WHERE executor_user_id="+executorUserId+" AND parent_dealer_id="+parentDealerId+" AND parent_store_id="+parentStoreId+";";
-            try (ResultSet rs = st.executeQuery(sql)) {
-                while(rs.next()) {
-                    Product_CreatePerm product_CreatePerm = new Product_CreatePerm(executor, parent);
-                    return product_CreatePerm;
-                }
-            }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

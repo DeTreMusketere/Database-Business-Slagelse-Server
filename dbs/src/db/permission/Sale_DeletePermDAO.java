@@ -55,27 +55,6 @@ public class Sale_DeletePermDAO extends PermissionDAO<Sale, Sale_DeletePerm> {
     }
 
     @Override
-    public Sale_DeletePerm select(User executor, Sale target) {
-        try {
-            Statement st = DBTool.getStatement();
-            
-            int targetSaleId = target.getId();
-            int executorUserId = executor.getId();
-            
-            String sql = "SELECT * FROM "+table+" WHERE target_sale_id="+targetSaleId+" AND executor_user_id="+executorUserId+";";
-            try (ResultSet rs = st.executeQuery(sql)) {
-                while(rs.next()) {
-                    Sale_DeletePerm sale_DeletePerm = new Sale_DeletePerm(target, executor);
-                    return sale_DeletePerm;
-                }
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
     public ArrayList<Sale_DeletePerm> select(User executor) {
         ArrayList<Sale_DeletePerm> sale_DeletePerms = new ArrayList<>();
         try {

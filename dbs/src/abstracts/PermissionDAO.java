@@ -36,15 +36,6 @@ public abstract class PermissionDAO<DATATYPE, PERMISSIONTYPE> {
     public abstract void delete(PERMISSIONTYPE source);
 
     /**
-     * Selects a PERMISSIONTYPE object based on executorUser and target
-     *
-     * @param executor
-     * @param target
-     * @return PERMISSIONTYPE
-     */
-    public abstract PERMISSIONTYPE select(User executor, DATATYPE target);
-
-    /**
      * Selects all PERMISSIONTYPE objects based on executorUser
      *
      * @param executor

@@ -87,53 +87,6 @@ public class User_CreatePermDAO extends PermissionDAO<User, User_CreatePerm> {
     }
 
     @Override
-    public User_CreatePerm select(User executor, User target) {
-        throw new UnsupportedOperationException("Method not supported");
-    }
-    
-    public User_CreatePerm select2(User executor, Dealer parent) {
-        try {
-            Statement st = DBTool.getStatement();
-            
-            int executorUserId = executor.getId();
-            int parentDealerId = parent.getId();
-            int parentStoreId = 0;
-            
-            String sql = "SELECT * FROM "+table+" WHERE executor_user_id="+executorUserId+" AND parent_dealer_id="+parentDealerId+" AND parent_store_id="+parentStoreId+";";
-            try (ResultSet rs = st.executeQuery(sql)) {
-                while(rs.next()) {
-                    User_CreatePerm user_CreatePerm = new User_CreatePerm(executor, parent);
-                    return user_CreatePerm;
-                }
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return null;
-    }
-    
-    public User_CreatePerm select2(User executor, Store parent) {
-        try {
-            Statement st = DBTool.getStatement();
-            
-            int executorUserId = executor.getId();
-            int parentDealerId = parent.getParent().getId();
-            int parentStoreId = parent.getId();
-            
-            String sql = "SELECT * FROM "+table+" WHERE executor_user_id="+executorUserId+" AND parent_dealer_id="+parentDealerId+" AND parent_store_id="+parentStoreId+";";
-            try (ResultSet rs = st.executeQuery(sql)) {
-                while(rs.next()) {
-                    User_CreatePerm user_CreatePerm = new User_CreatePerm(executor, parent);
-                    return user_CreatePerm;
-                }
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
     public ArrayList<User_CreatePerm> select(User executor) {
         ArrayList<User_CreatePerm> user_CreatePerms = new ArrayList<>();
         try {

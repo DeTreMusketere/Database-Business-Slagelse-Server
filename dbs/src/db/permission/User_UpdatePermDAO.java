@@ -55,27 +55,6 @@ public class User_UpdatePermDAO extends PermissionDAO<User, User_UpdatePerm> {
     }
 
     @Override
-    public User_UpdatePerm select(User executor, User target) {
-        try {
-            Statement st = DBTool.getStatement();
-            
-            int targetUserId = target.getId();
-            int executorUserId = executor.getId();
-            
-            String sql = "SELECT * FROM "+table+" WHERE target_user_id="+targetUserId+" AND executor_user_id="+executorUserId+";";
-            try (ResultSet rs = st.executeQuery(sql)) {
-                while(rs.next()) {
-                    User_UpdatePerm user_UpdatePerm = new User_UpdatePerm(target, executor);
-                    return user_UpdatePerm;
-                }
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
     public ArrayList<User_UpdatePerm> select(User executor) {
         ArrayList<User_UpdatePerm> user_UpdatePerms = new ArrayList<>();
         try {

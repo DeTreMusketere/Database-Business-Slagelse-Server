@@ -62,31 +62,6 @@ public class Store_CreatePermDAO extends PermissionDAO<Store, Store_CreatePerm> 
     }
 
     @Override
-    public Store_CreatePerm select(User executor, Store target) {
-        throw new UnsupportedOperationException("Method not supported");
-    }
-    
-    public Store_CreatePerm select2(User executor, Dealer parent) {
-        try {
-            Statement st = DBTool.getStatement();
-            
-            int executorUserId = executor.getId();
-            int parentDealerId = parent.getId();
-            
-            String sql = "SELECT * FROM "+table+" WHERE executor_user_id="+executorUserId+" AND parent_dealer_id="+parentDealerId+";";
-            ResultSet rs = st.executeQuery(sql);
-            
-            while(rs.next()) {
-                Store_CreatePerm store_CreatePerm  = new Store_CreatePerm(executor, parent);
-                return store_CreatePerm;
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(Store_CreatePermDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-    @Override
     public ArrayList<Store_CreatePerm> select(User executor) {
         ArrayList<Store_CreatePerm> store_CreatePerms = new ArrayList<>();
         try {

@@ -55,29 +55,6 @@ public class Dealer_ReadPermDAO extends PermissionDAO<Dealer, Dealer_ReadPerm> {
     }
 
     @Override
-    public Dealer_ReadPerm select(User executor, Dealer target) {
-        try {
-            Statement st = DBTool.getStatement();
-            
-            int executorUserId = executor.getId();
-            int targetDealerId = target.getId();
-            
-            String sql = "SELECT * FROM "+table+" WHERE executor_user_id="+executorUserId+" AND target_dealer_id="+targetDealerId+";";
-            try (ResultSet rs = st.executeQuery(sql)) {
-                while(rs.next()) {
-                    Dealer targetDealer = target;
-                    
-                    Dealer_ReadPerm dealer_ReadPerm = new Dealer_ReadPerm(targetDealer, executor);
-                    return dealer_ReadPerm;
-                }
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
     public ArrayList<Dealer_ReadPerm> select(User executor) {
         ArrayList<Dealer_ReadPerm> dealer_ReadPerms = new ArrayList<>();
         try {

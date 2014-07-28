@@ -55,27 +55,6 @@ public class Product_UpdatePermDAO extends PermissionDAO<Product, Product_Update
     }
 
     @Override
-    public Product_UpdatePerm select(User executor, Product target) {
-        try {
-            Statement st = DBTool.getStatement();
-            
-            int targetProductId = target.getId();
-            int executorUserId = executor.getId();
-            
-            String sql = "SELECT * FROM "+table+" WHERE target_product_id="+targetProductId+" AND executor_user_id="+executorUserId+";";
-            try (ResultSet rs = st.executeQuery(sql)) {
-                while(rs.next()) {
-                    Product_UpdatePerm product_UpdatePerm = new Product_UpdatePerm(target, executor);
-                    return product_UpdatePerm;
-                }
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
     public ArrayList<Product_UpdatePerm> select(User executor) {
         ArrayList<Product_UpdatePerm> product_UpdatePerms = new ArrayList<>();
         try {

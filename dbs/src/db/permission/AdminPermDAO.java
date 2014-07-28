@@ -55,11 +55,6 @@ public class AdminPermDAO extends PermissionDAO<Object, AdminPerm> {
             ex.printStackTrace();
         }
     }
-
-    @Override
-    public AdminPerm select(User executor, Object target) {
-        throw new UnsupportedOperationException("Method not supported");
-    }
     
     /**
      * Selects a PERMISSIONTYPE object based on executorUser

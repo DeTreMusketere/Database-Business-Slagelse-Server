@@ -55,27 +55,6 @@ public class Product_ReadPermDAO extends PermissionDAO<Product, Product_ReadPerm
     }
 
     @Override
-    public Product_ReadPerm select(User executor, Product target) {
-        try {
-            Statement st = DBTool.getStatement();
-            
-            int targetProductId = target.getId();
-            int executorUserId = executor.getId();
-            
-            String sql = "SELECT * FROM "+table+" WHERE target_product_id="+targetProductId+" AND executor_user_id="+executorUserId+";";
-            try (ResultSet rs = st.executeQuery(sql)) {
-                while(rs.next()) {
-                    Product_ReadPerm product_ReadPerm = new Product_ReadPerm(target, executor);
-                    return product_ReadPerm;
-                }
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
     public ArrayList<Product_ReadPerm> select(User executor) {
         ArrayList<Product_ReadPerm> product_ReadPerms = new ArrayList<>();
         try {

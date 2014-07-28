@@ -55,29 +55,6 @@ public class Dealer_UpdatePermDAO extends PermissionDAO<Dealer, Dealer_UpdatePer
     }
 
     @Override
-    public Dealer_UpdatePerm select(User executor, Dealer target) {
-        try {
-            Statement st = DBTool.getStatement();
-            
-            int executorUserId = executor.getId();
-            int targetDealerId = target.getId();
-            
-            String sql = "SELECT * FROM "+table+" WHERE executor_user_id="+executorUserId+" AND target_dealer_id="+targetDealerId+";";
-            try (ResultSet rs = st.executeQuery(sql)) {
-                while(rs.next()) {
-                    Dealer targetDealer = target;
-                    
-                    Dealer_UpdatePerm dealer_UpdatePerm = new Dealer_UpdatePerm(targetDealer, executor);
-                    return dealer_UpdatePerm;
-                }
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
     public ArrayList<Dealer_UpdatePerm> select(User executor) {
         ArrayList<Dealer_UpdatePerm> dealer_UpdatePerms = new ArrayList<>();
         try {

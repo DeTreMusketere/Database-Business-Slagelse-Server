@@ -55,27 +55,6 @@ public class Product_DeletePermDAO extends PermissionDAO<Product, Product_Delete
     }
 
     @Override
-    public Product_DeletePerm select(User executor, Product target) {
-        try {
-            Statement st = DBTool.getStatement();
-            
-            int targetProductId = target.getId();
-            int executorUserId = executor.getId();
-            
-            String sql = "SELECT * FROM "+table+" WHERE target_product_id="+targetProductId+" AND executor_user_id="+executorUserId+";";
-            try (ResultSet rs = st.executeQuery(sql)) {
-                while(rs.next()) {
-                    Product_DeletePerm product_DeletePerm = new Product_DeletePerm(target, executor);
-                    return product_DeletePerm;
-                }
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
     public ArrayList<Product_DeletePerm> select(User executor) {
         ArrayList<Product_DeletePerm> product_DeletePerms = new ArrayList<>();
         try {
