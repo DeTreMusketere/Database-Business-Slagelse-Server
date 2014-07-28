@@ -69,7 +69,6 @@ public class DealerDAOTest {
 
         Dealer source = new Dealer(expectedResultId, expectedResultName, expectedResultDescription, expectedResultPhone, expectedResultPicture);
 
-        DealerDAO instance = new DealerDAO();
         instance.update(source, target);
 
         Dealer resultDealer = instance.select(testDealer.getId());
