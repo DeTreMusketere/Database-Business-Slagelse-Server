@@ -51,7 +51,7 @@ public class DealerDAO extends DataDAO<Dealer> {
             int picture = source.getPicture();
             int targetid = target.getId();
 
-            String sql = "UPDATE dealer SET name='" + name + "', decription='" + description + "', phone='" + phone + "', picture='" + picture + "' WHERE id_dealer=" + targetid;
+            String sql = "UPDATE dealer SET name='" + name + "', description='" + description + "', phone='" + phone + "', picture='" + picture + "' WHERE id_dealer=" + targetid;
             statement.executeUpdate(sql);
         } catch (SQLException ex) {
             Logger.getLogger(DealerDAO.class.getName()).log(Level.SEVERE, null, ex);
