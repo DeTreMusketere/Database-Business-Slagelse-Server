@@ -32,7 +32,7 @@ public class Dealer_AdminPermDAO extends PermissionDAO<Dealer, Dealer_AdminPerm>
             int executorUserId = source.getExecutorUser().getId();
             int targetDealerId = source.getTargetDealer().getId();
             
-            String sql = "INSERT INTO "+table+" ('target_dealer_id', 'executor_user_id') VALUES("+targetDealerId+", "+executorUserId+");";
+            String sql = "INSERT INTO `"+table+"` (`target_dealer_id`, `executor_user_id`) VALUES("+targetDealerId+", "+executorUserId+");";
             st.execute(sql);
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -47,7 +47,7 @@ public class Dealer_AdminPermDAO extends PermissionDAO<Dealer, Dealer_AdminPerm>
             int executorUserId = source.getExecutorUser().getId();
             int targetDealerId = source.getTargetDealer().getId();
             
-            String sql = "DELETE FROM "+table+" WHERE executor_user_id = "+executorUserId+" AND target_dealer_id="+targetDealerId+";";
+            String sql = "DELETE FROM `"+table+"` WHERE `executor_user_id` = "+executorUserId+" AND `target_dealer_id` = "+targetDealerId+";";
             st.execute(sql);
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -62,7 +62,7 @@ public class Dealer_AdminPermDAO extends PermissionDAO<Dealer, Dealer_AdminPerm>
             
             int executorUserId = executor.getId();
             
-            String sql = "SELECT * FROM "+table+" WHERE executor_user_id="+executorUserId+";";
+            String sql = "SELECT * FROM `"+table+"` WHERE `executor_user_id` = "+executorUserId+";";
             try (ResultSet rs = st.executeQuery(sql)) {
                 while(rs.next()) {
                     int targetDealerId = rs.getInt("target_dealer_id");
