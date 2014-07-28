@@ -9,7 +9,7 @@ package db.permission;
 import db.data.DealerDAO;
 import db.data.StoreDAO;
 import db.data.UserDAO;
-import java.util.ArrayList;
+import model.data.Dealer;
 import model.data.DealerRegister;
 import model.data.StoreRegister;
 import model.data.User;
@@ -36,7 +36,8 @@ public class AdminPermDAOTest {
     private static UserRegister userRegister;
     private static AdminPermDAO adminPermDAO;
     private static AdminPerm adminPerm;
-    private static User u;
+    private static User user;
+    private static Dealer dealer;
     
     
     public AdminPermDAOTest() {
@@ -52,10 +53,6 @@ public class AdminPermDAOTest {
         userRegister = new UserRegister(userDAO);
         adminPermDAO = new AdminPermDAO(userRegister, null);
         
-        dealerRegister.load();
-        storeRegister.load();
-        userRegister.load();
-        
         
     }
     
@@ -66,22 +63,34 @@ public class AdminPermDAOTest {
     
     @Before
     public void setUp() {
-        u = userRegister.getObjects().get(0);
-        adminPerm = new AdminPerm(u);
+        dealer = TestCore.getTestDealer();
+        int idDealer = dealerDAO.insert(dealer);
+        dealer.setId(idDealer);
+        user = TestCore.getTestUser(dealer);
+        int idUser = userDAO.insert(user);
+        user.setId(idUser);
+        
+        adminPerm = new AdminPerm(user);
         adminPermDAO.insert(adminPerm);
+        
+        dealerRegister.load();
+        storeRegister.load();
+        userRegister.load();
     }
     
     @After
     public void tearDown() {
         adminPermDAO.delete(adminPerm);
+        userDAO.delete(user);
+        dealerDAO.delete(dealer);
     }
     
     @Test
     public void testSelect2() {
         System.out.println("select2");
+        String expResult = user.toString();
+        String result = adminPermDAO.select2(user).getExecutorUser().toString();
         
-        User expResult = adminPerm.getExecutorUser();
-        User result = adminPermDAO.select2(u).getExecutorUser();
         assertEquals(expResult, result);
     }
     
