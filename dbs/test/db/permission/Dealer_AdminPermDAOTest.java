@@ -18,10 +18,10 @@ import model.data.UserRegister;
 import model.permission.Dealer_AdminPerm;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -35,6 +35,10 @@ public class Dealer_AdminPermDAOTest {
     private static StoreRegister storeRegister;
     private static UserDAO userDAO;
     private static UserRegister userRegister;
+    private static Dealer_AdminPermDAO dealer_AdminPermDAO;
+    private User user;
+    private Dealer dealer;
+    private Dealer_AdminPerm dealer_AdminPerm;
     
     
     public Dealer_AdminPermDAOTest() {
@@ -48,6 +52,7 @@ public class Dealer_AdminPermDAOTest {
         storeRegister = new StoreRegister(storeDAO);
         userDAO = new UserDAO(dealerRegister, storeRegister);
         userRegister = new UserRegister(userDAO);
+        dealer_AdminPermDAO = new Dealer_AdminPermDAO(userRegister, dealerRegister);
     }
     
     @AfterClass
@@ -56,67 +61,43 @@ public class Dealer_AdminPermDAOTest {
     
     @Before
     public void setUp() {
+        dealer = TestCore.getTestDealer();
+        int idDealer = dealerDAO.insert(dealer);
+        dealer.setId(idDealer);
+        user = TestCore.getTestUser(dealer);
+        int idUser = userDAO.insert(user);
+        user.setId(idUser);
+        dealer_AdminPerm = new Dealer_AdminPerm(dealer, user);
+        dealer_AdminPermDAO.insert(dealer_AdminPerm);
+        
+        dealerRegister.load();
+        storeRegister.load();
+        userRegister.load();
     }
     
     @After
     public void tearDown() {
+        dealer_AdminPermDAO.delete(dealer_AdminPerm);
+        userDAO.delete(user);
+        dealerDAO.delete(dealer);
     }
-
-    /**
-     * Test of insert method, of class Dealer_AdminPermDAO.
-     */
+    
     @Test
-    public void testInsert() {
-        System.out.println("insert");
-        Dealer_AdminPerm source = null;
-        Dealer_AdminPermDAO instance = null;
-        instance.insert(source);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of delete method, of class Dealer_AdminPermDAO.
-     */
-    @Test
-    public void testDelete() {
-        System.out.println("delete");
-        Dealer_AdminPerm source = null;
-        Dealer_AdminPermDAO instance = null;
-        instance.delete(source);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of select method, of class Dealer_AdminPermDAO.
-     */
-    @Test
-    public void testSelect_User_Dealer() {
+    public void testSelect() {
         System.out.println("select");
-        User executor = null;
-        Dealer target = null;
-        Dealer_AdminPermDAO instance = null;
-        Dealer_AdminPerm expResult = null;
-        Dealer_AdminPerm result = instance.select(executor, target);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of select method, of class Dealer_AdminPermDAO.
-     */
-    @Test
-    public void testSelect_User() {
-        System.out.println("select");
-        User executor = null;
-        Dealer_AdminPermDAO instance = null;
-        ArrayList<Dealer_AdminPerm> expResult = null;
-        ArrayList<Dealer_AdminPerm> result = instance.select(executor);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        String expUser = user.toString();
+        String expDealer = dealer.toString();
+        
+        ArrayList<Dealer_AdminPerm> result = dealer_AdminPermDAO.select(user);
+        
+        for(Dealer_AdminPerm dap : result) {
+            String resultUser = dap.getExecutorUser().toString();
+            String resultDealer = dap.getTargetDealer().toString();
+            assertEquals(expUser, resultUser);
+            assertEquals(expDealer, resultDealer);
+        }
+        
     }
     
 }
