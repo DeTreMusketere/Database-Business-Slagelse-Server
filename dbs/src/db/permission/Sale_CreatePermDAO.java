@@ -9,8 +9,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import model.data.Dealer;
+import model.data.DealerRegister;
 import model.data.Sale;
 import model.data.Store;
+import model.data.StoreRegister;
 import model.data.User;
 import model.data.UserRegister;
 import model.permission.Sale_CreatePerm;
@@ -20,9 +22,14 @@ import model.permission.Sale_CreatePerm;
  * @author Patrick
  */
 public class Sale_CreatePermDAO extends PermissionDAO<Sale, Sale_CreatePerm> {
+    
+    private DealerRegister dealerRegister;
+    private StoreRegister storeRegister;
 
-    public Sale_CreatePermDAO(UserRegister userRegister, Register<Sale> register) {
+    public Sale_CreatePermDAO(UserRegister userRegister, Register<Sale> register, DealerRegister dealerRegister, StoreRegister storeRegister) {
         super(userRegister, register);
+        this.dealerRegister = dealerRegister;
+        this.storeRegister = storeRegister;
         table = "create_sale_perm";
     }
 
@@ -124,10 +131,38 @@ public class Sale_CreatePermDAO extends PermissionDAO<Sale, Sale_CreatePerm> {
         }
         return null;
     }
-
+    
     @Override
     public ArrayList<Sale_CreatePerm> select(User executor) {
-        throw new UnsupportedOperationException("Method not supported");
+        ArrayList<Sale_CreatePerm> sale_CreatePerms = new ArrayList<>();
+        try {
+            Statement st = DBTool.getStatement();
+            
+            int executorUserId = executor.getId();
+            
+            String sql = "SELECT * FROM "+table+" WHERE executor_user_id="+executorUserId+";";
+            try (ResultSet rs = st.executeQuery(sql)) {
+                while(rs.next()) {
+                    int parentDealerId = rs.getInt("parent_dealer_id");
+                    int parentStoreId = rs.getInt("parent_store_id");
+                    
+                    if(parentStoreId != 0) {
+                        Store parentStore = storeRegister.get(parentStoreId);
+                        Sale_CreatePerm sale_CreatePerm = new Sale_CreatePerm(executor, parentStore);
+                        sale_CreatePerms.add(sale_CreatePerm);
+                    } else {
+                        Dealer parentDealer = dealerRegister.get(parentDealerId);
+                        Sale_CreatePerm sale_CreatePerm = new Sale_CreatePerm(executor, parentDealer);
+                        sale_CreatePerms.add(sale_CreatePerm);
+                    }
+                    
+                }
+            }
+            return sale_CreatePerms;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 
 }
