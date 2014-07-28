@@ -26,7 +26,6 @@ public abstract class Register<DATATYPE> {
     public int insert(DATATYPE source) {
         objects.add(source);
         int id = dao.insert(source);
-        Data d = (Data) source;
         return id;
     }
 
