@@ -1,44 +1,42 @@
-
 package model.permission;
 
 import java.util.ArrayList;
-import model.permission.*;
 
 /**
  *
  * @author Patrick
  */
 public class UserPermissionSet {
-    
+
     //Admin
     private AdminPerm adminPerm;
-    
+
     //Dealer
     private ArrayList<Dealer_AdminPerm> dealer_AdminPerms;
     private Dealer_CreatePerm dealer_CreatePerm;
     private ArrayList<Dealer_ReadPerm> dealer_ReadPerms;
     private ArrayList<Dealer_UpdatePerm> dealer_UpdatePerms;
     private ArrayList<Dealer_DeletePerm> dealer_DeletePerms;
-    
+
     //Store
     private ArrayList<Store_AdminPerm> store_AdminPerms;
     private ArrayList<Store_CreatePerm> store_CreatePerms;
     private ArrayList<Store_ReadPerm> store_ReadPerms;
     private ArrayList<Store_UpdatePerm> store_UpdatePerms;
     private ArrayList<Store_DeletePerm> store_DeletePerms;
-    
+
     //User
     private ArrayList<User_CreatePerm> user_CreatePerms;
     private ArrayList<User_ReadPerm> user_ReadPerms;
     private ArrayList<User_UpdatePerm> user_UpdatePerms;
     private ArrayList<User_DeletePerm> user_DeletePerms;
-    
+
     //Product
     private ArrayList<Product_CreatePerm> product_CreatePerms;
     private ArrayList<Product_ReadPerm> product_ReadPerms;
     private ArrayList<Product_UpdatePerm> product_UpdatePerms;
     private ArrayList<Product_DeletePerm> product_DeletePerms;
-    
+
     //Sale
     private ArrayList<Sale_CreatePerm> sale_CreatePerms;
     private ArrayList<Sale_ReadPerm> sale_ReadPerms;
@@ -228,17 +226,21 @@ public class UserPermissionSet {
     public void setSale_DeletePerms(ArrayList<Sale_DeletePerm> sale_DeletePerms) {
         this.sale_DeletePerms = sale_DeletePerms;
     }
-    
+
     @Override
     public String toString() {
         String s = "";
-        
-        for(Dealer_AdminPerm d : dealer_AdminPerms) {
-            s += d.toString();
+
+        s += "### - DEALER ADMIN PERMISSIONS - ###\n";
+        if (dealer_AdminPerms != null) {
+            for (Dealer_AdminPerm d : dealer_AdminPerms) {
+                s += d.toString();
+            }
+        } else {
+            s += "null\n";
         }
-        
+
         return s;
     }
-    
 
 }
