@@ -68,13 +68,11 @@ public class PermissionHandler {
         this.user_UpdatePermDAO = user_UpdatePermDAO;
     }
     
-    
-    
     public UserPermissionSet constructUserPermissionSet(User u) {
         UserPermissionSet ups = new UserPermissionSet();
         
         //Admin
-        AdminPerm adminperm;
+        AdminPerm adminperm = adminPermDAO.select2(u);
         
         //Dealer
         ArrayList<Dealer_AdminPerm> dealer_AdminPerm = dealer_AdminPermDAO.select(u);
@@ -97,17 +95,16 @@ public class PermissionHandler {
         ArrayList<User_DeletePerm> user_DeletePerms = user_DeletePermDAO.select(u);
         
         //product
-        ArrayList<Product_CreatePerm> product_CreatePerms;
+        ArrayList<Product_CreatePerm> product_CreatePerms = product_CreatePermDAO.select(u);
         ArrayList<Product_ReadPerm> product_ReadPerms = product_ReadPermDAO.select(u);
         ArrayList<Product_UpdatePerm> product_UpdatePerms = product_UpdatePermDAO.select(u);
         ArrayList<Product_DeletePerm> product_DeletePerms = product_DeletePermDAO.select(u);
         
         //Sale
-        ArrayList<Sale_CreatePerm> sale_CreatePerms;
+        ArrayList<Sale_CreatePerm> sale_CreatePerms = sale_CreatePermDAO.select(u);
         ArrayList<Sale_ReadPerm> sale_ReadPerms = sale_ReadPermDAO.select(u);
         ArrayList<Sale_UpdatePerm> sale_UpdatePerms = sale_UpdatePermDAO.select(u);
         ArrayList<Sale_DeletePerm> sale_DeletePerms = sale_DeletePermDAO.select(u);
-        
         
         DBTool.close();
         return ups;
