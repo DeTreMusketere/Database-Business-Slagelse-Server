@@ -29,6 +29,7 @@ public class SaleDAOTest {
     private static DealerDAO dealerDAO;
     private static SaleDAO instance;
     private static DealerRegister dealerRegister;
+    private static int idDealer;
 
     public SaleDAOTest() {
     }
@@ -49,8 +50,8 @@ public class SaleDAOTest {
         String description = "Super billige Chickadicka bananer fra Sverige";
         int picture = 5;
         double price = 10.50;
-        parentDealer = new Dealer(0, "Fakta", "Det ta'r kun 5 minutter", "2342523525", 6);
-        int idDealer = dealerDAO.insert(parentDealer);
+        parentDealer = new Dealer(0, "Fakta", "Det tager kun 5 minutter", "2342523525", 6);
+        idDealer = dealerRegister.insert(parentDealer);
         parentDealer.setId(idDealer);
         testSale = new Sale(0, name, description, picture, price, parentDealer);
         int idSale = instance.insert(testSale);
