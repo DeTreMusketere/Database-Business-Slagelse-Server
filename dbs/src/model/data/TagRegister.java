@@ -16,7 +16,8 @@ public class TagRegister extends Register<Tag> {
     
     public void create(String name, String description) {
         Tag t = new Tag(0, name, description);
-        insert(t);
+        int id = insert(t);
+        t.setId(id);
     }
 
 }

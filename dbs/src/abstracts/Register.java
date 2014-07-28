@@ -23,11 +23,11 @@ public abstract class Register<DATATYPE> {
      *
      * @param source
      */
-    public void insert(DATATYPE source) {
+    public int insert(DATATYPE source) {
         objects.add(source);
         int id = dao.insert(source);
         Data d = (Data) source;
-        d.setId(id);
+        return id;
     }
 
     /**

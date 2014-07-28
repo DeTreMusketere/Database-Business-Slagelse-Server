@@ -16,12 +16,14 @@ public class SaleRegister extends Register<Sale> {
     
     public void create(String name, String description, int picture, double price, Dealer parentDealer) {
         Sale s = new Sale(0, name, description, picture, price, parentDealer);
-        insert(s);
+        int id = insert(s);
+        s.setId(id);
     }
     
     public void create(String name, String description, int picture, double price, Store parentStore) {
         Sale s = new Sale(0, name, description, picture, price, parentStore);
-        insert(s);
+        int id = insert(s);
+        s.setId(id);
     }
 
 }

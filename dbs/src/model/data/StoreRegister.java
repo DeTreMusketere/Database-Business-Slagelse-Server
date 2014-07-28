@@ -16,7 +16,8 @@ public class StoreRegister extends Register<Store> {
     
     public void create(String name, String address, String phone, int picture, Dealer parentDealer) {
         Store s = new Store(0, name, address, phone, picture, parentDealer);
-        insert(s);
+        int id = insert(s);
+        s.setId(id);
     }
 
 }
