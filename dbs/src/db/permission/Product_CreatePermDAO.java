@@ -51,7 +51,7 @@ public class Product_CreatePermDAO extends PermissionDAO<Product, Product_Create
                 parentStoreId = parentStore.getId();
             }
 
-            String sql = "INSERT INTO "+table+" ('executor_user_id', 'parent_store_id', 'parent_dealer_id') VALUES("+executorUserId+", "+parentStoreId+", "+parentDealerId+");";
+            String sql = "INSERT INTO `"+table+"` (`executor_user_id`, `parent_store_id`, `parent_dealer_id`) VALUES("+executorUserId+", "+parentStoreId+", "+parentDealerId+");";
             st.execute(sql);
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -77,7 +77,7 @@ public class Product_CreatePermDAO extends PermissionDAO<Product, Product_Create
                 parentStoreId = parentStore.getId();
             }
 
-            String sql = "DELETE FROM "+table+" WHERE executor_user_id="+executorUserId+" AND parent_dealer_id="+parentDealerId+" AND parent_store_id="+parentStoreId+";";
+            String sql = "DELETE FROM `"+table+"` WHERE `executor_user_id` = "+executorUserId+" AND `parent_dealer_id` = "+parentDealerId+" AND `parent_store_id` = "+parentStoreId+";";
             st.execute(sql);
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -92,7 +92,7 @@ public class Product_CreatePermDAO extends PermissionDAO<Product, Product_Create
             
             int executorUserId = executor.getId();
             
-            String sql = "SELECT * FROM "+table+" WHERE executor_user_id="+executorUserId+";";
+            String sql = "SELECT * FROM `"+table+"` WHERE `executor_user_id` = "+executorUserId+";";
             try (ResultSet rs = st.executeQuery(sql)) {
                 while(rs.next()) {
                     int parentDealerId = rs.getInt("parent_dealer_id");

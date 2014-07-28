@@ -39,7 +39,7 @@ public class Store_CreatePermDAO extends PermissionDAO<Store, Store_CreatePerm> 
             int parentDealerId = source.getParentDealer().getId();
             int executorUserId = source.getExecutorUser().getId();
             
-            String sql = "INSERT INTO "+table+" ('executor_user_id', 'parent_dealer_id') VALUES("+executorUserId+", "+parentDealerId+");";
+            String sql = "INSERT INTO `"+table+"` (`executor_user_id`, `parent_dealer_id`) VALUES("+executorUserId+", "+parentDealerId+");";
             st.execute(sql);
         } catch (SQLException ex) {
             Logger.getLogger(Store_CreatePermDAO.class.getName()).log(Level.SEVERE, null, ex);
