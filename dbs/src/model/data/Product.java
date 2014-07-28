@@ -94,5 +94,18 @@ public class Product extends Data {
         this.tags = tags;
     }
     
+    @Override
+    public String toString() {
+        String s = "name: " + name + " description: " + description + " picture: " + picture + " price: " + price;
+        if(parentDealer != null) {
+            s += " parent dealer: " + parentDealer.getName();
+        }
+        if(parentStore != null) {
+            s += " parent store: " + parentStore.getName();
+        }
+        
+        return s;
+    }
+    
     
 }

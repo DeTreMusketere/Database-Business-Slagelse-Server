@@ -53,5 +53,10 @@ public class Dealer extends Data {
         this.picture = picture;
     }
     
+    @Override
+    public String toString() {
+        return "name: " + name + " description: " + description + " phone: " + phone + " picture: " + picture;
+    }
+    
     
 }

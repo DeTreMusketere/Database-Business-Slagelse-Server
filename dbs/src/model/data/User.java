@@ -94,4 +94,17 @@ public class User extends Data {
         this.parentDealer = parentDealer;
     }
     
+    @Override
+    public String toString() {
+        String s = "name: " + name + " username: " + username + " password: " + password + " email: " + email + " phone: " + phone;
+        if(parentDealer != null ) {
+            s += " parent dealer: " + parentDealer.getName();
+        }
+        if(parentStore != null ) {
+            s += " parent store: " + parentStore.getName();
+        }
+        
+        return s;
+    }
+    
 }

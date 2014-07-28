@@ -34,6 +34,11 @@ public class Tag extends Data {
         this.description = description;
     }
     
+    @Override
+    public String toString() {
+        return "name: " + name + " description: " + description;
+    }
+    
     
 
 }

@@ -64,5 +64,9 @@ public class Store extends Data {
         this.parentDealer = parentDealer;
     }
     
+    @Override
+    public String toString() {
+        return "name: " + name + " address: " + address + " phone: " + phone + " picture: " + picture + " parent dealer: " + parentDealer.getName();
+    }
     
 }
