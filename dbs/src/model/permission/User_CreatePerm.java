@@ -52,12 +52,12 @@ public class User_CreatePerm implements UserPermission {
     
     @Override
     public String toString(){
-        String s = "executor: " + executorUser.getName() + " ";
+        String s = "executor: " + executorUser.getName() + "";
         if(parentDealer != null){
-            s+= "parent: " + parentDealer.getName();
+            s+= " parent: " + parentDealer.getName();
         } 
         if(parentStore != null){
-            s+= "parent: " + parentStore.getName();
+            s+= " parent: " + parentStore.getName();
         }
         return s;
     }
