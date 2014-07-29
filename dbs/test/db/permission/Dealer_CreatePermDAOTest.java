@@ -9,7 +9,6 @@ package db.permission;
 import db.data.DealerDAO;
 import db.data.StoreDAO;
 import db.data.UserDAO;
-import java.util.ArrayList;
 import model.data.Dealer;
 import model.data.DealerRegister;
 import model.data.StoreRegister;
@@ -69,6 +68,10 @@ public class Dealer_CreatePermDAOTest {
         
         dealer_CreatePerm = new Dealer_CreatePerm(user);
         dealer_CreatePermDAO.insert(dealer_CreatePerm);
+        
+        dealerRegister.load();
+        storeRegister.load();
+        userRegister.load();
     }
     
     @After
