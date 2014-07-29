@@ -6,8 +6,15 @@
 
 package db.permission;
 
+import db.data.DealerDAO;
+import db.data.StoreDAO;
+import db.data.UserDAO;
 import java.util.ArrayList;
+import model.data.Dealer;
+import model.data.DealerRegister;
+import model.data.StoreRegister;
 import model.data.User;
+import model.data.UserRegister;
 import model.permission.Dealer_CreatePerm;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -22,11 +29,29 @@ import static org.junit.Assert.*;
  */
 public class Dealer_CreatePermDAOTest {
     
+    private static DealerDAO dealerDAO;
+    private static DealerRegister dealerRegister;
+    private static StoreDAO storeDAO;
+    private static StoreRegister storeRegister;
+    private static UserDAO userDAO;
+    private static UserRegister userRegister;
+    private static Dealer_CreatePermDAO dealer_CreatePermDAO;
+    private Dealer dealer;
+    private User user;
+    private Dealer_CreatePerm dealer_CreatePerm;
+    
     public Dealer_CreatePermDAOTest() {
     }
     
     @BeforeClass
     public static void setUpClass() {
+        dealerDAO = new DealerDAO();
+        dealerRegister = new DealerRegister(dealerDAO);
+        storeDAO = new StoreDAO(dealerRegister);
+        storeRegister = new StoreRegister(storeDAO);
+        userDAO = new UserDAO(dealerRegister, storeRegister);
+        userRegister = new UserRegister(userDAO);
+        dealer_CreatePermDAO = new Dealer_CreatePermDAO(userRegister, null);
     }
     
     @AfterClass
@@ -35,36 +60,22 @@ public class Dealer_CreatePermDAOTest {
     
     @Before
     public void setUp() {
+        dealer = TestCore.getTestDealer();
+        int idDealer = dealerDAO.insert(dealer);
+        dealer.setId(idDealer);
+        user = TestCore.getTestUser(dealer);
+        int idUser = userDAO.insert(user);
+        user.setId(idUser);
+        
+        dealer_CreatePerm = new Dealer_CreatePerm(user);
+        dealer_CreatePermDAO.insert(dealer_CreatePerm);
     }
     
     @After
     public void tearDown() {
-    }
-
-    /**
-     * Test of insert method, of class Dealer_CreatePermDAO.
-     */
-    @Test
-    public void testInsert() {
-        System.out.println("insert");
-        Dealer_CreatePerm source = null;
-        Dealer_CreatePermDAO instance = null;
-        instance.insert(source);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of delete method, of class Dealer_CreatePermDAO.
-     */
-    @Test
-    public void testDelete() {
-        System.out.println("delete");
-        Dealer_CreatePerm source = null;
-        Dealer_CreatePermDAO instance = null;
-        instance.delete(source);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        dealer_CreatePermDAO.delete(dealer_CreatePerm);
+        userDAO.delete(user);
+        dealerDAO.delete(dealer);
     }
 
     /**
@@ -73,28 +84,12 @@ public class Dealer_CreatePermDAOTest {
     @Test
     public void testSelect2() {
         System.out.println("select2");
-        User executor = null;
-        Dealer_CreatePermDAO instance = null;
-        Dealer_CreatePerm expResult = null;
-        Dealer_CreatePerm result = instance.select2(executor);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of select method, of class Dealer_CreatePermDAO.
-     */
-    @Test
-    public void testSelect() {
-        System.out.println("select");
-        User executor = null;
-        Dealer_CreatePermDAO instance = null;
-        ArrayList<Dealer_CreatePerm> expResult = null;
-        ArrayList<Dealer_CreatePerm> result = instance.select(executor);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        String expUser = user.toString();
+        
+        String result = dealer_CreatePermDAO.select2(user).getExecutorUser().toString();
+        
+        assertEquals(expUser, result);
     }
     
 }
