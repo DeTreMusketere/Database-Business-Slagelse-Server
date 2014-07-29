@@ -34,5 +34,10 @@ public class Store_DeletePerm implements StorePermission {
     public void setExecutorUser(User executorUser) {
         this.executorUser = executorUser;
     }
+    
+    @Override
+    public String toString(){
+        return "target: " + targetStore.getName() + " executor: " + executorUser.getName();
+    }
 
 }

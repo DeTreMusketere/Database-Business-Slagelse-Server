@@ -34,5 +34,10 @@ public class User_UpdatePerm implements UserPermission {
         this.executorUser = executorUser;
     }
     
+    
+    @Override
+    public String toString(){
+        return "target: " + targetUser.getName() + " executor: " + executorUser.getName();
+    }
 
 }

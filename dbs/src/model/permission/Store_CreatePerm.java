@@ -34,5 +34,10 @@ public class Store_CreatePerm implements StorePermission {
     public void setParentDealer(Dealer parentDealer) {
         this.parentDealer = parentDealer;
     }
+    
+    @Override
+    public String toString(){
+        return "executor: " + executorUser.getName() + " parent: " + parentDealer.getName();
+    }
 
 }
