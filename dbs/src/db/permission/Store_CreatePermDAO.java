@@ -54,7 +54,7 @@ public class Store_CreatePermDAO extends PermissionDAO<Store, Store_CreatePerm> 
             int parentDealerId = source.getParentDealer().getId();
             int executorUserId = source.getExecutorUser().getId();
             
-            String sql = "DELETE FROM "+table+" WHERE executor_user_id="+executorUserId+" AND parent_dealer_id="+parentDealerId+";";
+            String sql = "DELETE FROM `"+table+"` WHERE `executor_user_id` = "+executorUserId+" AND `parent_dealer_id` = "+parentDealerId+";";
             st.execute(sql);
         } catch (SQLException ex) {
             Logger.getLogger(Store_CreatePermDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -69,7 +69,7 @@ public class Store_CreatePermDAO extends PermissionDAO<Store, Store_CreatePerm> 
             
             int executorUserId = executor.getId();
             
-            String sql = "SELECT * FROM "+table+" WHERE executor_user_id="+executorUserId+";";
+            String sql = "SELECT * FROM `"+table+"` WHERE `executor_user_id` = "+executorUserId+";";
             try (ResultSet rs = st.executeQuery(sql)) {
                 while(rs.next()) {
                     int parentDealerId = rs.getInt("parent_dealer_id");
