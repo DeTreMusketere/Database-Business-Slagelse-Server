@@ -34,5 +34,10 @@ public class Product_DeletePerm implements ProductPermission {
     public void setExecutorUser(User executorUser) {
         this.executorUser = executorUser;
     }
+    
+    @Override
+    public String toString() {
+        return "executor: " + executorUser.getName() + " target: " + targetProduct.getName();
+    }
 
 }

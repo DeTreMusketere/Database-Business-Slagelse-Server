@@ -34,5 +34,10 @@ public class Sale_UpdatePerm implements SalePermission {
     public void setExecutorUser(User executorUser) {
         this.executorUser = executorUser;
     }
+    
+    @Override
+    public String toString() {
+        return "target: " + targetSale.getName() + " executor: " + executorUser.getName();
+    }
 
 }

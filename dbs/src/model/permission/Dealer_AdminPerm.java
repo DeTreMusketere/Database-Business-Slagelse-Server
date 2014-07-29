@@ -37,7 +37,7 @@ public class Dealer_AdminPerm implements DealerPermission {
 
     @Override
     public String toString() {
-        return "TargetDealer: " + targetDealer.getId() + " " + targetDealer.getName() + "\nExecutorUser + " + executorUser.getId() + " " + executorUser.getName();
+        return "target: " + targetDealer.getName() + " executor: " + executorUser.getName();
     }
 
 }

@@ -49,5 +49,18 @@ public class Sale_CreatePerm implements SalePermission {
     public void setParentStore(Store parentStore) {
         this.parentStore = parentStore;
     }
+    
+    @Override
+    public String toString() {
+        String s =  "executor: " + executorUser.getName();
+        if(parentDealer != null) {
+            s += " parent dealer: " + parentDealer.getName();
+        }
+        if(parentStore != null) {
+            s += " parent store: " + parentStore.getName();
+        }
+        
+        return s;
+    }
 
 }

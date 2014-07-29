@@ -24,6 +24,11 @@ public class AdminPerm implements AdminPermission {
         this.executorUser = executorUser;
     }
     
+    @Override
+    public String toString() {
+        return "executor: " + executorUser.getName();
+    }
+    
     
 
 }

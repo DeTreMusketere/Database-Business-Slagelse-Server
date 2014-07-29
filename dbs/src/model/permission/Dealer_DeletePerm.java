@@ -34,5 +34,10 @@ public class Dealer_DeletePerm implements DealerPermission {
     public void setExecutorUser(User executorUser) {
         this.executorUser = executorUser;
     }
+    
+    @Override
+    public String toString() {
+        return "target: " + targetDealer.getName() + " executor: " + executorUser.getName();
+    }
 
 }

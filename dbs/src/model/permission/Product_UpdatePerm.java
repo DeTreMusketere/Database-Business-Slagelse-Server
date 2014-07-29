@@ -34,5 +34,10 @@ public class Product_UpdatePerm implements ProductPermission {
     public void setExecutorUser(User executorUser) {
         this.executorUser = executorUser;
     }
+    
+    @Override
+    public String toString() {
+        return "target: " + targetProduct.getName() + " executor: " + executorUser.getName();
+    }
 
 }

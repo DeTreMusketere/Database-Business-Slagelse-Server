@@ -34,5 +34,10 @@ public class Sale_ReadPerm implements SalePermission {
     public void setExecutorUser(User executorUser) {
         this.executorUser = executorUser;
     }
+    
+    @Override
+    public String toString() {
+        return "target: " + targetSale.getName() + " executor: " + executorUser.getName();
+    }
 
 }

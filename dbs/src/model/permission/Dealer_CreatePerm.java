@@ -23,5 +23,10 @@ public class Dealer_CreatePerm implements DealerPermission {
     public void setExecutorUser(User executorUser) {
         this.executorUser = executorUser;
     }
+    
+    @Override
+    public String toString() {
+        return "executor: " + executorUser.getName();
+    }
 
 }
