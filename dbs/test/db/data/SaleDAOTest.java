@@ -6,6 +6,7 @@
 package db.data;
 
 import db.InstanceTests;
+import java.util.Date;
 import model.data.Dealer;
 import model.data.Picture;
 import model.data.Sale;
@@ -53,7 +54,10 @@ public class SaleDAOTest extends InstanceTests {
         parentDealer = new Dealer(0, "Fakta", "Det tager kun 5 minutter", "2342523525", picture1);
         idDealer = dealerRegister.insert(parentDealer);
         parentDealer.setId(idDealer);
-        testSale = new Sale(0, name, description, picture1, price, parentDealer);
+        Date start = new Date(2000, 03, 21, 12, 00);
+        Date end = new Date(2000, 03, 21, 15, 00);
+        Date publish = new Date(2000, 03, 21, 12, 00);
+        testSale = new Sale(0, name, description, picture1, price, start, end, publish, parentDealer);
         int idSale = saleDAO.insert(testSale);
         testSale.setId(idSale);
         
@@ -79,14 +83,22 @@ public class SaleDAOTest extends InstanceTests {
         String expectedResultName = "Chickadicka bananer";
         String expectedResultDescription = "Super billige Chickadicka bananer fra Sverige";
         
+        
         picture2 = new Picture(0, "Fisk", "");
         int pictureId = pictureDAO.insert(picture2);
         picture2.setId(pictureId);
         
+        Date start = new Date(2001, 03, 21, 12, 00);
+        Date end = new Date(2001, 03, 21, 15, 00);
+        Date publish = new Date(2001, 03, 21, 12, 00);
+        long expectedResultStart = start.getTime();
+        long expectedResultEnd = end.getTime();
+        long expectedResultPublish = publish.getTime();
+        
         String expectedResultPictureString = picture2.getName();
         double expectedResultPrice = 8.50;
         Dealer expectedResultParentDealer = parentDealer;
-        Sale source = new Sale(expectedResultId, expectedResultName, expectedResultDescription, picture2, expectedResultPrice, expectedResultParentDealer);
+        Sale source = new Sale(expectedResultId, expectedResultName, expectedResultDescription, picture2, expectedResultPrice, start, end, publish, expectedResultParentDealer);
 
         pictureRegister.load();
         
@@ -94,7 +106,6 @@ public class SaleDAOTest extends InstanceTests {
         
         Sale resultSale = saleDAO.select(testSale.getId());
         
-        System.out.println(resultSale.getPicture());
 
         int resultId = resultSale.getId();
         String resultName = resultSale.getName();
@@ -102,6 +113,9 @@ public class SaleDAOTest extends InstanceTests {
         String resultPicture = resultSale.getPicture().getName();
         double resultPrice = resultSale.getPrice();
         Dealer resultParentDealer = resultSale.getParentDealer();
+        long resultStart = resultSale.getStart().getTime();
+        long resultEnd = resultSale.getEnd().getTime();
+        long resultPublish = resultSale.getPublish().getTime();
         
         
 
@@ -111,6 +125,9 @@ public class SaleDAOTest extends InstanceTests {
         assertEquals(expectedResultPictureString, resultPicture);
         assertEquals(expectedResultPrice, resultPrice, 0.05);
         assertEquals(expectedResultParentDealer, resultParentDealer);
+        assertEquals(expectedResultStart, resultStart);
+        assertEquals(expectedResultEnd, resultEnd);
+        assertEquals(expectedResultPublish, resultPublish);
         
         pictureDAO.delete(picture2);
     }

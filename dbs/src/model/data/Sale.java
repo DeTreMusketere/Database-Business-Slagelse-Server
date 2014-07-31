@@ -2,6 +2,7 @@
 package model.data;
 
 import abstracts.Data;
+import java.util.Date;
 
 /**
  *
@@ -14,22 +15,31 @@ public class Sale extends Data {
     private double price;
     private Store parentStore;
     private Dealer parentDealer;
+    private Date start;
+    private Date end;
+    private Date publish;
 
-    public Sale(int id, String name, String description, Picture picture, double price, Dealer parentDealer) {
+    public Sale(int id, String name, String description, Picture picture, double price, Date start, Date end, Date publish, Dealer parentDealer) {
         super(id);
         this.name = name;
         this.description = description;
         this.picture = picture;
         this.price = price;
+        this.start = start;
+        this.end = end;
+        this.publish = publish;
         this.parentDealer = parentDealer;
     }
 
-    public Sale(int id, String name, String description, Picture picture, double price, Store parentStore) {
+    public Sale(int id, String name, String description, Picture picture, double price, Date start, Date end, Date publish, Store parentStore) {
         super(id);
         this.name = name;
         this.description = description;
         this.picture = picture;
         this.price = price;
+        this.start = start;
+        this.end = end;
+        this.publish = publish;
         this.parentStore = parentStore;
         this.parentDealer = parentStore.getParent();
     }
@@ -81,10 +91,34 @@ public class Sale extends Data {
     public void setParentDealer(Dealer parentDealer) {
         this.parentDealer = parentDealer;
     }
+
+    public Date getStart() {
+        return start;
+    }
+
+    public void setStart(Date start) {
+        this.start = start;
+    }
+
+    public Date getEnd() {
+        return end;
+    }
+
+    public void setEnd(Date end) {
+        this.end = end;
+    }
+
+    public Date getPublish() {
+        return publish;
+    }
+
+    public void setPublish(Date publish) {
+        this.publish = publish;
+    }
     
     @Override
     public String toString() {
-        String s = "name: " + name + " description: " + description + " picture: " + picture + " price: " + price;
+        String s = "name: " + name + " description: " + description + " picture: " + picture + " price: " + price + " start: " + start.toString() + " end: " + end.toString() + " publish: " + publish.toString();
         if(parentDealer != null) {
             s += " parent dealer: " + parentDealer.getName();
         }
