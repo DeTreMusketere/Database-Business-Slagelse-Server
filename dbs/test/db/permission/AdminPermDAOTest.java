@@ -6,14 +6,9 @@
 
 package db.permission;
 
-import db.data.DealerDAO;
-import db.data.StoreDAO;
-import db.data.UserDAO;
+import db.InstanceTests;
 import model.data.Dealer;
-import model.data.DealerRegister;
-import model.data.StoreRegister;
 import model.data.User;
-import model.data.UserRegister;
 import model.permission.AdminPerm;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -26,33 +21,14 @@ import static org.junit.Assert.*;
  *
  * @author Patrick
  */
-public class AdminPermDAOTest {
+public class AdminPermDAOTest extends InstanceTests {
     
-    private static DealerDAO dealerDAO;
-    private static DealerRegister dealerRegister;
-    private static StoreDAO storeDAO;
-    private static StoreRegister storeRegister;
-    private static UserDAO userDAO;
-    private static UserRegister userRegister;
-    private static AdminPermDAO adminPermDAO;
     private static AdminPerm adminPerm;
     private static User user;
     private static Dealer dealer;
     
-    
-    public AdminPermDAOTest() {
-    }
-    
     @BeforeClass
     public static void setUpClass() {
-        dealerDAO = new DealerDAO();
-        dealerRegister = new DealerRegister(dealerDAO);
-        storeDAO = new StoreDAO(dealerRegister);
-        storeRegister = new StoreRegister(storeDAO);
-        userDAO = new UserDAO(dealerRegister, storeRegister);
-        userRegister = new UserRegister(userDAO);
-        adminPermDAO = new AdminPermDAO(userRegister, null);
-        
         
     }
     
@@ -63,7 +39,7 @@ public class AdminPermDAOTest {
     
     @Before
     public void setUp() {
-        dealer = TestCore.getTestDealer();
+        dealer = TestCore.getTestDealer(null);
         int idDealer = dealerDAO.insert(dealer);
         dealer.setId(idDealer);
         user = TestCore.getTestUser(dealer);

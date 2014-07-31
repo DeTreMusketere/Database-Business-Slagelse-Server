@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.data.Dealer;
+import model.data.Picture;
+import model.data.PictureRegister;
 
 /**
  *
@@ -16,6 +18,12 @@ import model.data.Dealer;
  */
 public class DealerDAO extends DataDAO<Dealer> {
 
+    private PictureRegister pictureRegister;
+
+    public DealerDAO(PictureRegister pictureRegister) {
+        this.pictureRegister = pictureRegister;
+    }
+    
     @Override
     public int insert(Dealer source) {
         try {
@@ -24,7 +32,10 @@ public class DealerDAO extends DataDAO<Dealer> {
             String name = source.getName();
             String description = source.getDescription();
             String phone = source.getPhone();
-            int picture = source.getPicture();
+            int picture = 0;
+            if(source.getPicture() != null) {
+                picture = source.getPicture().getId();
+            }
             int id = -1;
             String sql = "INSERT INTO dealer (name, description, phone, picture) VALUES('" + name + "', '" + description + "', '" + phone + "', '" + picture + "');";
             statement.execute(sql);
@@ -48,7 +59,10 @@ public class DealerDAO extends DataDAO<Dealer> {
             String name = source.getName();
             String description = source.getDescription();
             String phone = source.getPhone();
-            int picture = source.getPicture();
+            int picture = 0;
+            if(source.getPicture() != null) {
+                picture = source.getPicture().getId();
+            }
             int targetid = target.getId();
 
             String sql = "UPDATE dealer SET name='" + name + "', description='" + description + "', phone='" + phone + "', picture='" + picture + "' WHERE id_dealer=" + targetid;
@@ -81,7 +95,12 @@ public class DealerDAO extends DataDAO<Dealer> {
             String sql = "SELECT * FROM dealer WHERE id_dealer=" + id;
             try (ResultSet rs = statement.executeQuery(sql)) {
                 while (rs.next()) {
-                    dealer = new Dealer(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5));
+                    int pictureId = rs.getInt(5);
+                    Picture picture = null;
+                    if(pictureId != 0) {
+                        picture = pictureRegister.get(pictureId);
+                    }
+                    dealer = new Dealer(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), picture);
                 }
             }
             return dealer;
@@ -101,7 +120,12 @@ public class DealerDAO extends DataDAO<Dealer> {
             String sql = "SELECT * FROM dealer";
             try (ResultSet rs = statement.executeQuery(sql)) {
                 while (rs.next()) {
-                    Dealer dealer = new Dealer(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5));
+                    int pictureId = rs.getInt(5);
+                    Picture picture = null;
+                    if(pictureId != 0) {
+                        picture = pictureRegister.get(pictureId);
+                    }
+                    Dealer dealer = new Dealer(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), picture);
                     dealerList.add(dealer);
                 }
             }

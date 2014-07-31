@@ -10,12 +10,12 @@ import abstracts.Data;
 public class Sale extends Data {
     private String name;
     private String description;
-    private int picture;
+    private Picture picture;
     private double price;
     private Store parentStore;
     private Dealer parentDealer;
 
-    public Sale(int id, String name, String description, int picture, double price, Dealer parentDealer) {
+    public Sale(int id, String name, String description, Picture picture, double price, Dealer parentDealer) {
         super(id);
         this.name = name;
         this.description = description;
@@ -24,7 +24,7 @@ public class Sale extends Data {
         this.parentDealer = parentDealer;
     }
 
-    public Sale(int id, String name, String description, int picture, double price, Store parentStore) {
+    public Sale(int id, String name, String description, Picture picture, double price, Store parentStore) {
         super(id);
         this.name = name;
         this.description = description;
@@ -50,11 +50,11 @@ public class Sale extends Data {
         this.description = description;
     }
 
-    public int getPicture() {
+    public Picture getPicture() {
         return picture;
     }
 
-    public void setPicture(int picture) {
+    public void setPicture(Picture picture) {
         this.picture = picture;
     }
 

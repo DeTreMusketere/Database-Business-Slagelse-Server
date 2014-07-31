@@ -32,6 +32,9 @@ public class Dbs {
     
     private TagDAO tagDAO;
     private TagRegister tagRegister;
+    
+    private PictureDAO pictureDAO;
+    private PictureRegister pictureRegister;
 
     private AdminPermDAO adminPermDAO;
     
@@ -72,13 +75,15 @@ public class Dbs {
     }
     
     private void constructData() {
-        dealerDAO = new DealerDAO();
+        pictureDAO = new PictureDAO();
+        pictureRegister = new PictureRegister(pictureDAO);
+        dealerDAO = new DealerDAO(pictureRegister);
         dealerRegister = new DealerRegister(dealerDAO);
-        storeDAO = new StoreDAO(dealerRegister);
+        storeDAO = new StoreDAO(dealerRegister, pictureRegister);
         storeRegister = new StoreRegister(storeDAO);
-        productDAO = new ProductDAO(dealerRegister, storeRegister);
+        productDAO = new ProductDAO(dealerRegister, storeRegister, pictureRegister);
         productRegister = new ProductRegister(productDAO);
-        saleDAO = new SaleDAO(dealerRegister, storeRegister);
+        saleDAO = new SaleDAO(dealerRegister, storeRegister, pictureRegister);
         saleRegister = new SaleRegister(saleDAO);
         userDAO = new UserDAO(dealerRegister, storeRegister);
         userRegister = new UserRegister(userDAO);

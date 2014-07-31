@@ -5,19 +5,13 @@
  */
 package db.permission;
 
-import db.data.DealerDAO;
-import db.data.StoreDAO;
-import db.data.UserDAO;
+import db.InstanceTests;
 import java.util.ArrayList;
 import model.data.Dealer;
-import model.data.DealerRegister;
-import model.data.StoreRegister;
 import model.data.User;
-import model.data.UserRegister;
 import model.permission.Dealer_AdminPerm;
 import org.junit.After;
 import org.junit.AfterClass;
-import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -27,31 +21,16 @@ import static org.junit.Assert.*;
  *
  * @author Patrick
  */
-public class Dealer_AdminPermDAOTest {
+public class Dealer_AdminPermDAOTest extends InstanceTests {
 
-    private static DealerDAO dealerDAO;
-    private static DealerRegister dealerRegister;
-    private static StoreDAO storeDAO;
-    private static StoreRegister storeRegister;
-    private static UserDAO userDAO;
-    private static UserRegister userRegister;
-    private static Dealer_AdminPermDAO dealer_AdminPermDAO;
     private User user;
     private Dealer dealer;
     private Dealer_AdminPerm dealer_AdminPerm;
 
-    public Dealer_AdminPermDAOTest() {
-    }
 
     @BeforeClass
     public static void setUpClass() {
-        dealerDAO = new DealerDAO();
-        dealerRegister = new DealerRegister(dealerDAO);
-        storeDAO = new StoreDAO(dealerRegister);
-        storeRegister = new StoreRegister(storeDAO);
-        userDAO = new UserDAO(dealerRegister, storeRegister);
-        userRegister = new UserRegister(userDAO);
-        dealer_AdminPermDAO = new Dealer_AdminPermDAO(userRegister, dealerRegister);
+
     }
 
     @AfterClass
@@ -60,7 +39,7 @@ public class Dealer_AdminPermDAOTest {
 
     @Before
     public void setUp() {
-        dealer = TestCore.getTestDealer();
+        dealer = TestCore.getTestDealer(null);
         int idDealer = dealerDAO.insert(dealer);
         dealer.setId(idDealer);
         user = TestCore.getTestUser(dealer);

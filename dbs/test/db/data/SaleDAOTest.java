@@ -5,12 +5,10 @@
  */
 package db.data;
 
-import abstracts.DataDAO;
-import java.util.ArrayList;
+import db.InstanceTests;
 import model.data.Dealer;
-import model.data.DealerRegister;
+import model.data.Picture;
 import model.data.Sale;
-import model.data.StoreRegister;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -22,22 +20,20 @@ import static org.junit.Assert.*;
  *
  * @author PK
  */
-public class SaleDAOTest {
+public class SaleDAOTest extends InstanceTests {
 
     private static Dealer parentDealer;
     private static Sale testSale;
-    private static DealerDAO dealerDAO;
-    private static SaleDAO instance;
-    private static DealerRegister dealerRegister;
     private static int idDealer;
+    private static Picture picture1;
+    private static Picture picture2;
 
     public SaleDAOTest() {
     }
 
     @BeforeClass
     public static void setUpClass() {
-        dealerRegister = new DealerRegister(new DealerDAO());
-        instance = new SaleDAO((dealerRegister), new StoreRegister(new StoreDAO(dealerRegister)));
+        
     }
 
     @AfterClass
@@ -48,19 +44,27 @@ public class SaleDAOTest {
     public void setUp() {
         String name = "Billige bananer";
         String description = "Super billige Chickadicka bananer fra Sverige";
-        int picture = 5;
+        
+        picture1 = new Picture(0, "Fugl", "");
+        int pictureId = pictureDAO.insert(picture1);
+        picture1.setId(pictureId);
+        
         double price = 10.50;
-        parentDealer = new Dealer(0, "Fakta", "Det tager kun 5 minutter", "2342523525", 6);
+        parentDealer = new Dealer(0, "Fakta", "Det tager kun 5 minutter", "2342523525", picture1);
         idDealer = dealerRegister.insert(parentDealer);
         parentDealer.setId(idDealer);
-        testSale = new Sale(0, name, description, picture, price, parentDealer);
-        int idSale = instance.insert(testSale);
+        testSale = new Sale(0, name, description, picture1, price, parentDealer);
+        int idSale = saleDAO.insert(testSale);
         testSale.setId(idSale);
+        
+        pictureRegister.load();
+        
     }
 
     @After
     public void tearDown() {
-        instance.delete(testSale);
+        saleDAO.delete(testSale);
+        pictureDAO.delete(picture1);
     }
 
     /**
@@ -74,19 +78,28 @@ public class SaleDAOTest {
         int expectedResultId = testSale.getId();
         String expectedResultName = "Chickadicka bananer";
         String expectedResultDescription = "Super billige Chickadicka bananer fra Sverige";
-        int expectedResultPicture = 10;
+        
+        picture2 = new Picture(0, "Fisk", "");
+        int pictureId = pictureDAO.insert(picture2);
+        picture2.setId(pictureId);
+        
+        String expectedResultPictureString = picture2.getName();
         double expectedResultPrice = 8.50;
         Dealer expectedResultParentDealer = parentDealer;
-        Sale source = new Sale(expectedResultId, expectedResultName, expectedResultDescription, expectedResultPicture, expectedResultPrice, expectedResultParentDealer);
+        Sale source = new Sale(expectedResultId, expectedResultName, expectedResultDescription, picture2, expectedResultPrice, expectedResultParentDealer);
 
-        instance.update(source, target);
-
-        Sale resultSale = instance.select(testSale.getId());
+        pictureRegister.load();
+        
+        saleDAO.update(source, target);
+        
+        Sale resultSale = saleDAO.select(testSale.getId());
+        
+        System.out.println(resultSale.getPicture());
 
         int resultId = resultSale.getId();
         String resultName = resultSale.getName();
         String resultDescription = resultSale.getDescription();
-        int resultPicture = resultSale.getPicture();
+        String resultPicture = resultSale.getPicture().getName();
         double resultPrice = resultSale.getPrice();
         Dealer resultParentDealer = resultSale.getParentDealer();
         
@@ -95,10 +108,11 @@ public class SaleDAOTest {
         assertEquals(expectedResultId, resultId);
         assertEquals(expectedResultName, resultName);
         assertEquals(expectedResultDescription, resultDescription);
-        assertEquals(expectedResultPicture, resultPicture);
+        assertEquals(expectedResultPictureString, resultPicture);
         assertEquals(expectedResultPrice, resultPrice, 0.05);
         assertEquals(expectedResultParentDealer, resultParentDealer);
         
+        pictureDAO.delete(picture2);
     }
 
 }

@@ -10,6 +10,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.data.Dealer;
 import model.data.DealerRegister;
+import model.data.Picture;
+import model.data.PictureRegister;
 import model.data.Sale;
 import model.data.Store;
 import model.data.StoreRegister;
@@ -22,10 +24,12 @@ public class SaleDAO extends DataDAO<Sale> {
 
     private DealerRegister dealerRegister;
     private StoreRegister storeRegister;
+    private PictureRegister pictureRegister;
 
-    public SaleDAO(DealerRegister dealerRegister, StoreRegister storeRegister) {
+    public SaleDAO(DealerRegister dealerRegister, StoreRegister storeRegister, PictureRegister pictureRegister) {
         this.dealerRegister = dealerRegister;
         this.storeRegister = storeRegister;
+        this.pictureRegister = pictureRegister;
     }
 
     @Override
@@ -35,7 +39,10 @@ public class SaleDAO extends DataDAO<Sale> {
 
             String name = source.getName();
             String description = source.getDescription();
-            int picture = source.getPicture();
+            int picture = 0;
+            if (source.getPicture() != null) {
+                picture = source.getPicture().getId();
+            }
             double price = source.getPrice();
             int parentStoreId = 0;
             int parentDealerId = 0;
@@ -68,7 +75,10 @@ public class SaleDAO extends DataDAO<Sale> {
 
             String name = source.getName();
             String description = source.getDescription();
-            int picture = source.getPicture();
+            int picture = 0;
+            if (source.getPicture() != null) {
+                picture = source.getPicture().getId();
+            }
             double price = source.getPrice();
             int parentStoreId = 0;
             int parentDealerId = 0;
@@ -80,7 +90,7 @@ public class SaleDAO extends DataDAO<Sale> {
             }
 
             String sql = "UPDATE sale SET name='" + name + "', description='" + description + "', picture=" + picture + ", price=" + price + ", parent_store_id=" + parentStoreId + ", parent_dealer_id=" + parentDealerId + " WHERE id_sale=" + target.getId() + ";";
-            statement.execute(sql);
+            statement.executeUpdate(sql);
         } catch (SQLException ex) {
             Logger.getLogger(DealerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -118,11 +128,17 @@ public class SaleDAO extends DataDAO<Sale> {
                     if (parentDealerId != 0) {
                         parentDealer = dealerRegister.get(parentDealerId);
                     }
+                    
+                    int pictureId = rs.getInt(4);
+                    Picture picture = null;
+                    if (pictureId != 0) {
+                        picture = pictureRegister.get(pictureId);
+                    }
 
                     if (parentStore != null) {
-                        sale = new Sale(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getDouble(5), parentStore);
+                        sale = new Sale(rs.getInt(1), rs.getString(2), rs.getString(3), picture, rs.getDouble(5), parentStore);
                     } else {
-                        sale = new Sale(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getDouble(5), parentDealer);
+                        sale = new Sale(rs.getInt(1), rs.getString(2), rs.getString(3), picture, rs.getDouble(5), parentDealer);
                     }
                 }
             }
@@ -155,10 +171,16 @@ public class SaleDAO extends DataDAO<Sale> {
                     
                     Sale sale;
                     
+                    int pictureId = rs.getInt(5);
+                    Picture picture = null;
+                    if (pictureId != 0) {
+                        picture = pictureRegister.get(pictureId);
+                    }
+
                     if (parentStore != null) {
-                        sale = new Sale(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getDouble(5), parentStore);
+                        sale = new Sale(rs.getInt(1), rs.getString(2), rs.getString(3), picture, rs.getDouble(5), parentStore);
                     } else {
-                        sale = new Sale(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getDouble(5), parentDealer);
+                        sale = new Sale(rs.getInt(1), rs.getString(2), rs.getString(3), picture, rs.getDouble(5), parentDealer);
                     }
                     
                     sales.add(sale);

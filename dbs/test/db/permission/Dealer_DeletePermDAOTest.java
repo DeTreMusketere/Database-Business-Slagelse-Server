@@ -6,6 +6,7 @@
 
 package db.permission;
 
+import db.InstanceTests;
 import db.data.DealerDAO;
 import db.data.StoreDAO;
 import db.data.UserDAO;
@@ -27,17 +28,10 @@ import static org.junit.Assert.*;
  *
  * @author Patrick
  */
-public class Dealer_DeletePermDAOTest {
-    
-    private static DealerDAO dealerDAO;
-    private static DealerRegister dealerRegister;
-    private static StoreDAO storeDAO;
-    private static StoreRegister storeRegister;
-    private static UserDAO userDAO;
-    private static UserRegister userRegister;
+public class Dealer_DeletePermDAOTest extends InstanceTests {
+
     private static User user;
     private static Dealer dealer;
-    private static Dealer_DeletePermDAO dealer_DeletePermDAO;
     private static Dealer_DeletePerm dealer_DeletePerm;
     
     public Dealer_DeletePermDAOTest() {
@@ -45,13 +39,7 @@ public class Dealer_DeletePermDAOTest {
     
     @BeforeClass
     public static void setUpClass() {
-        dealerDAO = new DealerDAO();
-        dealerRegister = new DealerRegister(dealerDAO);
-        storeDAO = new StoreDAO(dealerRegister);
-        storeRegister = new StoreRegister(storeDAO);
-        userDAO = new UserDAO(dealerRegister, storeRegister);
-        userRegister = new UserRegister(userDAO);
-        dealer_DeletePermDAO = new Dealer_DeletePermDAO(userRegister, dealerRegister);
+
     }
     
     @AfterClass
@@ -60,7 +48,7 @@ public class Dealer_DeletePermDAOTest {
     
     @Before
     public void setUp() {
-        dealer = TestCore.getTestDealer();
+        dealer = TestCore.getTestDealer(null);
         int idDealer = dealerDAO.insert(dealer);
         dealer.setId(idDealer);
         user = TestCore.getTestUser(dealer);

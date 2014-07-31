@@ -5,13 +5,9 @@
  */
 package db.data;
 
-import db.DBTool;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import db.InstanceTests;
 import model.data.Dealer;
+import model.data.Picture;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -23,17 +19,15 @@ import static org.junit.Assert.*;
  *
  * @author Patrick
  */
-public class DealerDAOTest {
+public class DealerDAOTest extends InstanceTests {
 
     private static Dealer testDealer;
-    private static DealerDAO instance;
-
-    public DealerDAOTest() {
-    }
+    private static Picture picture1;
+    private static Picture picture2;
 
     @BeforeClass
     public static void setUpClass() {
-        instance = new DealerDAO();
+        
     }
 
     @AfterClass
@@ -45,15 +39,22 @@ public class DealerDAOTest {
         String name = "Netto V2";
         String description = "Meget meget meget flot forretning, ofte tilbud på cola";
         String phone = "25252525";
-        int picture = 1;
-        testDealer = new Dealer(0, name, description, phone, picture);
-        int id = instance.insert(testDealer);
+        
+        picture1 = new Picture(0, "Fugl", "");
+        int pictureId = pictureDAO.insert(picture1);
+        picture1.setId(pictureId);
+        
+        testDealer = new Dealer(0, name, description, phone, picture1);
+        int id = dealerDAO.insert(testDealer);
         testDealer.setId(id);
+        
+        pictureRegister.load();
     }
 
     @After
     public void tearDown() {
-        instance.delete(testDealer);
+        dealerDAO.delete(testDealer);
+        pictureDAO.delete(picture1);
     }
 
     @Test
@@ -65,25 +66,34 @@ public class DealerDAOTest {
         String expectedResultName = "Netto V3";
         String expectedResultDescription = "Endnu bedre Netto";
         String expectedResultPhone = "25252525";
-        int expectedResultPicture = 2;
+        picture2 = new Picture(0, "Fisk", "");
+        int pictureId = pictureDAO.insert(picture2);
+        picture2.setId(pictureId);
+        String expectedResultPictureString = picture2.getName();
 
-        Dealer source = new Dealer(expectedResultId, expectedResultName, expectedResultDescription, expectedResultPhone, expectedResultPicture);
+        Dealer source = new Dealer(expectedResultId, expectedResultName, expectedResultDescription, expectedResultPhone, picture2);
 
-        instance.update(source, target);
+        dealerDAO.update(source, target);
+        
+        pictureRegister.load();
 
-        Dealer resultDealer = instance.select(testDealer.getId());
+        Dealer resultDealer = dealerDAO.select(testDealer.getId());
 
         int resultId = resultDealer.getId();
         String resultName = resultDealer.getName();
         String resultDescription = resultDealer.getDescription();
         String resultPhone = resultDealer.getPhone();
-        int resultPicture = resultDealer.getPicture();
+        String resultPicture = resultDealer.getPicture().getName();
+        
+        
 
         assertEquals(expectedResultId, resultId);
         assertEquals(expectedResultName, resultName);
         assertEquals(expectedResultDescription, resultDescription);
         assertEquals(expectedResultPhone, resultPhone);
-        assertEquals(expectedResultPicture, resultPicture);
+        assertEquals(expectedResultPictureString, resultPicture);
+        
+        pictureDAO.delete(picture2);
     }
 
 }

@@ -10,6 +10,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.data.Dealer;
 import model.data.DealerRegister;
+import model.data.Picture;
+import model.data.PictureRegister;
 import model.data.Product;
 import model.data.Store;
 import model.data.StoreRegister;
@@ -22,10 +24,12 @@ public class ProductDAO extends DataDAO<Product> {
 
     private DealerRegister dealerRegister;
     private StoreRegister storeRegister;
+    private PictureRegister pictureRegister;
 
-    public ProductDAO(DealerRegister dealerRegister, StoreRegister storeRegister) {
+    public ProductDAO(DealerRegister dealerRegister, StoreRegister storeRegister, PictureRegister pictureRegister) {
         this.dealerRegister = dealerRegister;
         this.storeRegister = storeRegister;
+        this.pictureRegister = pictureRegister;
     }
 
     @Override
@@ -35,7 +39,10 @@ public class ProductDAO extends DataDAO<Product> {
 
             String name = source.getName();
             String description = source.getDescription();
-            int picture = source.getPicture();
+            int picture = 0;
+            if (source.getPicture() != null) {
+                picture = source.getPicture().getId();
+            }
             double price = source.getPrice();
             int parentStoreId = 0;
             int parentDealerId = 0;
@@ -68,7 +75,10 @@ public class ProductDAO extends DataDAO<Product> {
 
             String name = source.getName();
             String description = source.getDescription();
-            int picture = source.getPicture();
+            int picture = 0;
+            if (source.getPicture() != null) {
+                picture = source.getPicture().getId();
+            }
             double price = source.getPrice();
             int parentStoreId = 0;
             int parentDealerId = 0;
@@ -118,11 +128,18 @@ public class ProductDAO extends DataDAO<Product> {
                     if (parentDealerId != 0) {
                         parentDealer = dealerRegister.get(parentDealerId);
                     }
-                    
+
+                    int pictureId = rs.getInt(5);
+                    Picture picture = null;
+                    if (pictureId != 0) {
+                        picture = pictureRegister.get(pictureId);
+                    }
+
                     if (parentStore != null) {
-                        product = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getDouble(5), parentStore);
+
+                        product = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), picture, rs.getDouble(5), parentStore);
                     } else {
-                        product = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getDouble(5), parentDealer);
+                        product = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), picture, rs.getDouble(5), parentDealer);
                     }
                 }
             }
@@ -152,15 +169,22 @@ public class ProductDAO extends DataDAO<Product> {
                     if (parentDealerId != 0) {
                         parentDealer = dealerRegister.get(parentDealerId);
                     }
-                    
+
                     Product product;
-                    
-                    if (parentStore != null) {
-                        product = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getDouble(5), parentStore);
-                    } else {
-                        product = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getDouble(5), parentDealer);
+
+                    int pictureId = rs.getInt(5);
+                    Picture picture = null;
+                    if (pictureId != 0) {
+                        picture = pictureRegister.get(pictureId);
                     }
-                    
+
+                    if (parentStore != null) {
+
+                        product = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), picture, rs.getDouble(5), parentStore);
+                    } else {
+                        product = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), picture, rs.getDouble(5), parentDealer);
+                    }
+
                     products.add(product);
                 }
             }

@@ -4,6 +4,7 @@ package db.permission;
 
 
 import model.data.Dealer;
+import model.data.Picture;
 import model.data.User;
 
 /**
@@ -17,9 +18,14 @@ public class TestCore {
         return u;
     }
     
-    public static Dealer getTestDealer() {
-        Dealer d = new Dealer(0, "Netto", "Test", "123456789", 0);
+    public static Dealer getTestDealer(Picture picture) {
+        Dealer d = new Dealer(0, "Netto", "Test", "123456789", picture);
         return d;
+    }
+    
+    public static Picture getTestPicture() {
+        Picture picture = new Picture(0, "Fisk", "");
+        return picture;
     }
 
 }

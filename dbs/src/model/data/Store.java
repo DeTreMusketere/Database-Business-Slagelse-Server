@@ -12,10 +12,10 @@ public class Store extends Data {
     private String name;
     private String address;
     private String phone;
-    private int picture;
+    private Picture picture;
     private Dealer parentDealer;
 
-    public Store(int id, String name, String address, String phone, int picture, Dealer parentDealer) {
+    public Store(int id, String name, String address, String phone, Picture picture, Dealer parentDealer) {
         super(id);
         this.name = name;
         this.address = address;
@@ -48,11 +48,11 @@ public class Store extends Data {
         this.phone = phone;
     }
 
-    public int getPicture() {
+    public Picture getPicture() {
         return picture;
     }
 
-    public void setPicture(int picture) {
+    public void setPicture(Picture picture) {
         this.picture = picture;
     }
 

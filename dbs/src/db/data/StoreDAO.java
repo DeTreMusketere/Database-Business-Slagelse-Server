@@ -10,7 +10,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.data.Dealer;
 import model.data.DealerRegister;
-import model.data.Sale;
+import model.data.Picture;
+import model.data.PictureRegister;
 import model.data.Store;
 
 /**
@@ -20,9 +21,11 @@ import model.data.Store;
 public class StoreDAO extends DataDAO<Store> {
 
     private DealerRegister dealerRegister;
+    private PictureRegister pictureRegister;
 
-    public StoreDAO(DealerRegister dealerRegister) {
+    public StoreDAO(DealerRegister dealerRegister, PictureRegister pictureRegister) {
         this.dealerRegister = dealerRegister;
+        this.pictureRegister = pictureRegister;
     }
 
     @Override
@@ -33,7 +36,10 @@ public class StoreDAO extends DataDAO<Store> {
             String name = source.getName();
             String address = source.getAddress();
             String phone = source.getPhone();
-            int picture = source.getPicture();
+            int picture = 0;
+            if(source.getPicture() != null) {
+                picture = source.getPicture().getId();
+            }
             int parentDealerId = source.getParent().getId();
             int id = -1;
             String sql = "INSERT INTO store (name, address, phone, picture, parent_dealer_id) VALUES('" + name + "', '" + address + "', '" + phone + "', " + picture + ", " + parentDealerId + ");";
@@ -58,7 +64,10 @@ public class StoreDAO extends DataDAO<Store> {
             String name = source.getName();
             String address = source.getAddress();
             String phone = source.getPhone();
-            int picture = source.getPicture();
+            int picture = 0;
+            if(source.getPicture() != null) {
+                picture = source.getPicture().getId();
+            }
             int parentDealerId = source.getParent().getId();
 
             String sql = "UPDATE store SET name='" + name + "', address='" + address + "', phone='" + phone + "', picture=" + picture + ", parent_dealer_id=" + parentDealerId + " WHERE id_store=" + target.getId() + ";";
@@ -95,8 +104,12 @@ public class StoreDAO extends DataDAO<Store> {
                     if (parentDealerId != 0) {
                         parentDealer = dealerRegister.get(parentDealerId);
                     }
-
-                    store = new Store(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), parentDealer);
+                    int pictureId = rs.getInt(5);
+                    Picture picture = null;
+                    if(pictureId != 0) {
+                        picture = pictureRegister.get(pictureId);
+                    }
+                    store = new Store(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), picture, parentDealer);
                 }
             }
             return store;
@@ -120,8 +133,12 @@ public class StoreDAO extends DataDAO<Store> {
                     if (parentDealerId != 0) {
                         parentDealer = dealerRegister.get(parentDealerId);
                     }
-                    
-                    Store store = new Store(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), parentDealer);
+                    int pictureId = rs.getInt(5);
+                    Picture picture = null;
+                    if(pictureId != 0) {
+                        picture = pictureRegister.get(pictureId);
+                    }
+                    Store store = new Store(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), picture, parentDealer);
                     stores.add(store);
                 }
             }

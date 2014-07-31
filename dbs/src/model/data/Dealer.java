@@ -11,9 +11,9 @@ public class Dealer extends Data {
     private String name;
     private String description;
     private String phone;
-    private int picture;
+    private Picture picture;
 
-    public Dealer(int id, String name, String description, String phone, int picture) {
+    public Dealer(int id, String name, String description, String phone, Picture picture) {
         super(id);
         this.name = name;
         this.description = description;
@@ -45,17 +45,21 @@ public class Dealer extends Data {
         this.phone = phone;
     }
 
-    public int getPicture() {
+    public Picture getPicture() {
         return picture;
     }
 
-    public void setPicture(int picture) {
+    public void setPicture(Picture picture) {
         this.picture = picture;
     }
     
     @Override
     public String toString() {
-        return "name: " + name + " description: " + description + " phone: " + phone + " picture: " + picture;
+        String s = "name: " + name + " description: " + description + " phone: " + phone;
+        if(picture != null) {
+            s += " picture: " + picture.getName();
+        }
+        return s;
     }
     
     
