@@ -2,20 +2,21 @@
 package model.data;
 
 import abstracts.Data;
+import java.io.Serializable;
 
 /**
  *
  * @author Patrick
  */
-public class Picture extends Data {
+public class Picture extends Data implements Serializable{
     
     private String name;
-    private String url;
+    private byte[] byteArray;
 
-    public Picture(int id, String name, String url) {
+    public Picture(int id, String name, byte[] byteArray) {
         super(id);
         this.name = name;
-        this.url = url;
+        this.byteArray = byteArray;
     }
 
     public String getName() {
@@ -26,17 +27,18 @@ public class Picture extends Data {
         this.name = name;
     }
 
-    public String getUrl() {
-        return url;
+    public byte[] getByteArray() {
+        return byteArray;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setByteArray(byte[] byteArray) {
+        this.byteArray = byteArray;
     }
+
 
     @Override
     public String toString() {
-        return "name: " + name + " url: " + url;
+        return "name: " + name;
     }
 
 }

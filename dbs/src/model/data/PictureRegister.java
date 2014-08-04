@@ -14,8 +14,8 @@ public class PictureRegister extends Register<Picture> {
         super(dao);
     }
 
-    public void create(String name, String url) {
-        Picture p = new Picture(0, name, url);
+    public void create(String name, byte[] byteArray) {
+        Picture p = new Picture(0, name, byteArray);
         int id = insert(p);
         p.setId(id);
     }

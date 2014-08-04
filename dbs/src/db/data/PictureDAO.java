@@ -20,9 +20,10 @@ public class PictureDAO extends DataDAO<Picture> {
             Statement st = DBTool.getStatement();
 
             String name = source.getName();
-            String url = source.getUrl();
+            byte[] byteArray = source.getByteArray();
 
-            String sql = "INSERT INTO picture (name, url) VALUES('" + name + "', '" + url + "');";
+            //NEEDS SAVING TO FILE
+            String sql = "INSERT INTO picture (name) VALUES('" + name + "');";
             st.execute(sql);
 
             ResultSet rs = st.executeQuery("SELECT LAST_INSERT_ID();");
@@ -40,12 +41,14 @@ public class PictureDAO extends DataDAO<Picture> {
     public void update(Picture source, Picture target) {
         try {
             Statement st = DBTool.getStatement();
-            
+
             int targetId = target.getId();
             String name = source.getName();
-            String url = source.getUrl();
+            byte[] byteArray = source.getByteArray();
             
-            String sql = "UPDATE picture SET name='"+name+"', url='"+url+"' WHERE id_picture="+targetId+";";
+            //NEEDS UPDATE TO FILE
+            
+            String sql = "UPDATE picture SET name='" + name + "' WHERE id_picture=" + targetId + ";";
             st.executeUpdate(sql);
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -56,10 +59,12 @@ public class PictureDAO extends DataDAO<Picture> {
     public void delete(Picture target) {
         try {
             Statement st = DBTool.getStatement();
-            
+
             int targetId = target.getId();
             
-            String sql = "DELETE FROM picture WHERE id_picture="+targetId+";";
+            //NEEDS DELETION OF FILE
+
+            String sql = "DELETE FROM picture WHERE id_picture=" + targetId + ";";
             st.execute(sql);
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -70,15 +75,15 @@ public class PictureDAO extends DataDAO<Picture> {
     public Picture select(int id) {
         try {
             Statement st = DBTool.getStatement();
-            
-            
-            
-            String sql = "SELECT * FROM picture WHERE id_picture="+id+";";
+
+            String sql = "SELECT * FROM picture WHERE id_picture=" + id + ";";
             try (ResultSet rs = st.executeQuery(sql)) {
-                while(rs.next()) {
+                while (rs.next()) {
                     String name = rs.getString("name");
-                    String url = rs.getString("url");
-                    Picture p = new Picture(id, name, url);
+
+                    //GET BYTEARRAY FROM FILE AND INSERT
+                    
+                    Picture p = new Picture(id, name, null);
                     return p;
                 }
             }
@@ -93,16 +98,16 @@ public class PictureDAO extends DataDAO<Picture> {
         ArrayList<Picture> pictures = new ArrayList<>();
         try {
             Statement st = DBTool.getStatement();
-            
-            
-            
+
             String sql = "SELECT * FROM picture;";
             try (ResultSet rs = st.executeQuery(sql)) {
-                while(rs.next()) {
+                while (rs.next()) {
                     int id = rs.getInt("id_picture");
                     String name = rs.getString("name");
-                    String url = rs.getString("url");
-                    Picture p = new Picture(id, name, url);
+                    
+                     //GET BYTEARRAY FROM FILE AND INSERT
+                    
+                    Picture p = new Picture(id, name, null);
                     pictures.add(p);
                 }
             }
