@@ -5,6 +5,7 @@ import db.permission.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import model.data.Dealer;
+import model.data.Store;
 import model.data.User;
 import model.permission.*;
 
@@ -255,6 +256,168 @@ public class PermissionHandler {
         } else {
             if (exist) {
                 dealer_DeletePermDAO.delete(perm);
+            }
+        }
+    }
+    
+    /**
+     * 
+     * @param targetStore
+     * @param executorUser
+     * @param value 
+     */
+    public void setStore_AdminPerm(Store targetStore, User executorUser, boolean value) {
+        boolean exist = false;
+        Store_AdminPerm perm = null;
+        ArrayList<Store_AdminPerm> perms = store_AdminPermDAO.select(executorUser);
+        for(Store_AdminPerm p : perms) {
+            if(p.getExecutorUser() == executorUser && p.getTargetStore() == targetStore) {
+                exist = true;
+                perm = p;
+                break;
+            }
+        }
+        if(!exist) {
+            perm = new Store_AdminPerm(targetStore, executorUser);
+        }
+        
+        if (value) {
+            if (!exist) {
+                store_AdminPermDAO.insert(perm);
+            }
+        } else {
+            if (exist) {
+                store_AdminPermDAO.delete(perm);
+            }
+        }
+    }
+    
+    /**
+     * 
+     * @param executorUser
+     * @param parentDealer
+     * @param value 
+     */
+    public void setStore_CreatePerm(User executorUser, Dealer parentDealer, boolean value) {
+        boolean exist = false;
+        Store_CreatePerm perm = null;
+        ArrayList<Store_CreatePerm> perms = store_CreatePermDAO.select(executorUser);
+        for(Store_CreatePerm p : perms) {
+            if(p.getExecutorUser() == executorUser && p.getParentDealer() == parentDealer) {
+                exist = true;
+                perm = p;
+                break;
+            }
+        }
+        if(!exist) {
+            perm = new Store_CreatePerm(executorUser, parentDealer);
+        }
+        
+        if (value) {
+            if (!exist) {
+                store_CreatePermDAO.insert(perm);
+            }
+        } else {
+            if (exist) {
+                store_CreatePermDAO.delete(perm);
+            }
+        }
+    }
+    
+    /**
+     * 
+     * @param targetStore
+     * @param executorUser
+     * @param value 
+     */
+    public void setStore_ReadPerm(Store targetStore, User executorUser, boolean value) {
+        boolean exist = false;
+        Store_ReadPerm perm = null;
+        ArrayList<Store_ReadPerm> perms = store_ReadPermDAO.select(executorUser);
+        for(Store_ReadPerm p : perms) {
+            if(p.getTargetStore() == targetStore && p.getExecutorUser() == executorUser) {
+                exist = true;
+                perm = p;
+                break;
+            }
+        }
+        if(!exist) {
+            perm = new Store_ReadPerm(targetStore, executorUser);
+        }
+        
+        if (value) {
+            if (!exist) {
+                store_ReadPermDAO.insert(perm);
+            }
+        } else {
+            if (exist) {
+                store_ReadPermDAO.delete(perm);
+            }
+        }
+    }
+    
+    /**
+     * 
+     * @param targetStore
+     * @param executorUser
+     * @param value 
+     */
+    public void setStore_UpdatePerm(Store targetStore, User executorUser, boolean value) {
+        boolean exist = false;
+        Store_UpdatePerm perm = null;
+        ArrayList<Store_UpdatePerm> perms = store_UpdatePermDAO.select(executorUser);
+        for(Store_UpdatePerm p : perms) {
+            if(p.getExecutorUser() == executorUser && p.getTargetStore() == targetStore) {
+                exist = true;
+                perm = p;
+                break;
+            }
+        }
+        if(!exist) {
+            perm = new Store_UpdatePerm(targetStore, executorUser);
+        }
+        
+        if (value) {
+            if (!exist) {
+                store_UpdatePermDAO.insert(perm);
+            }
+        } else {
+            if (exist) {
+                store_UpdatePermDAO.delete(perm);
+            }
+        }
+    }
+    
+    /**
+     * 
+     * @param targetStore
+     * @param executorUser
+     * @param value 
+     */
+    public void setStore_DeletePerm(Store targetStore, User executorUser, boolean value) {
+        // Does it exist?
+        boolean exist = false;
+        Store_DeletePerm perm = null;
+        ArrayList<Store_DeletePerm> perms = store_DeletePermDAO.select(executorUser);
+        for(Store_DeletePerm p : perms) {
+            if(p.getExecutorUser() == executorUser && p.getTargetStore() == targetStore) {
+                exist = true;
+                perm = p;
+                break;
+            }
+        }
+        if(!exist) {
+            perm = new Store_DeletePerm(targetStore, executorUser);
+        }
+        
+        // Do the set
+        if (value) {
+            if (!exist) {
+                store_DeletePermDAO.insert(perm);
+            }
+        } else {
+            if (exist) {
+                store_DeletePermDAO.delete(perm);
             }
         }
     }
