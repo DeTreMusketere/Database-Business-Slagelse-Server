@@ -1,5 +1,6 @@
 package db;
 
+import control.FileHandler;
 import db.data.DealerDAO;
 import db.data.PictureDAO;
 import db.data.ProductDAO;
@@ -93,8 +94,12 @@ public abstract class InstanceTests {
     protected User_DeletePermDAO user_DeletePermDAO;
     protected User_ReadPermDAO user_ReadPermDAO;
     protected User_UpdatePermDAO user_UpdatePermDAO;
+    
+    protected FileHandler fileHandler;
 
     public InstanceTests() {
+        fileHandler = new FileHandler();
+        
         constructData();
         constructPermission();
         load();
@@ -103,7 +108,7 @@ public abstract class InstanceTests {
     
 
     protected void constructData() {
-        pictureDAO = new PictureDAO();
+        pictureDAO = new PictureDAO(fileHandler);
         pictureRegister = new PictureRegister(pictureDAO);
         dealerDAO = new DealerDAO(pictureRegister);
         dealerRegister = new DealerRegister(dealerDAO);

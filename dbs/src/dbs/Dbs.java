@@ -79,12 +79,15 @@ public class Dbs {
     private User_UpdatePermDAO user_UpdatePermDAO;
 
     private PermissionHandler permissionHandler;
+    private FileHandler fileHandler;
     
     
     //test
     private static BufferedImage test = null;
 
     public Dbs() {
+        fileHandler = new FileHandler();
+        
         constructData();
         constructPermission();
 
@@ -92,7 +95,7 @@ public class Dbs {
     }
 
     private void constructData() {
-        pictureDAO = new PictureDAO();
+        pictureDAO = new PictureDAO(fileHandler);
         pictureRegister = new PictureRegister(pictureDAO);
         dealerDAO = new DealerDAO(pictureRegister);
         dealerRegister = new DealerRegister(dealerDAO);

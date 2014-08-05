@@ -23,9 +23,9 @@ public class TestCore {
         return d;
     }
     
-    public static Picture getTestPicture() {
-        Picture picture = new Picture(0, "Fisk", "");
-        return picture;
-    }
+//    public static Picture getTestPicture() {
+////        Picture picture = new Picture(0, "Fisk", "");
+//        return picture;
+//    }
 
 }

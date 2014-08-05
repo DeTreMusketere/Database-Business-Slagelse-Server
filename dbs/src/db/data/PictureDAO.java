@@ -1,6 +1,7 @@
 package db.data;
 
 import abstracts.DataDAO;
+import control.FileHandler;
 import db.DBTool;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,6 +15,12 @@ import model.data.Picture;
  */
 public class PictureDAO extends DataDAO<Picture> {
 
+    private FileHandler fileHandler;
+
+    public PictureDAO(FileHandler fileHandler) {
+        this.fileHandler = fileHandler;
+    }
+
     @Override
     public int insert(Picture source) {
         try {
@@ -22,13 +29,13 @@ public class PictureDAO extends DataDAO<Picture> {
             String name = source.getName();
             byte[] byteArray = source.getByteArray();
 
-            //NEEDS SAVING TO FILE
             String sql = "INSERT INTO picture (name) VALUES('" + name + "');";
             st.execute(sql);
 
             ResultSet rs = st.executeQuery("SELECT LAST_INSERT_ID();");
             rs.next();
             int id = rs.getInt(1);
+            fileHandler.saveByteArray(byteArray, id);
 
             return id;
         } catch (SQLException ex) {
@@ -45,9 +52,8 @@ public class PictureDAO extends DataDAO<Picture> {
             int targetId = target.getId();
             String name = source.getName();
             byte[] byteArray = source.getByteArray();
-            
-            //NEEDS UPDATE TO FILE
-            
+            fileHandler.saveByteArray(byteArray, targetId);
+
             String sql = "UPDATE picture SET name='" + name + "' WHERE id_picture=" + targetId + ";";
             st.executeUpdate(sql);
         } catch (SQLException ex) {
@@ -61,8 +67,8 @@ public class PictureDAO extends DataDAO<Picture> {
             Statement st = DBTool.getStatement();
 
             int targetId = target.getId();
-            
-            //NEEDS DELETION OF FILE
+
+            fileHandler.deleteFile(targetId);
 
             String sql = "DELETE FROM picture WHERE id_picture=" + targetId + ";";
             st.execute(sql);
@@ -81,9 +87,9 @@ public class PictureDAO extends DataDAO<Picture> {
                 while (rs.next()) {
                     String name = rs.getString("name");
 
-                    //GET BYTEARRAY FROM FILE AND INSERT
-                    
-                    Picture p = new Picture(id, name, null);
+                    byte[] byteArray = fileHandler.getByteArray(id);
+
+                    Picture p = new Picture(id, name, byteArray);
                     return p;
                 }
             }
@@ -104,10 +110,9 @@ public class PictureDAO extends DataDAO<Picture> {
                 while (rs.next()) {
                     int id = rs.getInt("id_picture");
                     String name = rs.getString("name");
-                    
-                     //GET BYTEARRAY FROM FILE AND INSERT
-                    
-                    Picture p = new Picture(id, name, null);
+
+                    byte[] byteArray = fileHandler.getByteArray(id);
+                    Picture p = new Picture(id, name, byteArray);
                     pictures.add(p);
                 }
             }

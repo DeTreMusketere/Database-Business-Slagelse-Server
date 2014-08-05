@@ -40,7 +40,7 @@ public class DealerDAOTest extends InstanceTests {
         String description = "Meget meget meget flot forretning, ofte tilbud på cola";
         String phone = "25252525";
         
-        picture1 = new Picture(0, "Fugl", "");
+        picture1 = new Picture(0, "Fugl", null);
         int pictureId = pictureDAO.insert(picture1);
         picture1.setId(pictureId);
         
@@ -66,7 +66,7 @@ public class DealerDAOTest extends InstanceTests {
         String expectedResultName = "Netto V3";
         String expectedResultDescription = "Endnu bedre Netto";
         String expectedResultPhone = "25252525";
-        picture2 = new Picture(0, "Fisk", "");
+        picture2 = new Picture(0, "Fisk", null);
         int pictureId = pictureDAO.insert(picture2);
         picture2.setId(pictureId);
         String expectedResultPictureString = picture2.getName();
