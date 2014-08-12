@@ -3,16 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package WebServices;
 
-import java.io.Serializable;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
-import model.data.Dealer;
-import model.data.Picture;
-import model.data.Sale;
 
 /**
  *
@@ -30,26 +25,38 @@ public class ClientWebService {
     }
 
     /**
-     * Checks if the device is currently up to date with the latest sales
-     * returns true if it is, false if it is behind. 
+     * Gets the current update number of the server
+     *
+     * @return current update number
      */
     @WebMethod(operationName = "isUpToDate")
-    public boolean isUpToDate() {
+    public int isUpToDate() {
         //TODO write your implementation code here:
-        return false;
+        return 0;
     }
 
     /**
-     * Returns a byte[] of an arraylist with arraylists of everything
-     * @return 
+     * Returns a byte[] of an arraylist with arraylists of everything Should be
+     * used first time device connects to the server
+     *
+     * @return
      */
     @WebMethod(operationName = "getEverything")
-    public String getEverything() {
+    public byte[] getEverything() {
         //TODO write your implementation code here:
         return null;
     }
-    
-    
-                      
-                
+
+    /**
+     * Returns a byte[] of an arraylist with arraylists for every class, with
+     * updated objects.
+     * @param updateNumber The current updateNumber of the device
+     * @return byte[] of a 2 dimensional ArrayList holding all the updated objects
+     */
+    @WebMethod(operationName = "getUpdated")
+    public byte[] getUpdated(@WebParam(name = "updateNumber") int updateNumber) {
+        //TODO write your implementation code here:
+        return null;
+    }
+
 }
