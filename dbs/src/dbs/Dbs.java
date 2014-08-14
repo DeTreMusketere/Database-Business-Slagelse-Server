@@ -49,6 +49,9 @@ public class Dbs {
     private PictureDAO pictureDAO;
     private PictureRegister pictureRegister;
 
+    private UpdateNumberDAO updateNumberDAO;
+    private UpdateNumberHandler updateNumberHandler;
+
     private AdminPermDAO adminPermDAO;
 
     private Dealer_AdminPermDAO dealer_AdminPermDAO;
@@ -80,14 +83,13 @@ public class Dbs {
 
     private PermissionHandler permissionHandler;
     private FileHandler fileHandler;
-    
-    
+
     //test
     private static BufferedImage test = null;
 
     public Dbs() {
         fileHandler = new FileHandler();
-        
+
         constructData();
         constructPermission();
 
@@ -109,6 +111,8 @@ public class Dbs {
         userRegister = new UserRegister(userDAO);
         tagDAO = new TagDAO();
         tagRegister = new TagRegister(tagDAO);
+        updateNumberDAO = new UpdateNumberDAO();
+        updateNumberHandler = new UpdateNumberHandler(updateNumberDAO);
     }
 
     private void constructPermission() {
@@ -162,10 +166,9 @@ public class Dbs {
         User u = dbs.userRegister.getObjects().get(0);
         UserPermissionSet ups = dbs.permissionHandler.constructUserPermissionSet(u);
         System.out.println(ups.toString());
+        
 
-        FileHandler fh = new FileHandler();
-        
-        
+//        FileHandler fh = new FileHandler();
 //        Saves a picture (Edit filepath for testing or riot)
 //        byte[] imageInByte = null;              
 //        try {
@@ -180,8 +183,6 @@ public class Dbs {
 //            Logger.getLogger(Dbs.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 
-        
-        
 //        Loads a picture and paints it in a JFrame
 //        byte[] array = fh.getByteArray(2);
 //        InputStream in = new ByteArrayInputStream(array);
@@ -207,7 +208,6 @@ public class Dbs {
 //        frame.setResizable(false);
 //        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        frame.setVisible(true);
-
     }
 
 }
