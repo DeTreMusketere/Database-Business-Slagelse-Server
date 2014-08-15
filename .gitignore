@@ -36,3 +36,5 @@ hs_err_pid*
 /dbsWebService/nbproject/private/
 /dbsWebService/build/
 /TestWebService/build/
+/dbsWebService/dist/
+/TestWebService/dist/
