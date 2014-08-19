@@ -36,8 +36,9 @@ public class DealerDAO extends DataDAO<Dealer> {
             if(source.getPicture() != null) {
                 picture = source.getPicture().getId();
             }
+            int updateNumber = source.getUpdateNumber();
             int id = -1;
-            String sql = "INSERT INTO dealer (name, description, phone, picture) VALUES('" + name + "', '" + description + "', '" + phone + "', '" + picture + "');";
+            String sql = "INSERT INTO dealer (name, description, phone, picture, update_number) VALUES('" + name + "', '" + description + "', '" + phone + "', '" + picture + "', '" + updateNumber + "');";
             statement.execute(sql);
             try (ResultSet rs = statement.executeQuery("SELECT LAST_INSERT_ID();")) {
                 while (rs.next()) {
@@ -64,8 +65,9 @@ public class DealerDAO extends DataDAO<Dealer> {
                 picture = source.getPicture().getId();
             }
             int targetid = target.getId();
+            int updateNumber = source.getUpdateNumber();
 
-            String sql = "UPDATE dealer SET name='" + name + "', description='" + description + "', phone='" + phone + "', picture='" + picture + "' WHERE id_dealer=" + targetid;
+            String sql = "UPDATE dealer SET name='" + name + "', description='" + description + "', phone='" + phone + "', picture='" + picture + "', update_number='" + updateNumber + "' WHERE id_dealer=" + targetid;
             statement.executeUpdate(sql);
         } catch (SQLException ex) {
             Logger.getLogger(DealerDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -100,7 +102,7 @@ public class DealerDAO extends DataDAO<Dealer> {
                     if(pictureId != 0) {
                         picture = pictureRegister.get(pictureId);
                     }
-                    dealer = new Dealer(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), picture);
+                    dealer = new Dealer(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), picture, rs.getInt(6));
                 }
             }
             return dealer;
@@ -125,7 +127,7 @@ public class DealerDAO extends DataDAO<Dealer> {
                     if(pictureId != 0) {
                         picture = pictureRegister.get(pictureId);
                     }
-                    Dealer dealer = new Dealer(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), picture);
+                    Dealer dealer = new Dealer(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), picture, rs.getInt(6));
                     dealerList.add(dealer);
                 }
             }

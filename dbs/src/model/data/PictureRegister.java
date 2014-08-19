@@ -15,7 +15,8 @@ public class PictureRegister extends Register<Picture> {
     }
 
     public void create(String name, byte[] byteArray) {
-        Picture p = new Picture(0, name, byteArray);
+        int updateNumber = UpdateNumberHandler.update();
+        Picture p = new Picture(0, name, byteArray, updateNumber);
         int id = insert(p);
         p.setId(id);
     }

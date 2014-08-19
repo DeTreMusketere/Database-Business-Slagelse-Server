@@ -28,8 +28,9 @@ public class PictureDAO extends DataDAO<Picture> {
 
             String name = source.getName();
             byte[] byteArray = source.getByteArray();
+            int updateNumber = source.getUpdateNumber();
 
-            String sql = "INSERT INTO picture (name) VALUES('" + name + "');";
+            String sql = "INSERT INTO picture (name, update_number) VALUES('" + name + "', '" +updateNumber+"');";
             st.execute(sql);
 
             ResultSet rs = st.executeQuery("SELECT LAST_INSERT_ID();");
@@ -53,8 +54,9 @@ public class PictureDAO extends DataDAO<Picture> {
             String name = source.getName();
             byte[] byteArray = source.getByteArray();
             fileHandler.saveByteArray(byteArray, targetId);
+            int updateNumber = source.getUpdateNumber();
 
-            String sql = "UPDATE picture SET name='" + name + "' WHERE id_picture=" + targetId + ";";
+            String sql = "UPDATE picture SET name='" + name + "', update_number='" + updateNumber + "' WHERE id_picture=" + targetId + ";";
             st.executeUpdate(sql);
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -88,8 +90,9 @@ public class PictureDAO extends DataDAO<Picture> {
                     String name = rs.getString("name");
 
                     byte[] byteArray = fileHandler.getByteArray(id);
+                    int updateNumber = rs.getInt("update_number");
 
-                    Picture p = new Picture(id, name, byteArray);
+                    Picture p = new Picture(id, name, byteArray, updateNumber);
                     return p;
                 }
             }
@@ -112,7 +115,8 @@ public class PictureDAO extends DataDAO<Picture> {
                     String name = rs.getString("name");
 
                     byte[] byteArray = fileHandler.getByteArray(id);
-                    Picture p = new Picture(id, name, byteArray);
+                    int updateNumber = rs.getInt("update_number");
+                    Picture p = new Picture(id, name, byteArray, updateNumber);
                     pictures.add(p);
                 }
             }

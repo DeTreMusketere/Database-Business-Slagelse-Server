@@ -52,9 +52,10 @@ public class ProductDAO extends DataDAO<Product> {
             if (source.getParentDealer() != null) {
                 parentDealerId = source.getParentDealer().getId();
             }
+            int updateNumber = source.getUpdateNumber();
 
             int id = -1;
-            String sql = "INSERT INTO product (name, description, picture, price, parent_store_id, parent_dealer_id) VALUES('" + name + "', '" + description + "', " + picture + ", " + price + ", " + parentStoreId + ", " + parentDealerId + ");";
+            String sql = "INSERT INTO product (name, description, picture, price, parent_store_id, parent_dealer_id, update_number) VALUES('" + name + "', '" + description + "', " + picture + ", " + price + ", " + parentStoreId + ", " + parentDealerId + ", " + updateNumber + ");";
             statement.execute(sql);
             try (ResultSet rs = statement.executeQuery("SELECT LAST_INSERT_ID();")) {
                 while (rs.next()) {
@@ -88,8 +89,9 @@ public class ProductDAO extends DataDAO<Product> {
             if (source.getParentDealer() != null) {
                 parentDealerId = source.getParentDealer().getId();
             }
+            int updateNumber = source.getUpdateNumber();
 
-            String sql = "UPDATE product SET name='" + name + "', description='" + description + "', picture=" + picture + ", price=" + price + ", parent_store_id=" + parentStoreId + ", parent_dealer_id=" + parentDealerId + " WHERE id_product=" + target.getId() + ";";
+            String sql = "UPDATE product SET name='" + name + "', description='" + description + "', picture=" + picture + ", price=" + price + ", parent_store_id=" + parentStoreId + ", parent_dealer_id=" + parentDealerId + ", update_number=" + updateNumber + " WHERE id_product=" + target.getId() + ";";
             statement.executeUpdate(sql);
         } catch (SQLException ex) {
             Logger.getLogger(DealerDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -134,12 +136,14 @@ public class ProductDAO extends DataDAO<Product> {
                     if (pictureId != 0) {
                         picture = pictureRegister.get(pictureId);
                     }
+                    
+                    int updateNumber = rs.getInt(8);
 
                     if (parentStore != null) {
 
-                        product = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), picture, rs.getDouble(5), parentStore);
+                        product = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), picture, rs.getDouble(5), parentStore, updateNumber);
                     } else {
-                        product = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), picture, rs.getDouble(5), parentDealer);
+                        product = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), picture, rs.getDouble(5), parentDealer, updateNumber);
                     }
                 }
             }
@@ -177,12 +181,14 @@ public class ProductDAO extends DataDAO<Product> {
                     if (pictureId != 0) {
                         picture = pictureRegister.get(pictureId);
                     }
+                    
+                    int updateNumber = rs.getInt(8);
 
                     if (parentStore != null) {
 
-                        product = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), picture, rs.getDouble(5), parentStore);
+                        product = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), picture, rs.getDouble(5), parentStore, updateNumber);
                     } else {
-                        product = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), picture, rs.getDouble(5), parentDealer);
+                        product = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), picture, rs.getDouble(5), parentDealer, updateNumber);
                     }
 
                     products.add(product);

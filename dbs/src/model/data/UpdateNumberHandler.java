@@ -8,11 +8,11 @@ import db.data.UpdateNumberDAO;
  */
 public class UpdateNumberHandler {
 
-    private final UpdateNumberDAO updateNumberDAO;
-    private int updateNumber = 0;
+    private static UpdateNumberDAO updateNumberDAO;
+    private static int updateNumber = 0;
 
     public UpdateNumberHandler(UpdateNumberDAO updateNumberDAO) {
-        this.updateNumberDAO = updateNumberDAO;
+        UpdateNumberHandler.updateNumberDAO = updateNumberDAO;
         updateNumber = updateNumberDAO.select();
         if (updateNumber == -1) {
             updateNumberDAO.insert(1);
@@ -24,7 +24,7 @@ public class UpdateNumberHandler {
         return updateNumber;
     }
 
-    public int update() {
+    public static int update() {
         updateNumber++;
         updateNumberDAO.update(updateNumber);
         return updateNumber;

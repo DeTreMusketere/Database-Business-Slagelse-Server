@@ -15,13 +15,15 @@ public class ProductRegister extends Register<Product> {
     }
     
     public void create(String name, String description, Picture picture, double price, Dealer parentDealer) {
-        Product p = new Product(0, name, description, picture, price, parentDealer);
+        int updateNumber = UpdateNumberHandler.update();
+        Product p = new Product(0, name, description, picture, price, parentDealer, updateNumber);
         int id = insert(p);
         p.setId(id);
     }
     
     public void create(String name, String description, Picture picture, double price, Store parentStore) {
-        Product p = new Product(0, name, description, picture, price, parentStore);
+        int updateNumber = UpdateNumberHandler.update();
+        Product p = new Product(0, name, description, picture, price, parentStore, updateNumber);
         int id  = insert(p);
         p.setId(id);
     }

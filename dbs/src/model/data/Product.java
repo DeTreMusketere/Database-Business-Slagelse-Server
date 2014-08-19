@@ -1,4 +1,3 @@
-
 package model.data;
 
 import abstracts.Data;
@@ -9,7 +8,7 @@ import java.util.ArrayList;
  * @author Patrick
  */
 public class Product extends Data {
-    
+
     private String name;
     private String description;
     private Picture picture;
@@ -17,8 +16,9 @@ public class Product extends Data {
     private Store parentStore;
     private Dealer parentDealer;
     private ArrayList<Tag> tags;
+    private int updateNumber;
 
-    public Product(int id, String name, String description, Picture picture, double price, Dealer parentDealer) {
+    public Product(int id, String name, String description, Picture picture, double price, Dealer parentDealer, int updateNumber) {
         super(id);
         this.name = name;
         this.description = description;
@@ -26,9 +26,10 @@ public class Product extends Data {
         this.price = price;
         this.parentDealer = parentDealer;
         this.tags = new ArrayList<>();
+        this.updateNumber = updateNumber;
     }
 
-    public Product(int id, String name, String description, Picture picture, double price, Store parentStore) {
+    public Product(int id, String name, String description, Picture picture, double price, Store parentStore, int updateNumber) {
         super(id);
         this.name = name;
         this.description = description;
@@ -36,6 +37,7 @@ public class Product extends Data {
         this.price = price;
         this.parentStore = parentStore;
         this.parentDealer = parentStore.getParent();
+        this.updateNumber = updateNumber;
     }
 
     public String getName() {
@@ -44,6 +46,14 @@ public class Product extends Data {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getUpdateNumber() {
+        return updateNumber;
+    }
+
+    public void setUpdateNumber(int updateNumber) {
+        this.updateNumber = updateNumber;
     }
 
     public String getDescription() {
@@ -93,19 +103,18 @@ public class Product extends Data {
     public void setTags(ArrayList<Tag> tags) {
         this.tags = tags;
     }
-    
+
     @Override
     public String toString() {
         String s = "name: " + name + " description: " + description + " picture: " + picture + " price: " + price;
-        if(parentDealer != null) {
+        if (parentDealer != null) {
             s += " parent dealer: " + parentDealer.getName();
         }
-        if(parentStore != null) {
+        if (parentStore != null) {
             s += " parent store: " + parentStore.getName();
         }
-        
+
         return s;
     }
-    
-    
+
 }
