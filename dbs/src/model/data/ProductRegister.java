@@ -10,22 +10,23 @@ import abstracts.Register;
  */
 public class ProductRegister extends Register<Product> {
 
-    public ProductRegister(DataDAO<Product> dao) {
-        super(dao);
+    public ProductRegister(IDHandler idHandler, DataDAO<Product> dao) {
+        super(idHandler, dao);
     }
     
     public Product create(String name, String description, Picture picture, double price, Dealer parentDealer) {
         int updateNumber = UpdateNumberHandler.update();
-        Product p = new Product(0, name, description, picture, price, parentDealer, updateNumber);
-        int id = insert(p);
-        p.setId(id);
+        int id = idHandler.nextProductId();
+        Product p = new Product(id, name, description, picture, price, parentDealer, updateNumber);
+        insert(p);
         return p;
     }
     
     public Product create(String name, String description, Picture picture, double price, Store parentStore) {
         int updateNumber = UpdateNumberHandler.update();
-        Product p = new Product(0, name, description, picture, price, parentStore, updateNumber);
-        int id  = insert(p);
+        int id = idHandler.nextProductId();
+        Product p = new Product(id, name, description, picture, price, parentStore, updateNumber);
+        insert(p);
         p.setId(id);
         return p;
     }

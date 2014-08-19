@@ -10,7 +10,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.data.Dealer;
 import model.data.DealerRegister;
-import model.data.Sale;
 import model.data.Store;
 import model.data.StoreRegister;
 import model.data.User;
@@ -30,10 +29,11 @@ public class UserDAO extends DataDAO<User> {
     }
 
     @Override
-    public int insert(User source) {
+    public void insert(User source) {
         try {
             Statement st = DBTool.getStatement();
 
+            int id = source.getId();
             String name = source.getName();
             String username = source.getUsername();
             String password = source.getPassword();
@@ -47,19 +47,11 @@ public class UserDAO extends DataDAO<User> {
             if (source.getParentDealer() != null) {
                 parentDealerId = source.getParentDealer().getId();
             }
-            int id = -1;
-            String sql = "INSERT INTO user (name, username, password, email, phone, parent_store_id, parent_dealer_id) VALUES('" + name + "', '" + username + "', '" + password + "', '" + email + "', '" + phone + "', " + parentStoreId + ", " + parentDealerId + ");";
+            String sql = "INSERT INTO user (id_user, name, username, password, email, phone, parent_store_id, parent_dealer_id) VALUES(" + id + ",'" + name + "', '" + username + "', '" + password + "', '" + email + "', '" + phone + "', " + parentStoreId + ", " + parentDealerId + ");";
             st.execute(sql);
-            try (ResultSet rs = st.executeQuery("SELECT LAST_INSERT_ID();")) {
-                while (rs.next()) {
-                    id = rs.getInt(1);
-                }
-            }
-            return id;
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return -1;
     }
 
     @Override
@@ -120,7 +112,7 @@ public class UserDAO extends DataDAO<User> {
                     if (parentDealerId != 0) {
                         parentDealer = dealerRegister.get(parentDealerId);
                     }
-                    
+
                     if (parentStore != null) {
                         user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), parentStore);
                     } else {
@@ -154,9 +146,9 @@ public class UserDAO extends DataDAO<User> {
                     if (parentDealerId != 0) {
                         parentDealer = dealerRegister.get(parentDealerId);
                     }
-                    
+
                     User user;
-                    
+
                     if (parentStore != null) {
                         user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), parentStore);
                     } else {

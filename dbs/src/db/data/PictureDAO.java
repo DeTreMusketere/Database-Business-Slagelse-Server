@@ -22,27 +22,22 @@ public class PictureDAO extends DataDAO<Picture> {
     }
 
     @Override
-    public int insert(Picture source) {
+    public void insert(Picture source) {
         try {
             Statement st = DBTool.getStatement();
 
+            int id = source.getId();
             String name = source.getName();
             byte[] byteArray = source.getByteArray();
             int updateNumber = source.getUpdateNumber();
 
-            String sql = "INSERT INTO picture (name, update_number) VALUES('" + name + "', '" +updateNumber+"');";
+            String sql = "INSERT INTO picture (id_picture,name, update_number) VALUES(" + id + ",'" + name + "', '" + updateNumber + "');";
             st.execute(sql);
 
-            ResultSet rs = st.executeQuery("SELECT LAST_INSERT_ID();");
-            rs.next();
-            int id = rs.getInt(1);
             fileHandler.saveByteArray(byteArray, id);
-
-            return id;
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return -1;
     }
 
     @Override

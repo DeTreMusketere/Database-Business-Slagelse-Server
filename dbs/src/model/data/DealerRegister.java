@@ -10,15 +10,15 @@ import abstracts.Register;
  */
 public class DealerRegister extends Register<Dealer> {
 
-    public DealerRegister(DataDAO<Dealer> dao) {
-        super(dao);
+    public DealerRegister(IDHandler idHandler, DataDAO<Dealer> dao) {
+        super(idHandler,dao);
     }
     
     public Dealer create(String name, String description, String phone, Picture picture) {
         int updateNumber = UpdateNumberHandler.update();
-        Dealer d = new Dealer(0, name, description, phone, picture, updateNumber);
-        int id = insert(d);
-        d.setId(id);
+        int id = idHandler.nextDealerId();
+        Dealer d = new Dealer(id, name, description, phone, picture, updateNumber);
+        insert(d);
         return d;
     }
 

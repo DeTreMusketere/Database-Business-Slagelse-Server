@@ -2,6 +2,7 @@ package abstracts;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import model.data.IDHandler;
 
 /**
  *
@@ -12,8 +13,10 @@ public abstract class Register<DATATYPE> {
 
     private ArrayList<DATATYPE> objects;
     private final DataDAO<DATATYPE> dao;
+    protected final IDHandler idHandler;
 
-    public Register(DataDAO<DATATYPE> dao) {
+    public Register(IDHandler idHandler, DataDAO<DATATYPE> dao) {
+        this.idHandler = idHandler;
         this.dao = dao;
         objects = new ArrayList<>();
     }
@@ -23,10 +26,9 @@ public abstract class Register<DATATYPE> {
      *
      * @param source
      */
-    public int insert(DATATYPE source) {
+    public void insert(DATATYPE source) {
         objects.add(source);
-        int id = dao.insert(source);
-        return id;
+        dao.insert(source);
     }
 
     /**

@@ -1,4 +1,3 @@
-
 package db.data;
 
 import abstracts.DataDAO;
@@ -18,36 +17,29 @@ import model.data.Tag;
 public class TagDAO extends DataDAO<Tag> {
 
     @Override
-    public int insert(Tag source) {
+    public void insert(Tag source) {
         try {
             Statement st = DBTool.getStatement();
-            
+
+            int id = source.getId();
             String name = source.getName();
             String description = source.getDescription();
-            int id = -1;
-            String sql = "INSERT INTO tag (name, description) VALUES('"+name+"', '"+description+"');";
+            String sql = "INSERT INTO tag (id_tag, name, description) VALUES(" + id + ",'" + name + "', '" + description + "');";
             st.execute(sql);
-            try (ResultSet rs = st.executeQuery("SELECT LAST_INSERT_ID();")) {
-                while(rs.next()){
-                    id = rs.getInt(1);
-                }
-            }
-            return id;
         } catch (SQLException ex) {
             Logger.getLogger(TagDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return -1;
     }
 
     @Override
     public void update(Tag source, Tag target) {
         try {
             Statement st = DBTool.getStatement();
-            
+
             String name = source.getName();
             String description = source.getDescription();
-            
-            String sql = "UPDATE tag SET name='"+name+"', description='"+description+"', WHERE id_tag="+target.getId()+";";
+
+            String sql = "UPDATE tag SET name='" + name + "', description='" + description + "', WHERE id_tag=" + target.getId() + ";";
             st.executeUpdate(sql);
         } catch (SQLException ex) {
             Logger.getLogger(TagDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -73,9 +65,9 @@ public class TagDAO extends DataDAO<Tag> {
         try {
             Statement st = DBTool.getStatement();
             Tag tag = null;
-            String sql = "SELECT * FROM tag WHERE id_tag="+id+";";
+            String sql = "SELECT * FROM tag WHERE id_tag=" + id + ";";
             try (ResultSet rs = st.executeQuery(sql)) {
-                while(rs.next()){
+                while (rs.next()) {
                     tag = new Tag(rs.getInt(1), rs.getString(2), rs.getString(3));
                 }
             }
@@ -91,21 +83,20 @@ public class TagDAO extends DataDAO<Tag> {
         ArrayList<Tag> tags = new ArrayList<>();
         try {
             Statement st = DBTool.getStatement();
-            
+
             String sql = "SELECT * FROM tag;";
             try (ResultSet rs = st.executeQuery(sql)) {
-                while(rs.next()) {
+                while (rs.next()) {
                     Tag tag = new Tag(rs.getInt(1), rs.getString(2), rs.getString(3));
                     tags.add(tag);
                 }
             }
-            
+
             return tags;
         } catch (SQLException ex) {
             Logger.getLogger(TagDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
-
 
 }

@@ -13,9 +13,8 @@ public abstract class DataDAO<DATATYPE> extends DAO {
      * Inserts a source
      *
      * @param source
-     * @return ID
      */
-    public abstract int insert(DATATYPE source);
+    public abstract void insert(DATATYPE source);
 
     /**
      * Updates a target with a source

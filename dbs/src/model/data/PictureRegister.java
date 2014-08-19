@@ -10,15 +10,15 @@ import abstracts.Register;
  */
 public class PictureRegister extends Register<Picture> {
 
-    public PictureRegister(DataDAO<Picture> dao) {
-        super(dao);
+    public PictureRegister(IDHandler idHandler, DataDAO<Picture> dao) {
+        super(idHandler, dao);
     }
 
     public Picture create(String name, byte[] byteArray) {
         int updateNumber = UpdateNumberHandler.update();
-        Picture p = new Picture(0, name, byteArray, updateNumber);
-        int id = insert(p);
-        p.setId(id);
+        int id = idHandler.nextPictureId();
+        Picture p = new Picture(id, name, byteArray, updateNumber);
+        insert(p);
         return p;
     }
 

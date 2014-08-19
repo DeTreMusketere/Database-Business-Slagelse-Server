@@ -11,21 +11,21 @@ import java.util.Date;
  */
 public class SaleRegister extends Register<Sale> {
 
-    public SaleRegister(DataDAO<Sale> dao) {
-        super(dao);
+    public SaleRegister(IDHandler idHandler, DataDAO<Sale> dao) {
+        super(idHandler, dao);
     }
     
     public Sale create(String name, String description, Picture picture, double price, Date start, Date end, Date publish, Dealer parentDealer) {
-        Sale s = new Sale(0, name, description, picture, price, start, end, publish, parentDealer);
-        int id = insert(s);
-        s.setId(id);
+        int id = idHandler.nextSaleId();
+        Sale s = new Sale(id, name, description, picture, price, start, end, publish, parentDealer);
+        insert(s);
         return s;
     }
     
     public Sale create(String name, String description, Picture picture, double price, Date start, Date end, Date publish, Store parentStore) {
-        Sale s = new Sale(0, name, description, picture, price, start, end, publish, parentStore);
-        int id = insert(s);
-        s.setId(id);
+        int id = idHandler.nextSaleId();
+        Sale s = new Sale(id, name, description, picture, price, start, end, publish, parentStore);
+        insert(s);
         return s;
     }
 

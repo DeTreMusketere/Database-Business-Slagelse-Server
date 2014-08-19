@@ -33,10 +33,11 @@ public class ProductDAO extends DataDAO<Product> {
     }
 
     @Override
-    public int insert(Product source) {
+    public void insert(Product source) {
         try {
             Statement statement = DBTool.getStatement();
 
+            int id = source.getId();
             String name = source.getName();
             String description = source.getDescription();
             int picture = 0;
@@ -54,19 +55,11 @@ public class ProductDAO extends DataDAO<Product> {
             }
             int updateNumber = source.getUpdateNumber();
 
-            int id = -1;
-            String sql = "INSERT INTO product (name, description, picture, price, parent_store_id, parent_dealer_id, update_number) VALUES('" + name + "', '" + description + "', " + picture + ", " + price + ", " + parentStoreId + ", " + parentDealerId + ", " + updateNumber + ");";
+            String sql = "INSERT INTO product (id_product, name, description, picture, price, parent_store_id, parent_dealer_id, update_number) VALUES(" + id + ",'" + name + "', '" + description + "', " + picture + ", " + price + ", " + parentStoreId + ", " + parentDealerId + ", " + updateNumber + ");";
             statement.execute(sql);
-            try (ResultSet rs = statement.executeQuery("SELECT LAST_INSERT_ID();")) {
-                while (rs.next()) {
-                    id = rs.getInt(1);
-                }
-            }
-            return id;
         } catch (SQLException ex) {
             Logger.getLogger(DealerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return -1;
     }
 
     @Override
@@ -136,7 +129,7 @@ public class ProductDAO extends DataDAO<Product> {
                     if (pictureId != 0) {
                         picture = pictureRegister.get(pictureId);
                     }
-                    
+
                     int updateNumber = rs.getInt(8);
 
                     if (parentStore != null) {
@@ -181,7 +174,7 @@ public class ProductDAO extends DataDAO<Product> {
                     if (pictureId != 0) {
                         picture = pictureRegister.get(pictureId);
                     }
-                    
+
                     int updateNumber = rs.getInt(8);
 
                     if (parentStore != null) {

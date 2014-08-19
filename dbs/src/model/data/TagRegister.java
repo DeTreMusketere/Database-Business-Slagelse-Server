@@ -10,14 +10,14 @@ import abstracts.Register;
  */
 public class TagRegister extends Register<Tag> {
 
-    public TagRegister(DataDAO<Tag> dao) {
-        super(dao);
+    public TagRegister(IDHandler idHandler, DataDAO<Tag> dao) {
+        super(idHandler, dao);
     }
     
     public Tag create(String name, String description) {
-        Tag t = new Tag(0, name, description);
-        int id = insert(t);
-        t.setId(id);
+        int id = idHandler.nextTagId();
+        Tag t = new Tag(id, name, description);
+        insert(t);
         return t;
     }
 

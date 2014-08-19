@@ -16,16 +16,82 @@ public class IDHandler extends DAO {
     private int currentSaleId;
     private int currentTagId;
     private int currentPictureId;
-    
-    private final DealerRegister dealerRegister;
-    private final StoreRegister storeRegister;
-    private final ProductRegister productRegister;
-    private final SaleRegister saleRegister;
-    private final UserRegister userRegister;
-    private final TagRegister tagRegister;
-    private final PictureRegister pictureRegister;
 
-    public IDHandler(DealerRegister dealerRegister, StoreRegister storeRegister, ProductRegister productRegister, SaleRegister saleRegister, UserRegister userRegister, TagRegister tagRegister, PictureRegister pictureRegister) {
+    private DealerRegister dealerRegister;
+    private StoreRegister storeRegister;
+    private ProductRegister productRegister;
+    private SaleRegister saleRegister;
+    private UserRegister userRegister;
+    private TagRegister tagRegister;
+    private PictureRegister pictureRegister;
+
+    public void refresh() {
+        ArrayList<Dealer> dealers = dealerRegister.getObjects();
+        for (Dealer d : dealers) {
+            int id = d.getId();
+            if (currentDealerId < id) {
+                currentDealerId = id;
+            }
+        }
+
+        ArrayList<Store> stores = storeRegister.getObjects();
+        for (Store d : stores) {
+            int id = d.getId();
+            if (currentStoreId < id) {
+                currentStoreId = id;
+            }
+        }
+
+        ArrayList<Product> products = productRegister.getObjects();
+        for (Product d : products) {
+            int id = d.getId();
+            if (currentProductId < id) {
+                currentProductId = id;
+            }
+        }
+
+        ArrayList<Sale> sales = saleRegister.getObjects();
+        for (Sale d : sales) {
+            int id = d.getId();
+            if (currentSaleId < id) {
+                currentSaleId = id;
+            }
+        }
+
+        ArrayList<User> users = userRegister.getObjects();
+        for (User d : users) {
+            int id = d.getId();
+            if (currentUserId < id) {
+                currentUserId = id;
+            }
+        }
+
+        ArrayList<Tag> tags = tagRegister.getObjects();
+        for (Tag d : tags) {
+            int id = d.getId();
+            if (currentTagId < id) {
+                currentTagId = id;
+            }
+        }
+
+        ArrayList<Picture> pictures = pictureRegister.getObjects();
+        for (Picture d : pictures) {
+            int id = d.getId();
+            if (currentPictureId < id) {
+                currentPictureId = id;
+            }
+        }
+
+        System.out.println("Dealer: " + currentDealerId);
+        System.out.println("Store: " + currentStoreId);
+        System.out.println("Product: " + currentProductId);
+        System.out.println("Sale: " + currentSaleId);
+        System.out.println("User: " + currentUserId);
+        System.out.println("Tag: " + currentTagId);
+        System.out.println("Picture: " + currentPictureId);
+    }
+
+    public void init(DealerRegister dealerRegister, StoreRegister storeRegister, ProductRegister productRegister, SaleRegister saleRegister, UserRegister userRegister, TagRegister tagRegister, PictureRegister pictureRegister) {
         this.dealerRegister = dealerRegister;
         this.storeRegister = storeRegister;
         this.productRegister = productRegister;
@@ -33,72 +99,6 @@ public class IDHandler extends DAO {
         this.userRegister = userRegister;
         this.tagRegister = tagRegister;
         this.pictureRegister = pictureRegister;
-    }
-
-    public void init() {
-        ArrayList<Dealer> dealers = dealerRegister.getObjects();
-        for(Dealer d : dealers) {
-            int id = d.getId();
-            if(currentDealerId < id) {
-                currentDealerId = id;
-            }
-        }
-        
-        ArrayList<Store> stores = storeRegister.getObjects();
-        for(Store d : stores) {
-            int id = d.getId();
-            if(currentStoreId < id) {
-                currentStoreId = id;
-            }
-        }
-        
-        ArrayList<Product> products = productRegister.getObjects();
-        for(Product d : products) {
-            int id = d.getId();
-            if(currentProductId < id) {
-                currentProductId = id;
-            }
-        }
-        
-        ArrayList<Sale> sales = saleRegister.getObjects();
-        for(Sale d : sales) {
-            int id = d.getId();
-            if(currentSaleId < id) {
-                currentSaleId = id;
-            }
-        }
-        
-        ArrayList<User> users = userRegister.getObjects();
-        for(User d : users) {
-            int id = d.getId();
-            if(currentUserId < id) {
-                currentUserId = id;
-            }
-        }
-        
-        ArrayList<Tag> tags = tagRegister.getObjects();
-        for(Tag d : tags) {
-            int id = d.getId();
-            if(currentTagId < id) {
-                currentTagId = id;
-            }
-        }
-        
-        ArrayList<Picture> pictures = pictureRegister.getObjects();
-        for(Picture d : pictures) {
-            int id = d.getId();
-            if(currentPictureId < id) {
-                currentPictureId = id;
-            }
-        }
-        
-        System.out.println(currentDealerId);
-        System.out.println(currentStoreId);
-        System.out.println(currentProductId);
-        System.out.println(currentSaleId);
-        System.out.println(currentUserId);
-        System.out.println(currentTagId);
-        System.out.println(currentPictureId);
     }
 
     public int currentDealerId() {

@@ -10,14 +10,14 @@ import abstracts.Register;
  */
 public class StoreRegister extends Register<Store> {
 
-    public StoreRegister(DataDAO<Store> dao) {
-        super(dao);
+    public StoreRegister(IDHandler idHandler, DataDAO<Store> dao) {
+        super(idHandler,dao);
     }
     
     public Store create(String name, String address, String phone, Picture picture, Dealer parentDealer) {
-        Store s = new Store(0, name, address, phone, picture, parentDealer);
-        int id = insert(s);
-        s.setId(id);
+        int id = idHandler.nextStoreId();
+        Store s = new Store(id, name, address, phone, picture, parentDealer);
+        insert(s);
         return s;
     }
 

@@ -10,28 +10,28 @@ import abstracts.Register;
  */
 public class UserRegister extends Register<User> {
 
-    public UserRegister(DataDAO<User> dao) {
-        super(dao);
+    public UserRegister(IDHandler idHandler, DataDAO<User> dao) {
+        super(idHandler, dao);
     }
     
     public User create(String name, String username, String password, String email, String phone, Dealer parentDealer) {
-        User u = new User(0, name, username, password, email, phone, parentDealer);
-        int id = insert(u);
-        u.setId(id);
+        int id = idHandler.nextUserId();
+        User u = new User(id, name, username, password, email, phone, parentDealer);
+        insert(u);
         return u;
     }
     
     public User create(String name, String username, String password, String email, String phone, Store parentStore) {
-        User u = new User(0, name, username, password, email, phone, parentStore);
-        int id = insert(u);
-        u.setId(id);
+        int id = idHandler.nextUserId();
+        User u = new User(id, name, username, password, email, phone, parentStore);
+        insert(u);
         return u;
     }
     
     public User create(String name, String username, String password, String email, String phone) {
-        User u = new User(0, name, username, password, email, phone);
-        int id = insert(u);
-        u.setId(id);
+        int id = idHandler.nextUserId();
+        User u = new User(id, name, username, password, email, phone);
+        insert(u);
         return u;
     }
 
