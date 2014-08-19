@@ -3,7 +3,6 @@ package control;
 import db.DBTool;
 import db.permission.*;
 import java.util.ArrayList;
-import java.util.Iterator;
 import model.data.Dealer;
 import model.data.Product;
 import model.data.Sale;
