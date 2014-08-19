@@ -14,10 +14,11 @@ public class TagRegister extends Register<Tag> {
         super(dao);
     }
     
-    public void create(String name, String description) {
+    public Tag create(String name, String description) {
         Tag t = new Tag(0, name, description);
         int id = insert(t);
         t.setId(id);
+        return t;
     }
 
 }

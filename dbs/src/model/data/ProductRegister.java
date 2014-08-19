@@ -14,18 +14,20 @@ public class ProductRegister extends Register<Product> {
         super(dao);
     }
     
-    public void create(String name, String description, Picture picture, double price, Dealer parentDealer) {
+    public Product create(String name, String description, Picture picture, double price, Dealer parentDealer) {
         int updateNumber = UpdateNumberHandler.update();
         Product p = new Product(0, name, description, picture, price, parentDealer, updateNumber);
         int id = insert(p);
         p.setId(id);
+        return p;
     }
     
-    public void create(String name, String description, Picture picture, double price, Store parentStore) {
+    public Product create(String name, String description, Picture picture, double price, Store parentStore) {
         int updateNumber = UpdateNumberHandler.update();
         Product p = new Product(0, name, description, picture, price, parentStore, updateNumber);
         int id  = insert(p);
         p.setId(id);
+        return p;
     }
     
 

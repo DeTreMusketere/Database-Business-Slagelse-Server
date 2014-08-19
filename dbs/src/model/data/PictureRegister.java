@@ -14,11 +14,12 @@ public class PictureRegister extends Register<Picture> {
         super(dao);
     }
 
-    public void create(String name, byte[] byteArray) {
+    public Picture create(String name, byte[] byteArray) {
         int updateNumber = UpdateNumberHandler.update();
         Picture p = new Picture(0, name, byteArray, updateNumber);
         int id = insert(p);
         p.setId(id);
+        return p;
     }
 
 }

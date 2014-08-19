@@ -14,16 +14,25 @@ public class UserRegister extends Register<User> {
         super(dao);
     }
     
-    public void create(String name, String username, String password, String email, String phone, Dealer parentDealer) {
+    public User create(String name, String username, String password, String email, String phone, Dealer parentDealer) {
         User u = new User(0, name, username, password, email, phone, parentDealer);
         int id = insert(u);
         u.setId(id);
+        return u;
     }
     
-    public void create(String name, String username, String password, String email, String phone, Store parentStore) {
+    public User create(String name, String username, String password, String email, String phone, Store parentStore) {
         User u = new User(0, name, username, password, email, phone, parentStore);
         int id = insert(u);
         u.setId(id);
+        return u;
+    }
+    
+    public User create(String name, String username, String password, String email, String phone) {
+        User u = new User(0, name, username, password, email, phone);
+        int id = insert(u);
+        u.setId(id);
+        return u;
     }
 
 }

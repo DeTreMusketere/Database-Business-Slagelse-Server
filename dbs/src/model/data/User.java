@@ -37,6 +37,17 @@ public class User extends Data {
         this.parentStore = parentStore;
         this.parentDealer = parentStore.getParent();
     }
+    
+    public User(int id, String name, String username, String password, String email, String phone) {
+        super(id);
+        this.name = name;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.phone = phone;
+        this.parentStore = null;
+        this.parentDealer = null;
+    }
 
     public String getName() {
         return name;

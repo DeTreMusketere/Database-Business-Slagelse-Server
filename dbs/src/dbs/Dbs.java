@@ -6,18 +6,7 @@ import model.data.*;
 import model.permission.*;
 import db.data.*;
 import db.permission.*;
-import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 /**
  *
@@ -94,6 +83,8 @@ public class Dbs {
         constructPermission();
 
         permissionHandler = new PermissionHandler(adminPermDAO, dealer_AdminPermDAO, dealer_CreatePermDAO, dealer_DeletePermDAO, dealer_ReadPermDAO, dealer_UpdatePermDAO, product_CreatePermDAO, product_DeletePermDAO, product_ReadPermDAO, product_UpdatePermDAO, sale_CreatePermDAO, sale_DeletePermDAO, sale_ReadPermDAO, sale_UpdatePermDAO, store_AdminPermDAO, store_CreatePermDAO, store_DeletePermDAO, store_ReadPermDAO, store_UpdatePermDAO, user_CreatePermDAO, user_DeletePermDAO, user_ReadPermDAO, user_UpdatePermDAO);
+        
+        
     }
 
     private void constructData() {
@@ -155,6 +146,11 @@ public class Dbs {
         userRegister.load();
         tagRegister.load();
     }
+    
+    public void test() {
+        Testing permissionTest = new Testing(dealerRegister, storeRegister, productRegister, saleRegister, userRegister, tagRegister, pictureRegister, permissionHandler);
+        permissionTest.doTest();
+    }
 
     /**
      * @param args the command line arguments
@@ -163,9 +159,11 @@ public class Dbs {
 
         Dbs dbs = new Dbs();
         dbs.load();
-        User u = dbs.userRegister.getObjects().get(0);
-        UserPermissionSet ups = dbs.permissionHandler.constructUserPermissionSet(u);
-        System.out.println(ups.toString());
+        dbs.test();
+//        User u = dbs.userRegister.getObjects().get(0);
+//        UserPermissionSet ups = dbs.permissionHandler.constructUserPermissionSet(u);
+//        System.out.println(ups.toString());
+        
         
 
 //        FileHandler fh = new FileHandler();
