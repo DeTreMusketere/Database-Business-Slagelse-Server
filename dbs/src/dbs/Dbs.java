@@ -72,6 +72,8 @@ public class Dbs {
 
     private PermissionHandler permissionHandler;
     private FileHandler fileHandler;
+    
+    private IDHandler idHandler;
 
     //test
     private static BufferedImage test = null;
@@ -79,29 +81,28 @@ public class Dbs {
     public Dbs() {
         fileHandler = new FileHandler();
 
+        idHandler = new IDHandler();
         constructData();
         constructPermission();
-
+        idHandler.init(dealerRegister, storeRegister, productRegister, saleRegister, userRegister, tagRegister, pictureRegister);
         permissionHandler = new PermissionHandler(adminPermDAO, dealer_AdminPermDAO, dealer_CreatePermDAO, dealer_DeletePermDAO, dealer_ReadPermDAO, dealer_UpdatePermDAO, product_CreatePermDAO, product_DeletePermDAO, product_ReadPermDAO, product_UpdatePermDAO, sale_CreatePermDAO, sale_DeletePermDAO, sale_ReadPermDAO, sale_UpdatePermDAO, store_AdminPermDAO, store_CreatePermDAO, store_DeletePermDAO, store_ReadPermDAO, store_UpdatePermDAO, user_CreatePermDAO, user_DeletePermDAO, user_ReadPermDAO, user_UpdatePermDAO);
-        
-        
     }
 
     private void constructData() {
         pictureDAO = new PictureDAO(fileHandler);
-        pictureRegister = new PictureRegister(pictureDAO);
+        pictureRegister = new PictureRegister(idHandler, pictureDAO);
         dealerDAO = new DealerDAO(pictureRegister);
-        dealerRegister = new DealerRegister(dealerDAO);
+        dealerRegister = new DealerRegister(idHandler, dealerDAO);
         storeDAO = new StoreDAO(dealerRegister, pictureRegister);
-        storeRegister = new StoreRegister(storeDAO);
+        storeRegister = new StoreRegister(idHandler, storeDAO);
         productDAO = new ProductDAO(dealerRegister, storeRegister, pictureRegister);
-        productRegister = new ProductRegister(productDAO);
+        productRegister = new ProductRegister(idHandler, productDAO);
         saleDAO = new SaleDAO(dealerRegister, storeRegister, pictureRegister);
-        saleRegister = new SaleRegister(saleDAO);
+        saleRegister = new SaleRegister(idHandler, saleDAO);
         userDAO = new UserDAO(dealerRegister, storeRegister);
-        userRegister = new UserRegister(userDAO);
+        userRegister = new UserRegister(idHandler, userDAO);
         tagDAO = new TagDAO();
-        tagRegister = new TagRegister(tagDAO);
+        tagRegister = new TagRegister(idHandler, tagDAO);
         updateNumberDAO = new UpdateNumberDAO();
         updateNumberHandler = new UpdateNumberHandler(updateNumberDAO);
     }
@@ -159,7 +160,10 @@ public class Dbs {
 
         Dbs dbs = new Dbs();
         dbs.load();
-        dbs.test();
+        
+        //dbs.test();
+        dbs.idHandler.refresh();
+        
 //        User u = dbs.userRegister.getObjects().get(0);
 //        UserPermissionSet ups = dbs.permissionHandler.constructUserPermissionSet(u);
 //        System.out.println(ups.toString());
