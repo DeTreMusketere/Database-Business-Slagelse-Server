@@ -4,11 +4,29 @@
 <xsd:import namespace="http://WebServices/" schemaLocation="http://localhost:8080/dbsWebService/ClientWebService?xsd=1"/>
 </xsd:schema>
 </types>
+<message name="test">
+<part name="parameters" element="tns:test"/>
+</message>
+<message name="testResponse">
+<part name="parameters" element="tns:testResponse"/>
+</message>
+<message name="getUpdated">
+<part name="parameters" element="tns:getUpdated"/>
+</message>
+<message name="getUpdatedResponse">
+<part name="parameters" element="tns:getUpdatedResponse"/>
+</message>
 <message name="isUpToDate">
 <part name="parameters" element="tns:isUpToDate"/>
 </message>
 <message name="isUpToDateResponse">
 <part name="parameters" element="tns:isUpToDateResponse"/>
+</message>
+<message name="getEverything">
+<part name="parameters" element="tns:getEverything"/>
+</message>
+<message name="getEverythingResponse">
+<part name="parameters" element="tns:getEverythingResponse"/>
 </message>
 <message name="hello">
 <part name="parameters" element="tns:hello"/>
@@ -16,38 +34,48 @@
 <message name="helloResponse">
 <part name="parameters" element="tns:helloResponse"/>
 </message>
-<message name="getSale">
-<part name="parameters" element="tns:getSale"/>
-</message>
-<message name="getSaleResponse">
-<part name="parameters" element="tns:getSaleResponse"/>
-</message>
-<message name="getPicture">
-<part name="parameters" element="tns:getPicture"/>
-</message>
-<message name="getPictureResponse">
-<part name="parameters" element="tns:getPictureResponse"/>
-</message>
 <portType name="ClientWebService">
+<operation name="test">
+<input wsam:Action="http://WebServices/ClientWebService/testRequest" message="tns:test"/>
+<output wsam:Action="http://WebServices/ClientWebService/testResponse" message="tns:testResponse"/>
+</operation>
+<operation name="getUpdated">
+<input wsam:Action="http://WebServices/ClientWebService/getUpdatedRequest" message="tns:getUpdated"/>
+<output wsam:Action="http://WebServices/ClientWebService/getUpdatedResponse" message="tns:getUpdatedResponse"/>
+</operation>
 <operation name="isUpToDate">
 <input wsam:Action="http://WebServices/ClientWebService/isUpToDateRequest" message="tns:isUpToDate"/>
 <output wsam:Action="http://WebServices/ClientWebService/isUpToDateResponse" message="tns:isUpToDateResponse"/>
+</operation>
+<operation name="getEverything">
+<input wsam:Action="http://WebServices/ClientWebService/getEverythingRequest" message="tns:getEverything"/>
+<output wsam:Action="http://WebServices/ClientWebService/getEverythingResponse" message="tns:getEverythingResponse"/>
 </operation>
 <operation name="hello">
 <input wsam:Action="http://WebServices/ClientWebService/helloRequest" message="tns:hello"/>
 <output wsam:Action="http://WebServices/ClientWebService/helloResponse" message="tns:helloResponse"/>
 </operation>
-<operation name="getSale">
-<input wsam:Action="http://WebServices/ClientWebService/getSaleRequest" message="tns:getSale"/>
-<output wsam:Action="http://WebServices/ClientWebService/getSaleResponse" message="tns:getSaleResponse"/>
-</operation>
-<operation name="getPicture">
-<input wsam:Action="http://WebServices/ClientWebService/getPictureRequest" message="tns:getPicture"/>
-<output wsam:Action="http://WebServices/ClientWebService/getPictureResponse" message="tns:getPictureResponse"/>
-</operation>
 </portType>
 <binding name="ClientWebServicePortBinding" type="tns:ClientWebService">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+<operation name="test">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="getUpdated">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
 <operation name="isUpToDate">
 <soap:operation soapAction=""/>
 <input>
@@ -57,25 +85,16 @@
 <soap:body use="literal"/>
 </output>
 </operation>
+<operation name="getEverything">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
 <operation name="hello">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="getSale">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="getPicture">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

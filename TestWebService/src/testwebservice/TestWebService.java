@@ -1,8 +1,10 @@
 package testwebservice;
 
 import java.util.ArrayList;
+import java.util.List;
 import model.data.Picture;
 import model.data.Sale;
+import net.java.dev.jaxb.array.StringArray;
 
 /**
  *
@@ -27,6 +29,11 @@ public class TestWebService {
     private static void testShit(){
         webservices.ClientWebService_Service service = new webservices.ClientWebService_Service();
         webservices.ClientWebService port = service.getClientWebServicePort();
+        ArrayList<String> bigTest = (ArrayList<String>) port.test();
+        for(String s : bigTest){
+            System.out.println(s);
+        }
+               
         
     }
 

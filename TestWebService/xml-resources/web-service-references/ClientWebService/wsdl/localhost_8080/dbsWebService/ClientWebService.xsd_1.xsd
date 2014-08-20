@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is Metro/2.3 (tags/2.3-7528; 2013-04-29T19:34:10+0000) JAXWS-RI/2.2.8 JAXWS/2.2 svn-revision#unknown. --><xs:schema xmlns:tns="http://WebServices/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://WebServices/">
 
-<xs:element name="getPicture" type="tns:getPicture"/>
+<xs:element name="getEverything" type="tns:getEverything"/>
 
-<xs:element name="getPictureResponse" type="tns:getPictureResponse"/>
+<xs:element name="getEverythingResponse" type="tns:getEverythingResponse"/>
 
-<xs:element name="getSale" type="tns:getSale"/>
+<xs:element name="getUpdated" type="tns:getUpdated"/>
 
-<xs:element name="getSaleResponse" type="tns:getSaleResponse"/>
+<xs:element name="getUpdatedResponse" type="tns:getUpdatedResponse"/>
 
 <xs:element name="hello" type="tns:hello"/>
 
@@ -15,6 +15,10 @@
 <xs:element name="isUpToDate" type="tns:isUpToDate"/>
 
 <xs:element name="isUpToDateResponse" type="tns:isUpToDateResponse"/>
+
+<xs:element name="test" type="tns:test"/>
+
+<xs:element name="testResponse" type="tns:testResponse"/>
 
 <xs:complexType name="hello">
 <xs:sequence/>
@@ -26,76 +30,26 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="getSale">
+<xs:complexType name="getEverything">
 <xs:sequence/>
 </xs:complexType>
 
-<xs:complexType name="getSaleResponse">
+<xs:complexType name="getEverythingResponse">
 <xs:sequence>
-<xs:element name="return" type="tns:sale" minOccurs="0"/>
+<xs:element name="return" type="xs:base64Binary" nillable="true" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="sale">
-<xs:complexContent>
-<xs:extension base="tns:data">
+<xs:complexType name="getUpdated">
 <xs:sequence>
-<xs:element name="description" type="xs:string" minOccurs="0"/>
-<xs:element name="end" type="xs:dateTime" minOccurs="0"/>
-<xs:element name="name" type="xs:string" minOccurs="0"/>
-<xs:element name="parentDealer" type="tns:dealer" minOccurs="0"/>
-<xs:element name="parentStore" type="tns:store" minOccurs="0"/>
-<xs:element name="picture" type="tns:picture" minOccurs="0"/>
-<xs:element name="price" type="xs:double"/>
-<xs:element name="publish" type="xs:dateTime" minOccurs="0"/>
-<xs:element name="start" type="xs:dateTime" minOccurs="0"/>
-</xs:sequence>
-</xs:extension>
-</xs:complexContent>
-</xs:complexType>
-
-<xs:complexType name="data" abstract="true">
-<xs:sequence>
-<xs:element name="id" type="xs:int"/>
+<xs:element name="updateNumber" type="xs:int"/>
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="dealer">
-<xs:complexContent>
-<xs:extension base="tns:data">
+<xs:complexType name="getUpdatedResponse">
 <xs:sequence>
-<xs:element name="description" type="xs:string" minOccurs="0"/>
-<xs:element name="name" type="xs:string" minOccurs="0"/>
-<xs:element name="phone" type="xs:string" minOccurs="0"/>
-<xs:element name="picture" type="tns:picture" minOccurs="0"/>
+<xs:element name="return" type="xs:base64Binary" nillable="true" minOccurs="0"/>
 </xs:sequence>
-</xs:extension>
-</xs:complexContent>
-</xs:complexType>
-
-<xs:complexType name="picture">
-<xs:complexContent>
-<xs:extension base="tns:data">
-<xs:sequence>
-<xs:element name="byteArray" type="xs:base64Binary" minOccurs="0"/>
-<xs:element name="name" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:extension>
-</xs:complexContent>
-</xs:complexType>
-
-<xs:complexType name="store">
-<xs:complexContent>
-<xs:extension base="tns:data">
-<xs:sequence>
-<xs:element name="address" type="xs:string" minOccurs="0"/>
-<xs:element name="name" type="xs:string" minOccurs="0"/>
-<xs:element name="parent" type="tns:dealer" minOccurs="0"/>
-<xs:element name="phone" type="xs:string" minOccurs="0"/>
-<xs:element name="picture" type="tns:picture" minOccurs="0"/>
-</xs:sequence>
-</xs:extension>
-</xs:complexContent>
 </xs:complexType>
 
 <xs:complexType name="isUpToDate">
@@ -104,17 +58,17 @@
 
 <xs:complexType name="isUpToDateResponse">
 <xs:sequence>
-<xs:element name="return" type="xs:boolean"/>
+<xs:element name="return" type="xs:int"/>
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="getPicture">
+<xs:complexType name="test">
 <xs:sequence/>
 </xs:complexType>
 
-<xs:complexType name="getPictureResponse">
+<xs:complexType name="testResponse">
 <xs:sequence>
-<xs:element name="return" type="tns:picture" minOccurs="0"/>
+<xs:element name="return" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
 </xs:complexType>
 </xs:schema>
