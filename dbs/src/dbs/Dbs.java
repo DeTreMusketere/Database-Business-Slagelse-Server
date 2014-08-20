@@ -7,6 +7,7 @@ import model.permission.*;
 import db.data.*;
 import db.permission.*;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
 
 /**
  *
@@ -104,7 +105,7 @@ public class Dbs {
         tagDAO = new TagDAO();
         tagRegister = new TagRegister(idHandler, tagDAO);
         updateNumberDAO = new UpdateNumberDAO();
-        updateNumberHandler = new UpdateNumberHandler(updateNumberDAO);
+        updateNumberHandler = new UpdateNumberHandler(updateNumberDAO, fileHandler);
     }
 
     private void constructPermission() {
@@ -171,6 +172,12 @@ public class Dbs {
         
 
 //        FileHandler fh = new FileHandler();
+//        HashMap<Integer, String> map = fh.getDeleteList();
+//        System.out.println(map.toString());
+//        System.out.println(map.get(1));
+//        HashMap<Integer, String> map = new HashMap<>();
+//        map.put(1, "one");
+//        fh.saveDeleteList(map);
 //        Saves a picture (Edit filepath for testing or riot)
 //        byte[] imageInByte = null;              
 //        try {

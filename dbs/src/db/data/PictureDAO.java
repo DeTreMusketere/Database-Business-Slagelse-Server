@@ -34,7 +34,7 @@ public class PictureDAO extends DataDAO<Picture> {
             String sql = "INSERT INTO picture (id_picture,name, update_number) VALUES(" + id + ",'" + name + "', '" + updateNumber + "');";
             st.execute(sql);
 
-            fileHandler.saveByteArray(byteArray, id);
+            fileHandler.savePictureByteArray(byteArray, id);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -48,7 +48,7 @@ public class PictureDAO extends DataDAO<Picture> {
             int targetId = target.getId();
             String name = source.getName();
             byte[] byteArray = source.getByteArray();
-            fileHandler.saveByteArray(byteArray, targetId);
+            fileHandler.savePictureByteArray(byteArray, targetId);
             int updateNumber = source.getUpdateNumber();
 
             String sql = "UPDATE picture SET name='" + name + "', update_number='" + updateNumber + "' WHERE id_picture=" + targetId + ";";
@@ -65,7 +65,7 @@ public class PictureDAO extends DataDAO<Picture> {
 
             int targetId = target.getId();
 
-            fileHandler.deleteFile(targetId);
+            fileHandler.deletePictureFile(targetId);
 
             String sql = "DELETE FROM picture WHERE id_picture=" + targetId + ";";
             st.execute(sql);
@@ -84,7 +84,7 @@ public class PictureDAO extends DataDAO<Picture> {
                 while (rs.next()) {
                     String name = rs.getString("name");
 
-                    byte[] byteArray = fileHandler.getByteArray(id);
+                    byte[] byteArray = fileHandler.getPictureByteArray(id);
                     int updateNumber = rs.getInt("update_number");
 
                     Picture p = new Picture(id, name, byteArray, updateNumber);
@@ -109,7 +109,7 @@ public class PictureDAO extends DataDAO<Picture> {
                     int id = rs.getInt("id_picture");
                     String name = rs.getString("name");
 
-                    byte[] byteArray = fileHandler.getByteArray(id);
+                    byte[] byteArray = fileHandler.getPictureByteArray(id);
                     int updateNumber = rs.getInt("update_number");
                     Picture p = new Picture(id, name, byteArray, updateNumber);
                     pictures.add(p);
