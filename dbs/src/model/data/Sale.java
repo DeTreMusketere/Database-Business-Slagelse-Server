@@ -1,4 +1,3 @@
-
 package model.data;
 
 import abstracts.Data;
@@ -9,6 +8,7 @@ import java.util.Date;
  * @author Patrick
  */
 public class Sale extends Data {
+
     private String name;
     private String description;
     private Picture picture;
@@ -18,8 +18,9 @@ public class Sale extends Data {
     private Date start;
     private Date end;
     private Date publish;
+    private int updateNumber;
 
-    public Sale(int id, String name, String description, Picture picture, double price, Date start, Date end, Date publish, Dealer parentDealer) {
+    public Sale(int id, String name, String description, Picture picture, double price, Date start, Date end, Date publish, Dealer parentDealer, int updateNumber) {
         super(id);
         this.name = name;
         this.description = description;
@@ -29,9 +30,10 @@ public class Sale extends Data {
         this.end = end;
         this.publish = publish;
         this.parentDealer = parentDealer;
+        this.updateNumber = updateNumber;
     }
 
-    public Sale(int id, String name, String description, Picture picture, double price, Date start, Date end, Date publish, Store parentStore) {
+    public Sale(int id, String name, String description, Picture picture, double price, Date start, Date end, Date publish, Store parentStore, int updateNumber) {
         super(id);
         this.name = name;
         this.description = description;
@@ -42,6 +44,7 @@ public class Sale extends Data {
         this.publish = publish;
         this.parentStore = parentStore;
         this.parentDealer = parentStore.getParent();
+        this.updateNumber = updateNumber;
     }
 
     public String getName() {
@@ -50,6 +53,14 @@ public class Sale extends Data {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getUpdateNumber() {
+        return updateNumber;
+    }
+
+    public void setUpdateNumber(int updateNumber) {
+        this.updateNumber = updateNumber;
     }
 
     public String getDescription() {
@@ -115,17 +126,17 @@ public class Sale extends Data {
     public void setPublish(Date publish) {
         this.publish = publish;
     }
-    
+
     @Override
     public String toString() {
         String s = "name: " + name + " description: " + description + " picture: " + picture + " price: " + price + " start: " + start.toString() + " end: " + end.toString() + " publish: " + publish.toString();
-        if(parentDealer != null) {
+        if (parentDealer != null) {
             s += " parent dealer: " + parentDealer.getName();
         }
-        if(parentStore != null) {
+        if (parentStore != null) {
             s += " parent store: " + parentStore.getName();
         }
-        
+
         return s;
     }
 }

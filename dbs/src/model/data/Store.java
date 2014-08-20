@@ -1,4 +1,3 @@
-
 package model.data;
 
 import abstracts.Data;
@@ -14,14 +13,16 @@ public class Store extends Data {
     private String phone;
     private Picture picture;
     private Dealer parentDealer;
+    private int updateNumber;
 
-    public Store(int id, String name, String address, String phone, Picture picture, Dealer parentDealer) {
+    public Store(int id, String name, String address, String phone, Picture picture, Dealer parentDealer, int updateNumber) {
         super(id);
         this.name = name;
         this.address = address;
         this.phone = phone;
         this.picture = picture;
         this.parentDealer = parentDealer;
+        this.updateNumber = updateNumber;
     }
 
     public String getName() {
@@ -30,6 +31,14 @@ public class Store extends Data {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getUpdateNumber() {
+        return updateNumber;
+    }
+
+    public void setUpdateNumber(int updateNumber) {
+        this.updateNumber = updateNumber;
     }
 
     public String getAddress() {
@@ -63,10 +72,10 @@ public class Store extends Data {
     public void setParent(Dealer parentDealer) {
         this.parentDealer = parentDealer;
     }
-    
+
     @Override
     public String toString() {
         return "name: " + name + " address: " + address + " phone: " + phone + " picture: " + picture + " parent dealer: " + parentDealer.getName();
     }
-    
+
 }

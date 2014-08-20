@@ -57,8 +57,9 @@ public class SaleDAO extends DataDAO<Sale> {
             if (source.getParentDealer() != null) {
                 parentDealerId = source.getParentDealer().getId();
             }
+            int updateNumber = source.getUpdateNumber();
 
-            String sql = "INSERT INTO sale (id_sale, name, description, picture, price, start, end, publish, parent_store_id, parent_dealer_id) VALUES(" + id + ",'" + name + "', '" + description + "', " + picture + ", " + price + ", " + start + ", " + end + ", " + publish + ", " + parentStoreId + ", " + parentDealerId + ");";
+            String sql = "INSERT INTO sale (id_sale, name, description, picture, price, start, end, publish, parent_store_id, parent_dealer_id, update_number) VALUES(" + id + ",'" + name + "', '" + description + "', " + picture + ", " + price + ", " + start + ", " + end + ", " + publish + ", " + parentStoreId + ", " + parentDealerId + ", " + updateNumber + ");";
             statement.execute(sql);
         } catch (SQLException ex) {
             Logger.getLogger(DealerDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -88,8 +89,9 @@ public class SaleDAO extends DataDAO<Sale> {
             if (source.getParentDealer() != null) {
                 parentDealerId = source.getParentDealer().getId();
             }
+            int updateNumber = source.getUpdateNumber();
 
-            String sql = "UPDATE sale SET name='" + name + "', description='" + description + "', picture=" + picture + ", price=" + price + ", start=" + start + ", end=" + end + ", publish=" + publish + ", parent_store_id=" + parentStoreId + ", parent_dealer_id=" + parentDealerId + " WHERE id_sale=" + target.getId() + ";";
+            String sql = "UPDATE sale SET name='" + name + "', description='" + description + "', picture=" + picture + ", price=" + price + ", start=" + start + ", end=" + end + ", publish=" + publish + ", parent_store_id=" + parentStoreId + ", parent_dealer_id=" + parentDealerId + ", update_number=" + updateNumber + " WHERE id_sale=" + target.getId() + ";";
             statement.executeUpdate(sql);
         } catch (SQLException ex) {
             Logger.getLogger(DealerDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -137,11 +139,12 @@ public class SaleDAO extends DataDAO<Sale> {
                     Date start = new Date(rs.getLong(8));
                     Date end = new Date(rs.getLong(9));
                     Date publish = new Date(rs.getLong(10));
+                    int updateNumber = rs.getInt(11);
 
                     if (parentStore != null) {
-                        sale = new Sale(rs.getInt(1), rs.getString(2), rs.getString(3), picture, rs.getDouble(5), start, end, publish, parentStore);
+                        sale = new Sale(rs.getInt(1), rs.getString(2), rs.getString(3), picture, rs.getDouble(5), start, end, publish, parentStore, updateNumber);
                     } else {
-                        sale = new Sale(rs.getInt(1), rs.getString(2), rs.getString(3), picture, rs.getDouble(5), start, end, publish, parentDealer);
+                        sale = new Sale(rs.getInt(1), rs.getString(2), rs.getString(3), picture, rs.getDouble(5), start, end, publish, parentDealer, updateNumber);
                     }
                 }
             }
@@ -183,11 +186,13 @@ public class SaleDAO extends DataDAO<Sale> {
                     Date start = new Date(rs.getLong(8));
                     Date end = new Date(rs.getLong(9));
                     Date publish = new Date(rs.getLong(10));
+                    
+                    int updateNumber = rs.getInt(11);
 
                     if (parentStore != null) {
-                        sale = new Sale(rs.getInt(1), rs.getString(2), rs.getString(3), picture, rs.getDouble(5), start, end, publish, parentStore);
+                        sale = new Sale(rs.getInt(1), rs.getString(2), rs.getString(3), picture, rs.getDouble(5), start, end, publish, parentStore, updateNumber);
                     } else {
-                        sale = new Sale(rs.getInt(1), rs.getString(2), rs.getString(3), picture, rs.getDouble(5), start, end, publish, parentDealer);
+                        sale = new Sale(rs.getInt(1), rs.getString(2), rs.getString(3), picture, rs.getDouble(5), start, end, publish, parentDealer, updateNumber);
                     }
 
                     sales.add(sale);

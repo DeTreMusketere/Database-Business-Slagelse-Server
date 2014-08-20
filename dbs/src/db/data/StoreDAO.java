@@ -42,8 +42,9 @@ public class StoreDAO extends DataDAO<Store> {
                 picture = source.getPicture().getId();
             }
             int parentDealerId = source.getParent().getId();
-
-            String sql = "INSERT INTO store (id_store,name, address, phone, picture, parent_dealer_id) VALUES(" + id + ",'" + name + "', '" + address + "', '" + phone + "', " + picture + ", " + parentDealerId + ");";
+            int updateNumber = source.getUpdateNumber();
+            
+            String sql = "INSERT INTO store (id_store,name, address, phone, picture, parent_dealer_id, update_number) VALUES(" + id + ",'" + name + "', '" + address + "', '" + phone + "', " + picture + ", " + parentDealerId + ", " + updateNumber + ");";
             st.execute(sql);
         } catch (SQLException ex) {
             Logger.getLogger(StoreDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -63,8 +64,9 @@ public class StoreDAO extends DataDAO<Store> {
                 picture = source.getPicture().getId();
             }
             int parentDealerId = source.getParent().getId();
+            int updateNumber = source.getUpdateNumber();
 
-            String sql = "UPDATE store SET name='" + name + "', address='" + address + "', phone='" + phone + "', picture=" + picture + ", parent_dealer_id=" + parentDealerId + " WHERE id_store=" + target.getId() + ";";
+            String sql = "UPDATE store SET name='" + name + "', address='" + address + "', phone='" + phone + "', picture=" + picture + ", parent_dealer_id=" + parentDealerId + ", update_number=" + updateNumber + " WHERE id_store=" + target.getId() + ";";
             st.executeUpdate(sql);
         } catch (SQLException ex) {
             Logger.getLogger(StoreDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -103,7 +105,8 @@ public class StoreDAO extends DataDAO<Store> {
                     if (pictureId != 0) {
                         picture = pictureRegister.get(pictureId);
                     }
-                    store = new Store(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), picture, parentDealer);
+                    int updateNumber = rs.getInt(7);
+                    store = new Store(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), picture, parentDealer, updateNumber);
                 }
             }
             return store;
@@ -132,7 +135,8 @@ public class StoreDAO extends DataDAO<Store> {
                     if (pictureId != 0) {
                         picture = pictureRegister.get(pictureId);
                     }
-                    Store store = new Store(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), picture, parentDealer);
+                    int updateNumber = rs.getInt(7);
+                    Store store = new Store(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), picture, parentDealer, updateNumber);
                     stores.add(store);
                 }
             }

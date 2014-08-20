@@ -24,7 +24,8 @@ public class TagDAO extends DataDAO<Tag> {
             int id = source.getId();
             String name = source.getName();
             String description = source.getDescription();
-            String sql = "INSERT INTO tag (id_tag, name, description) VALUES(" + id + ",'" + name + "', '" + description + "');";
+            int updateNumber = source.getUpdateNumber();
+            String sql = "INSERT INTO tag (id_tag, name, description, update_number) VALUES(" + id + ",'" + name + "', '" + description + "', " + updateNumber + ");";
             st.execute(sql);
         } catch (SQLException ex) {
             Logger.getLogger(TagDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -38,8 +39,9 @@ public class TagDAO extends DataDAO<Tag> {
 
             String name = source.getName();
             String description = source.getDescription();
-
-            String sql = "UPDATE tag SET name='" + name + "', description='" + description + "', WHERE id_tag=" + target.getId() + ";";
+            int updateNumber = source.getUpdateNumber();
+            
+            String sql = "UPDATE tag SET name='" + name + "', description='" + description + "', update_number=" + updateNumber + " WHERE id_tag=" + target.getId() + ";";
             st.executeUpdate(sql);
         } catch (SQLException ex) {
             Logger.getLogger(TagDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -68,7 +70,7 @@ public class TagDAO extends DataDAO<Tag> {
             String sql = "SELECT * FROM tag WHERE id_tag=" + id + ";";
             try (ResultSet rs = st.executeQuery(sql)) {
                 while (rs.next()) {
-                    tag = new Tag(rs.getInt(1), rs.getString(2), rs.getString(3));
+                    tag = new Tag(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4));
                 }
             }
             return tag;
@@ -87,7 +89,7 @@ public class TagDAO extends DataDAO<Tag> {
             String sql = "SELECT * FROM tag;";
             try (ResultSet rs = st.executeQuery(sql)) {
                 while (rs.next()) {
-                    Tag tag = new Tag(rs.getInt(1), rs.getString(2), rs.getString(3));
+                    Tag tag = new Tag(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4));
                     tags.add(tag);
                 }
             }
