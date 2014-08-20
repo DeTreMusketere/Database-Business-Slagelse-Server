@@ -26,10 +26,19 @@ public class UpdateNumberHandler {
         }
     }
 
-    public int getUpdateNumber() {
+    /**
+     * Gets the current updateNumber without increasing it.
+     * @return Current updateNumber.
+     */
+    public static int getUpdateNumber() {
         return updateNumber;
     }
 
+    /**
+     * Use this method whenever something that the client devices need is updated.
+     * This will increase the updateNumber and return it, for use in the updated object.
+     * @return Updated updateNumber.
+     */
     public static int update() {
         updateNumber++;
         updateNumberDAO.update(updateNumber);

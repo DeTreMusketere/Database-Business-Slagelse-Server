@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
+import model.data.UpdateNumberHandler;
 
 /**
  *
@@ -30,10 +31,10 @@ public class ClientWebService {
      *
      * @return current update number
      */
-    @WebMethod(operationName = "isUpToDate")
-    public int isUpToDate() {
-        //TODO write your implementation code here:
-        return 0;
+    @WebMethod(operationName = "getUpdateNumber")
+    public int getUpdateNumber() {
+        int updateNumber = UpdateNumberHandler.getUpdateNumber();
+        return updateNumber;
     }
 
     /**
