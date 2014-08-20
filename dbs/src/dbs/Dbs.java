@@ -150,8 +150,16 @@ public class Dbs {
     }
     
     public void test() {
-        Testing permissionTest = new Testing(dealerRegister, storeRegister, productRegister, saleRegister, userRegister, tagRegister, pictureRegister, permissionHandler);
-        permissionTest.doTest();
+//        Testing permissionTest = new Testing(dealerRegister, storeRegister, productRegister, saleRegister, userRegister, tagRegister, pictureRegister, permissionHandler);
+//        permissionTest.doTest();
+        
+        
+        System.out.println(UpdateNumberHandler.getDeleteList().toString());        
+        Dealer test = dealerRegister.create("TestDealer", "Hello I am test", "25252525", null);
+        Dealer test2 = dealerRegister.create("TestDealer", "Hello I am test", "25252525", null);
+        dealerRegister.delete(test);
+        dealerRegister.delete(test2);
+        System.out.println(UpdateNumberHandler.getDeleteList().toString());
     }
 
     /**
@@ -161,9 +169,9 @@ public class Dbs {
 
         Dbs dbs = new Dbs();
         dbs.load();
-        
-        //dbs.test();
         dbs.idHandler.refresh();
+        dbs.test();
+        
         
 //        User u = dbs.userRegister.getObjects().get(0);
 //        UserPermissionSet ups = dbs.permissionHandler.constructUserPermissionSet(u);
@@ -175,6 +183,7 @@ public class Dbs {
 //        HashMap<Integer, String> map = fh.getDeleteList();
 //        System.out.println(map.toString());
 //        System.out.println(map.get(1));
+//        
 //        HashMap<Integer, String> map = new HashMap<>();
 //        map.put(1, "one");
 //        fh.saveDeleteList(map);

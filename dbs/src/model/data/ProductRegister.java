@@ -31,5 +31,19 @@ public class ProductRegister extends Register<Product> {
         return p;
     }
     
+    @Override
+    public void update(Product source, Product target) {
+        int updateNumber = UpdateNumberHandler.update();
+        source.setUpdateNumber(updateNumber);
+        super.update(source, target);
+    }
+    
+    @Override
+    public void delete(Product target) {
+        int id = target.getId();
+        UpdateNumberHandler.delete("Product§" + id);
+        super.delete(target);
+    }
+    
 
 }

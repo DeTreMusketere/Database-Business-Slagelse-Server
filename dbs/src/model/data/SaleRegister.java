@@ -30,5 +30,19 @@ public class SaleRegister extends Register<Sale> {
         insert(s);
         return s;
     }
+    
+    @Override
+    public void update(Sale source, Sale target) {
+        int updateNumber = UpdateNumberHandler.update();
+        source.setUpdateNumber(updateNumber);
+        super.update(source, target);
+    }
+    
+    @Override
+    public void delete(Sale target) {
+        int id = target.getId();
+        UpdateNumberHandler.delete("Sale§" + id);
+        super.delete(target);
+    }
 
 }
