@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+ <definitions 
+ xmlns="http://schemas.xmlsoap.org/wsdl/" 
+ xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+ xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" name="ClientWebService" targetNamespace="http://WebServices/" xmlns:tns="http://WebServices/" xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:fi="http://java.sun.com/xml/ns/wsit/2006/09/policy/fastinfoset/service" xmlns:tcp="http://java.sun.com/xml/ns/wsit/2006/09/policy/soaptcp/service" xmlns:wsat="http://schemas.xmlsoap.org/ws/2004/10/wsat" 
+ >
+    <message name="hello"/>
+    <message name="helloResponse"/>
+    <message name="getUpdateNumber"/>
+    <message name="getUpdateNumberResponse"/>
+    <message name="getEverything"/>
+    <message name="getEverythingResponse"/>
+    <message name="getUpdated"/>
+    <message name="getUpdatedResponse"/>
+    <message name="test"/>
+    <message name="testResponse"/>
+    <portType name="ClientWebService">
+        <operation name="hello">
+            <input message="tns:hello"/>
+            <output message="tns:helloResponse"/>
+        </operation>
+        <operation name="getUpdateNumber">
+            <input message="tns:getUpdateNumber"/>
+            <output message="tns:getUpdateNumberResponse"/>
+        </operation>
+        <operation name="getEverything">
+            <input message="tns:getEverything"/>
+            <output message="tns:getEverythingResponse"/>
+        </operation>
+        <operation name="getUpdated">
+            <input message="tns:getUpdated"/>
+            <output message="tns:getUpdatedResponse"/>
+        </operation>
+        <operation name="test">
+            <input message="tns:test"/>
+            <output message="tns:testResponse"/>
+        </operation>
+    </portType>
+    <binding name="ClientWebServicePortBinding" type="tns:ClientWebService">
+        <wsp:PolicyReference URI="#ClientWebServicePortBindingPolicy"/>
+        <operation name="hello">
+            <input/>
+            <output/>
+        </operation>
+        <operation name="getUpdateNumber">
+            <input/>
+            <output/>
+        </operation>
+        <operation name="getEverything">
+            <input/>
+            <output/>
+        </operation>
+        <operation name="getUpdated">
+            <input/>
+            <output/>
+        </operation>
+        <operation name="test">
+            <input/>
+            <output/>
+        </operation>
+    </binding>
+    <service name="ClientWebService">
+        <port name="ClientWebServicePort" binding="tns:ClientWebServicePortBinding"/>
+    </service>
+    <wsp:Policy wsu:Id="ClientWebServicePortBindingPolicy">
+        <wsp:ExactlyOne>
+            <wsp:All/>
+        </wsp:ExactlyOne>
+    </wsp:Policy>
+</definitions>
