@@ -2,6 +2,8 @@ package model.data;
 
 import abstracts.DAO;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 
 /**
  *
@@ -25,12 +27,25 @@ public class IDHandler extends DAO {
     private TagRegister tagRegister;
     private PictureRegister pictureRegister;
 
+    private HashMap<Integer, String> deleteList;
+
     public void refresh() {
+        deleteList = UpdateNumberHandler.getDeleteList();
+        Collection<String> listOfValues = deleteList.values();
+
         ArrayList<Dealer> dealers = dealerRegister.getObjects();
         for (Dealer d : dealers) {
             int id = d.getId();
             if (currentDealerId < id) {
                 currentDealerId = id;
+            }
+        }
+        for (String s : listOfValues) {
+            String[] value = s.split("§");
+            if (value[0].equalsIgnoreCase("Dealer")) {
+                if (currentDealerId < Integer.parseInt(value[1])) {
+                    currentDealerId = Integer.parseInt(value[1]);
+                }
             }
         }
 
@@ -41,12 +56,28 @@ public class IDHandler extends DAO {
                 currentStoreId = id;
             }
         }
+        for (String s : listOfValues) {
+            String[] value = s.split("§");
+            if (value[0].equalsIgnoreCase("Store")) {
+                if (currentStoreId < Integer.parseInt(value[1])) {
+                    currentStoreId = Integer.parseInt(value[1]);
+                }
+            }
+        }
 
         ArrayList<Product> products = productRegister.getObjects();
         for (Product d : products) {
             int id = d.getId();
             if (currentProductId < id) {
                 currentProductId = id;
+            }
+        }
+        for (String s : listOfValues) {
+            String[] value = s.split("§");
+            if (value[0].equalsIgnoreCase("Product")) {
+                if (currentProductId < Integer.parseInt(value[1])) {
+                    currentProductId = Integer.parseInt(value[1]);
+                }
             }
         }
 
@@ -57,12 +88,28 @@ public class IDHandler extends DAO {
                 currentSaleId = id;
             }
         }
+        for (String s : listOfValues) {
+            String[] value = s.split("§");
+            if (value[0].equalsIgnoreCase("Sale")) {
+                if (currentSaleId < Integer.parseInt(value[1])) {
+                    currentSaleId = Integer.parseInt(value[1]);
+                }
+            }
+        }
 
         ArrayList<User> users = userRegister.getObjects();
         for (User d : users) {
             int id = d.getId();
             if (currentUserId < id) {
                 currentUserId = id;
+            }
+        }
+        for (String s : listOfValues) {
+            String[] value = s.split("§");
+            if (value[0].equalsIgnoreCase("User")) {
+                if (currentUserId < Integer.parseInt(value[1])) {
+                    currentUserId = Integer.parseInt(value[1]);
+                }
             }
         }
 
@@ -73,12 +120,28 @@ public class IDHandler extends DAO {
                 currentTagId = id;
             }
         }
+        for (String s : listOfValues) {
+            String[] value = s.split("§");
+            if (value[0].equalsIgnoreCase("Tag")) {
+                if (currentTagId < Integer.parseInt(value[1])) {
+                    currentTagId = Integer.parseInt(value[1]);
+                }
+            }
+        }
 
         ArrayList<Picture> pictures = pictureRegister.getObjects();
         for (Picture d : pictures) {
             int id = d.getId();
             if (currentPictureId < id) {
                 currentPictureId = id;
+            }
+        }
+        for (String s : listOfValues) {
+            String[] value = s.split("§");
+            if (value[0].equalsIgnoreCase("Picture")) {
+                if (currentPictureId < Integer.parseInt(value[1])) {
+                    currentPictureId = Integer.parseInt(value[1]);
+                }
             }
         }
 
