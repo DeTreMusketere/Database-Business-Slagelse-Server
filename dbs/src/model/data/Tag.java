@@ -1,6 +1,7 @@
 package model.data;
 
 import abstracts.Data;
+import org.json.JSONObject;
 
 /**
  *
@@ -36,6 +37,16 @@ public class Tag extends Data {
     @Override
     public String toString() {
         return "name: " + name + " description: " + description;
+    }
+
+    @Override
+    public JSONObject toJSONObject() {
+        JSONObject obj = new JSONObject();
+        obj.put("id", getId());
+        obj.put("name", name);
+        obj.put("description", description);
+        obj.put("updatenumber", getUpdateNumber());
+        return obj;
     }
 
 }

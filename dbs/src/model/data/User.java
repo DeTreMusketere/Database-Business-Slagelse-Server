@@ -2,6 +2,7 @@
 package model.data;
 
 import abstracts.Data;
+import org.json.JSONObject;
 
 /**
  *
@@ -116,6 +117,24 @@ public class User extends Data {
         }
         
         return s;
+    }
+
+    @Override
+    public JSONObject toJSONObject() {
+        JSONObject obj = new JSONObject();
+        obj.put("id", getId());
+        obj.put("name", name);
+        obj.put("username", username);
+        obj.put("password", password);
+        obj.put("email", email);
+        obj.put("phone", phone);
+        if(parentDealer != null) {
+            obj.put("parentdealer", parentDealer.getId());
+        } else {
+            obj.put("parentdealer", -1);
+        }
+        obj.put("updatenumber", getUpdateNumber());
+        return obj;
     }
     
 }

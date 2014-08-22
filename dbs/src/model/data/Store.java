@@ -1,6 +1,7 @@
 package model.data;
 
 import abstracts.Data;
+import org.json.JSONObject;
 
 /**
  *
@@ -66,6 +67,19 @@ public class Store extends Data {
     @Override
     public String toString() {
         return "name: " + name + " address: " + address + " phone: " + phone + " picture: " + picture + " parent dealer: " + parentDealer.getName();
+    }
+
+    @Override
+    public JSONObject toJSONObject() {
+        JSONObject obj = new JSONObject();
+        obj.put("id", getId());
+        obj.put("name", name);
+        obj.put("address", address);
+        obj.put("phone", phone);
+        obj.put("picture", picture.getId());
+        obj.put("parentdealer", parentDealer.getId());
+        obj.put("updatenumber", getUpdateNumber());
+        return obj;
     }
 
 }
