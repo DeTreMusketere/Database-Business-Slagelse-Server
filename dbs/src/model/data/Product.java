@@ -2,6 +2,7 @@ package model.data;
 
 import abstracts.Data;
 import java.util.ArrayList;
+import org.json.JSONObject;
 
 /**
  *
@@ -35,6 +36,7 @@ public class Product extends Data {
         this.price = price;
         this.parentStore = parentStore;
         this.parentDealer = parentStore.getParent();
+        this.tags = new ArrayList<>();
     }
 
     public String getName() {
@@ -104,6 +106,32 @@ public class Product extends Data {
         }
 
         return s;
+    }
+
+    @Override
+    public JSONObject getJSONObject() {
+        JSONObject obj = new JSONObject();
+        obj.put("id", getId());
+        obj.put("name", name);
+        obj.put("description", description);
+        obj.put("picture", picture.getId());
+        obj.put("price", price);
+        if (parentStore != null) {
+            obj.put("parentstore", parentStore.getId());
+        } else {
+            obj.put("parentstore", -1);
+        }
+        if(parentDealer != null) {
+            obj.put("parentdealer", parentDealer.getId());
+        } else {
+            obj.put("parentdealer", -1);
+        }
+        int count = 0;
+        for(Tag t : tags) {
+            count++;
+            obj.put("tag" + count, t.getId());
+        }
+        return obj;
     }
 
 }

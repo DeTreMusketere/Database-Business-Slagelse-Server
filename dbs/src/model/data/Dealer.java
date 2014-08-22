@@ -1,6 +1,7 @@
 package model.data;
 
 import abstracts.Data;
+import org.json.JSONObject;
 
 /**
  *
@@ -61,6 +62,18 @@ public class Dealer extends Data {
         }
         s += " updateNumber: " + updateNumber;
         return s;
+    }
+
+    @Override
+    public JSONObject getJSONObject() {
+        JSONObject obj = new JSONObject();
+        obj.put("id", getId());
+        obj.put("name", name);
+        obj.put("description", description);
+        obj.put("phone", phone);
+        obj.put("picture", picture.getId());
+        obj.put("updatenumber", getUpdateNumber());
+        return obj;
     }
 
 }
