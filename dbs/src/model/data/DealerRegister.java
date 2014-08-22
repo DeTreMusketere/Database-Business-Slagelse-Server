@@ -21,11 +21,5 @@ public class DealerRegister extends Register<Dealer> {
         return d;
     }
 
-    @Override
-    public void delete(Dealer target) {
-        int id = target.getId();
-        UpdateNumberHandler.delete("Dealer§" + id);
-        super.delete(target);
-    }
 
 }
