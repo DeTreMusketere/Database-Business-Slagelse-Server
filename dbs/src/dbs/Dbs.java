@@ -7,7 +7,9 @@ import model.permission.*;
 import db.data.*;
 import db.permission.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.HashMap;
+import networking.NetServer;
 
 /**
  *
@@ -17,6 +19,8 @@ public class Dbs {
 
     public static final String TITLE = "DBS";
     public static final String VERSION = "0.0.0.0";
+    
+    private NetServer netServer;
 
     private DealerDAO dealerDAO;
     private DealerRegister dealerRegister;
@@ -79,7 +83,7 @@ public class Dbs {
     //test
     private static BufferedImage test = null;
 
-    public Dbs() {
+    public Dbs() throws IOException {
         fileHandler = new FileHandler();
 
         idHandler = new IDHandler();
@@ -87,6 +91,8 @@ public class Dbs {
         constructPermission();
         idHandler.init(dealerRegister, storeRegister, productRegister, saleRegister, userRegister, tagRegister, pictureRegister);
         permissionHandler = new PermissionHandler(adminPermDAO, dealer_AdminPermDAO, dealer_CreatePermDAO, dealer_DeletePermDAO, dealer_ReadPermDAO, dealer_UpdatePermDAO, product_CreatePermDAO, product_DeletePermDAO, product_ReadPermDAO, product_UpdatePermDAO, sale_CreatePermDAO, sale_DeletePermDAO, sale_ReadPermDAO, sale_UpdatePermDAO, store_AdminPermDAO, store_CreatePermDAO, store_DeletePermDAO, store_ReadPermDAO, store_UpdatePermDAO, user_CreatePermDAO, user_DeletePermDAO, user_ReadPermDAO, user_UpdatePermDAO);
+        
+        netServer = new NetServer(6666);
     }
 
     private void constructData() {
@@ -165,12 +171,13 @@ public class Dbs {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         Dbs dbs = new Dbs();
         dbs.load();
-        dbs.idHandler.refresh();
-        dbs.test();
+        dbs.netServer.startServer();
+        //dbs.idHandler.refresh();
+        //dbs.test();
         
         
 //        User u = dbs.userRegister.getObjects().get(0);
