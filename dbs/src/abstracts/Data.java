@@ -1,4 +1,3 @@
-
 package abstracts;
 
 /**
@@ -6,11 +5,13 @@ package abstracts;
  * @author Patrick
  */
 public abstract class Data {
-    
-    private int id;
 
-    public Data(int id) {
+    private int id;
+    protected int updateNumber;
+
+    public Data(int id, int updateNumber) {
         this.id = id;
+        this.updateNumber = updateNumber;
     }
 
     public int getId() {
@@ -20,7 +21,13 @@ public abstract class Data {
     public void setId(int id) {
         this.id = id;
     }
-    
-    
+
+    public int getUpdateNumber() {
+        return updateNumber;
+    }
+
+    public void setUpdateNumber(int updateNumber) {
+        this.updateNumber = updateNumber;
+    }
 
 }

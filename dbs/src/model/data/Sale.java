@@ -18,10 +18,9 @@ public class Sale extends Data {
     private Date start;
     private Date end;
     private Date publish;
-    private int updateNumber;
 
     public Sale(int id, String name, String description, Picture picture, double price, Date start, Date end, Date publish, Dealer parentDealer, int updateNumber) {
-        super(id);
+        super(id, updateNumber);
         this.name = name;
         this.description = description;
         this.picture = picture;
@@ -30,11 +29,10 @@ public class Sale extends Data {
         this.end = end;
         this.publish = publish;
         this.parentDealer = parentDealer;
-        this.updateNumber = updateNumber;
     }
 
     public Sale(int id, String name, String description, Picture picture, double price, Date start, Date end, Date publish, Store parentStore, int updateNumber) {
-        super(id);
+        super(id, updateNumber);
         this.name = name;
         this.description = description;
         this.picture = picture;
@@ -44,7 +42,6 @@ public class Sale extends Data {
         this.publish = publish;
         this.parentStore = parentStore;
         this.parentDealer = parentStore.getParent();
-        this.updateNumber = updateNumber;
     }
 
     public String getName() {
@@ -53,14 +50,6 @@ public class Sale extends Data {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getUpdateNumber() {
-        return updateNumber;
-    }
-
-    public void setUpdateNumber(int updateNumber) {
-        this.updateNumber = updateNumber;
     }
 
     public String getDescription() {

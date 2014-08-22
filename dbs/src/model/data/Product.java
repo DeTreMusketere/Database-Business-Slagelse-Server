@@ -16,28 +16,25 @@ public class Product extends Data {
     private Store parentStore;
     private Dealer parentDealer;
     private ArrayList<Tag> tags;
-    private int updateNumber;
 
     public Product(int id, String name, String description, Picture picture, double price, Dealer parentDealer, int updateNumber) {
-        super(id);
+        super(id, updateNumber);
         this.name = name;
         this.description = description;
         this.picture = picture;
         this.price = price;
         this.parentDealer = parentDealer;
         this.tags = new ArrayList<>();
-        this.updateNumber = updateNumber;
     }
 
     public Product(int id, String name, String description, Picture picture, double price, Store parentStore, int updateNumber) {
-        super(id);
+        super(id, updateNumber);
         this.name = name;
         this.description = description;
         this.picture = picture;
         this.price = price;
         this.parentStore = parentStore;
         this.parentDealer = parentStore.getParent();
-        this.updateNumber = updateNumber;
     }
 
     public String getName() {
@@ -46,14 +43,6 @@ public class Product extends Data {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getUpdateNumber() {
-        return updateNumber;
-    }
-
-    public void setUpdateNumber(int updateNumber) {
-        this.updateNumber = updateNumber;
     }
 
     public String getDescription() {

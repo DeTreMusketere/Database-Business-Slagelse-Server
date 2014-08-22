@@ -22,13 +22,6 @@ public class TagRegister extends Register<Tag> {
     }
 
     @Override
-    public void update(Tag source, Tag target) {
-        int updateNumber = UpdateNumberHandler.update();
-        source.setUpdateNumber(updateNumber);
-        super.update(source, target);
-    }
-    
-    @Override
     public void delete(Tag target) {
         int id = target.getId();
         UpdateNumberHandler.delete("Tag§" + id);

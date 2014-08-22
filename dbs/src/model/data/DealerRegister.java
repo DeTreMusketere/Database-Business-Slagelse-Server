@@ -22,13 +22,6 @@ public class DealerRegister extends Register<Dealer> {
     }
 
     @Override
-    public void update(Dealer source, Dealer target) {
-        int updateNumber = UpdateNumberHandler.update();
-        source.setUpdateNumber(updateNumber);
-        super.update(source, target);
-    }
-
-    @Override
     public void delete(Dealer target) {
         int id = target.getId();
         UpdateNumberHandler.delete("Dealer§" + id);

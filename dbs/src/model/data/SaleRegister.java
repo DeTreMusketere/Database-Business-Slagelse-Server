@@ -1,4 +1,3 @@
-
 package model.data;
 
 import abstracts.DataDAO;
@@ -14,7 +13,7 @@ public class SaleRegister extends Register<Sale> {
     public SaleRegister(IDHandler idHandler, DataDAO<Sale> dao) {
         super(idHandler, dao);
     }
-    
+
     public Sale create(String name, String description, Picture picture, double price, Date start, Date end, Date publish, Dealer parentDealer) {
         int updateNumber = UpdateNumberHandler.update();
         int id = idHandler.nextSaleId();
@@ -22,7 +21,7 @@ public class SaleRegister extends Register<Sale> {
         insert(s);
         return s;
     }
-    
+
     public Sale create(String name, String description, Picture picture, double price, Date start, Date end, Date publish, Store parentStore) {
         int updateNumber = UpdateNumberHandler.update();
         int id = idHandler.nextSaleId();
@@ -30,14 +29,7 @@ public class SaleRegister extends Register<Sale> {
         insert(s);
         return s;
     }
-    
-    @Override
-    public void update(Sale source, Sale target) {
-        int updateNumber = UpdateNumberHandler.update();
-        source.setUpdateNumber(updateNumber);
-        super.update(source, target);
-    }
-    
+
     @Override
     public void delete(Sale target) {
         int id = target.getId();

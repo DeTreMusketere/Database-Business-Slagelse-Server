@@ -1,4 +1,3 @@
-
 package model.data;
 
 import abstracts.DataDAO;
@@ -13,7 +12,7 @@ public class ProductRegister extends Register<Product> {
     public ProductRegister(IDHandler idHandler, DataDAO<Product> dao) {
         super(idHandler, dao);
     }
-    
+
     public Product create(String name, String description, Picture picture, double price, Dealer parentDealer) {
         int updateNumber = UpdateNumberHandler.update();
         int id = idHandler.nextProductId();
@@ -21,7 +20,7 @@ public class ProductRegister extends Register<Product> {
         insert(p);
         return p;
     }
-    
+
     public Product create(String name, String description, Picture picture, double price, Store parentStore) {
         int updateNumber = UpdateNumberHandler.update();
         int id = idHandler.nextProductId();
@@ -30,20 +29,12 @@ public class ProductRegister extends Register<Product> {
         p.setId(id);
         return p;
     }
-    
-    @Override
-    public void update(Product source, Product target) {
-        int updateNumber = UpdateNumberHandler.update();
-        source.setUpdateNumber(updateNumber);
-        super.update(source, target);
-    }
-    
+
     @Override
     public void delete(Product target) {
         int id = target.getId();
         UpdateNumberHandler.delete("Product§" + id);
         super.delete(target);
     }
-    
 
 }

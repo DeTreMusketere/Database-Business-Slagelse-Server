@@ -1,4 +1,3 @@
-
 package model.data;
 
 import abstracts.DataDAO;
@@ -21,14 +20,7 @@ public class PictureRegister extends Register<Picture> {
         insert(p);
         return p;
     }
-    
-    @Override
-    public void update(Picture source, Picture target) {
-        int updateNumber = UpdateNumberHandler.update();
-        source.setUpdateNumber(updateNumber);
-        super.update(source, target);
-    }
-    
+
     @Override
     public void delete(Picture target) {
         int id = target.getId();

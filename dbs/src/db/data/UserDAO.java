@@ -47,7 +47,9 @@ public class UserDAO extends DataDAO<User> {
             if (source.getParentDealer() != null) {
                 parentDealerId = source.getParentDealer().getId();
             }
-            String sql = "INSERT INTO user (id_user, name, username, password, email, phone, parent_store_id, parent_dealer_id) VALUES(" + id + ",'" + name + "', '" + username + "', '" + password + "', '" + email + "', '" + phone + "', " + parentStoreId + ", " + parentDealerId + ");";
+            int updateNumber = source.getUpdateNumber();
+            
+            String sql = "INSERT INTO user (id_user, name, username, password, email, phone, parent_store_id, parent_dealer_id, update_number) VALUES(" + id + ",'" + name + "', '" + username + "', '" + password + "', '" + email + "', '" + phone + "', " + parentStoreId + ", " + parentDealerId + ", " + updateNumber + ");";
             st.execute(sql);
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -72,8 +74,9 @@ public class UserDAO extends DataDAO<User> {
             if (source.getParentDealer() != null) {
                 parentDealerId = source.getParentDealer().getId();
             }
+            int updateNumber = source.getUpdateNumber();
 
-            String sql = "UPDATE user SET name='" + name + "', username='" + username + "', password='" + password + "', email='" + email + "', phone='" + phone + "', parent_store_id=" + parentStoreId + ", parent_dealer_id=" + parentDealerId + " WHERE id_user=" + target.getId() + ";";
+            String sql = "UPDATE user SET name='" + name + "', username='" + username + "', password='" + password + "', email='" + email + "', phone='" + phone + "', parent_store_id=" + parentStoreId + ", parent_dealer_id=" + parentDealerId + ", update_number=" + updateNumber + " WHERE id_user=" + target.getId() + ";";
             st.executeUpdate(sql);
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -112,11 +115,12 @@ public class UserDAO extends DataDAO<User> {
                     if (parentDealerId != 0) {
                         parentDealer = dealerRegister.get(parentDealerId);
                     }
+                    int updateNumber = rs.getInt(9);
 
                     if (parentStore != null) {
-                        user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), parentStore);
+                        user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), parentStore, updateNumber);
                     } else {
-                        user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), parentDealer);
+                        user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), parentDealer, updateNumber);
                     }
                 }
             }
@@ -147,12 +151,13 @@ public class UserDAO extends DataDAO<User> {
                         parentDealer = dealerRegister.get(parentDealerId);
                     }
 
+                    int updateNumber = rs.getInt(9);
                     User user;
 
                     if (parentStore != null) {
-                        user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), parentStore);
+                        user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), parentStore, updateNumber);
                     } else {
-                        user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), parentDealer);
+                        user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), parentDealer, updateNumber);
                     }
                     users.add(user);
                 }

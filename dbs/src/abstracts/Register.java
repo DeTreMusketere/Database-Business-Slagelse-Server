@@ -3,13 +3,14 @@ package abstracts;
 import java.util.ArrayList;
 import java.util.Iterator;
 import model.data.IDHandler;
+import model.data.UpdateNumberHandler;
 
 /**
  *
  * @author Patrick
  * @param <DATATYPE>
  */
-public abstract class Register<DATATYPE> {
+public abstract class Register<DATATYPE extends Data> {
 
     private ArrayList<DATATYPE> objects;
     private final DataDAO<DATATYPE> dao;
@@ -38,8 +39,11 @@ public abstract class Register<DATATYPE> {
      * @param target
      */
     public void update(DATATYPE source, DATATYPE target) {
+        int updateNumber = UpdateNumberHandler.update();
+        source.setUpdateNumber(updateNumber);
         objects.set(objects.indexOf(target), source);
         dao.update(source, target);
+        
     }
 
     /**

@@ -22,13 +22,6 @@ public class StoreRegister extends Register<Store> {
     }
 
     @Override
-    public void update(Store source, Store target) {
-        int updateNumber = UpdateNumberHandler.update();
-        source.setUpdateNumber(updateNumber);
-        super.update(source, target);
-    }
-    
-    @Override
     public void delete(Store target) {
         int id = target.getId();
         UpdateNumberHandler.delete("Store§" + id);

@@ -17,8 +17,8 @@ public class User extends Data {
     private Store parentStore;
     private Dealer parentDealer;
 
-    public User(int id, String name, String username, String password, String email, String phone, Dealer parentDealer) {
-        super(id);
+    public User(int id, String name, String username, String password, String email, String phone, Dealer parentDealer, int updateNumber) {
+        super(id, updateNumber);
         this.name = name;
         this.username = username;
         this.password = password;
@@ -27,8 +27,8 @@ public class User extends Data {
         this.parentDealer = parentDealer;
     }
 
-    public User(int id, String name, String username, String password, String email, String phone, Store parentStore) {
-        super(id);
+    public User(int id, String name, String username, String password, String email, String phone, Store parentStore, int updateNumber) {
+        super(id, updateNumber);
         this.name = name;
         this.username = username;
         this.password = password;
@@ -38,8 +38,8 @@ public class User extends Data {
         this.parentDealer = parentStore.getParent();
     }
     
-    public User(int id, String name, String username, String password, String email, String phone) {
-        super(id);
+    public User(int id, String name, String username, String password, String email, String phone, int updateNumber) {
+        super(id, updateNumber);
         this.name = name;
         this.username = username;
         this.password = password;
