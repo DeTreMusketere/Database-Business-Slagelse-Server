@@ -1,11 +1,12 @@
 package networking;
 
-
 import java.io.IOException;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import json.JSONBuilder;
 import model.data.UpdateNumberHandler;
+import org.json.JSONArray;
 
 /**
  *
@@ -16,8 +17,10 @@ public class SocketReceiver implements Runnable {
     private Socket socket;
     private String order;
     private CommTool comm;
+    private JSONBuilder jsonBuilder;
 
-    public SocketReceiver(Socket socket) {
+    public SocketReceiver(Socket socket, JSONBuilder jsonBuilder) {
+        this.jsonBuilder = jsonBuilder;
         this.socket = socket;
         try {
             comm = new CommTool(socket);
@@ -29,16 +32,21 @@ public class SocketReceiver implements Runnable {
     @Override
     public void run() {
 
-        order = comm.receiveMessage();
+        order = comm.receiveStringMessage();
 
         switch (order) {
-            case "updateme":
+            case "getun":
                 int un = UpdateNumberHandler.getUpdateNumber();
                 comm.sendMessage(String.valueOf(un));
                 close();
                 break;
+            case "getobjs":
+                comm.sendMessage("ok");
+                int receiveUpdateNumber = Integer.valueOf(comm.receiveStringMessage());
+                JSONArray array = jsonBuilder.buildJSONArray(receiveUpdateNumber);
+                comm.sendMessage(array.toString());
+                break;
             default:
-                comm.sendMessage("Not implementet yet");
                 close();
                 break;
         }

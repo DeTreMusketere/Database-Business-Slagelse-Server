@@ -6,7 +6,11 @@ import model.data.*;
 import db.data.*;
 import db.permission.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+import java.util.Date;
+import javax.imageio.ImageIO;
+import json.JSONBuilder;
 import networking.NetServer;
 import networking.ServerGUI;
 
@@ -21,6 +25,7 @@ public class Dbs {
     
     private NetServer netServer;
     private ServerGUI serverGUI;
+    private JSONBuilder jsonBuilder;
 
     private DealerDAO dealerDAO;
     private DealerRegister dealerRegister;
@@ -92,7 +97,9 @@ public class Dbs {
         idHandler.init(dealerRegister, storeRegister, productRegister, saleRegister, userRegister, tagRegister, pictureRegister);
         permissionHandler = new PermissionHandler(adminPermDAO, dealer_AdminPermDAO, dealer_CreatePermDAO, dealer_DeletePermDAO, dealer_ReadPermDAO, dealer_UpdatePermDAO, product_CreatePermDAO, product_DeletePermDAO, product_ReadPermDAO, product_UpdatePermDAO, sale_CreatePermDAO, sale_DeletePermDAO, sale_ReadPermDAO, sale_UpdatePermDAO, store_AdminPermDAO, store_CreatePermDAO, store_DeletePermDAO, store_ReadPermDAO, store_UpdatePermDAO, user_CreatePermDAO, user_DeletePermDAO, user_ReadPermDAO, user_UpdatePermDAO);
         
-        netServer = new NetServer(6666);
+        jsonBuilder = new JSONBuilder(saleRegister, pictureRegister);
+        netServer = new NetServer(6666, jsonBuilder);
+        
         constructGUI();
     }
     
@@ -129,22 +136,45 @@ public class Dbs {
     }
 
     private void constructData() {
+        System.out.println("### - STATUS - ###");
         pictureDAO = new PictureDAO(fileHandler);
         pictureRegister = new PictureRegister(idHandler, pictureDAO);
+        pictureRegister.load();
+        System.out.println("Pictures: " + pictureRegister.getObjects().size());
+        
         dealerDAO = new DealerDAO(pictureRegister);
         dealerRegister = new DealerRegister(idHandler, dealerDAO);
+        dealerRegister.load();
+        System.out.println("Dealers: " + dealerRegister.getObjects().size());
+        
         storeDAO = new StoreDAO(dealerRegister, pictureRegister);
         storeRegister = new StoreRegister(idHandler, storeDAO);
+        storeRegister.load();
+        System.out.println("Stores: " + storeRegister.getObjects().size());
+        
         productDAO = new ProductDAO(dealerRegister, storeRegister, pictureRegister);
         productRegister = new ProductRegister(idHandler, productDAO);
+        productRegister.load();
+        System.out.println("Products: " + productRegister.getObjects().size());
+        
         saleDAO = new SaleDAO(dealerRegister, storeRegister, pictureRegister);
         saleRegister = new SaleRegister(idHandler, saleDAO);
+        saleRegister.load();
+        System.out.println("Sales: " + saleRegister.getObjects().size());
+        
         userDAO = new UserDAO(dealerRegister, storeRegister);
         userRegister = new UserRegister(idHandler, userDAO);
+        userRegister.load();
+        System.out.println("Users: " + userRegister.getObjects().size());
+        
         tagDAO = new TagDAO();
         tagRegister = new TagRegister(idHandler, tagDAO);
+        tagRegister.load();
+        System.out.println("Tags: " + tagRegister.getObjects().size());
+        
         updateNumberDAO = new UpdateNumberDAO();
         updateNumberHandler = new UpdateNumberHandler(updateNumberDAO, fileHandler);
+        System.out.println("### - END - ###");
     }
 
     private void constructPermission() {
@@ -178,15 +208,6 @@ public class Dbs {
         user_ReadPermDAO = new User_ReadPermDAO(userRegister, userRegister);
         user_UpdatePermDAO = new User_UpdatePermDAO(userRegister, userRegister);
     }
-
-    public void load() {
-        dealerRegister.load();
-        storeRegister.load();
-        productRegister.load();
-        saleRegister.load();
-        userRegister.load();
-        tagRegister.load();
-    }
     
     public void test() {
 //        Testing permissionTest = new Testing(dealerRegister, storeRegister, productRegister, saleRegister, userRegister, tagRegister, pictureRegister, permissionHandler);
@@ -207,7 +228,7 @@ public class Dbs {
     public static void main(String[] args) throws IOException {
 
         Dbs dbs = new Dbs();
-        dbs.load();
+
         //dbs.idHandler.refresh();
         //dbs.test();
         

@@ -1,6 +1,7 @@
 package model.data;
 
 import abstracts.Data;
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import java.io.Serializable;
 import org.json.JSONObject;
 
@@ -42,7 +43,12 @@ public class Picture extends Data implements Serializable {
 
     @Override
     public JSONObject toJSONObject() {
-        return null;
+        JSONObject obj = new JSONObject();
+        obj.put("id", getId());
+        obj.put("name", name);
+        String base64String = Base64.encode(byteArray);
+        obj.put("array", base64String);
+        return obj;
     }
 
 }

@@ -177,7 +177,7 @@ public class SaleDAO extends DataDAO<Sale> {
 
                     Sale sale;
 
-                    int pictureId = rs.getInt(5);
+                    int pictureId = rs.getInt(4);
                     Picture picture = null;
                     if (pictureId != 0) {
                         picture = pictureRegister.get(pictureId);

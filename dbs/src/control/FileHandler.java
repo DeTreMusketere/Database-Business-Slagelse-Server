@@ -1,6 +1,8 @@
 package control;
 
+import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -8,13 +10,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -23,6 +25,25 @@ import java.util.logging.Logger;
 public class FileHandler {
 
     private File deleteListFile = new File("data/deleteList.data");
+    
+    /**
+     * Converts an bufferedimage to a bytearray
+     * @param image
+     * @return ByteArray
+     */
+    public static byte[] convertBufferedImageToArray(BufferedImage image, String type) {
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write( image, type, baos );
+            baos.flush();
+            byte[] imageInByte = baos.toByteArray();
+            baos.close();
+            return imageInByte;
+        } catch (IOException ex) {
+            Logger.getLogger(FileHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 
     /**
      * Saves the byte array of a picture.
@@ -32,7 +53,7 @@ public class FileHandler {
      */
     public void savePictureByteArray(byte[] byteArray, int id) {
         try {
-            FileOutputStream fos = new FileOutputStream("pictures/" + id + ".data");
+            FileOutputStream fos = new FileOutputStream("data/pictures/" + id + ".data");
             try (BufferedOutputStream bos = new BufferedOutputStream(fos)) {
                 bos.write(byteArray);
             }
@@ -51,7 +72,7 @@ public class FileHandler {
      */
     public byte[] getPictureByteArray(int id) {
         try {
-            Path path = Paths.get("pictures/" + id + ".data");
+            Path path = Paths.get("data/pictures/" + id + ".data");
             byte[] byteArray = Files.readAllBytes(path);
             return byteArray;
         } catch (FileNotFoundException ex) {

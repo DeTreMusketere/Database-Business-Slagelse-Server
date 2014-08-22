@@ -32,10 +32,10 @@ public class CommTool {
     }
     
     /**
-     * Receives a message
+     * Receives a message as a string
      * @return message (Will be null if nothing received)
      */
-    public String receiveMessage() {
+    public String receiveStringMessage() {
         String answer = null;
         try {
             answer = reader.readLine();
@@ -44,5 +44,6 @@ public class CommTool {
         }
         return answer;
     }
+
 
 }
