@@ -65,7 +65,7 @@ public class Dealer extends Data {
     }
 
     @Override
-    public JSONObject getJSONObject() {
+    public JSONObject toJSONObject() {
         JSONObject obj = new JSONObject();
         obj.put("id", getId());
         obj.put("name", name);
