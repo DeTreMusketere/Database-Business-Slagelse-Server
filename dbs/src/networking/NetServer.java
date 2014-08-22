@@ -25,6 +25,10 @@ public class NetServer implements Runnable {
         serverSocket = new ServerSocket(port);
     }
     
+    public boolean getRunning() {
+        return running;
+    }
+    
     public void startServer() {
         running = true;
         th = new Thread(this);
