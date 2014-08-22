@@ -32,6 +32,6 @@ public abstract class Data {
         this.updateNumber = updateNumber;
     }
     
-    public abstract JSONObject getJSONObject();
+    public abstract JSONObject toJSONObject();
 
 }
