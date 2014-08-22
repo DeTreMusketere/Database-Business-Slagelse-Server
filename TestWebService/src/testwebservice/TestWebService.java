@@ -1,10 +1,6 @@
 package testwebservice;
 
 import java.util.ArrayList;
-import java.util.List;
-import model.data.Picture;
-import model.data.Sale;
-import net.java.dev.jaxb.array.StringArray;
 
 /**
  *
