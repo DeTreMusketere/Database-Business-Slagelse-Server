@@ -1,6 +1,7 @@
 #ant specific
 dbs/dist/
 dbs/build/
+!dbs/lib/*
  
 #netbeans specific
 dbs/core
