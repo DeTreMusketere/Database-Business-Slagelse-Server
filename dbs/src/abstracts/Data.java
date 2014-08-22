@@ -1,5 +1,7 @@
 package abstracts;
 
+import org.json.JSONObject;
+
 /**
  *
  * @author Patrick
@@ -29,5 +31,7 @@ public abstract class Data {
     public void setUpdateNumber(int updateNumber) {
         this.updateNumber = updateNumber;
     }
+    
+    public abstract JSONObject getJSONObject();
 
 }
