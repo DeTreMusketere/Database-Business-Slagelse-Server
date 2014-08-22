@@ -2,6 +2,7 @@ package model.data;
 
 import abstracts.Data;
 import java.io.Serializable;
+import org.json.JSONObject;
 
 /**
  *
@@ -37,6 +38,11 @@ public class Picture extends Data implements Serializable {
     @Override
     public String toString() {
         return "name: " + name;
+    }
+
+    @Override
+    public JSONObject getJSONObject() {
+        return null;
     }
 
 }
