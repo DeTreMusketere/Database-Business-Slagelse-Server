@@ -1,7 +1,9 @@
 package model.data;
 
 import abstracts.Data;
+import java.util.ArrayList;
 import java.util.Date;
+import org.json.JSONObject;
 
 /**
  *
@@ -18,6 +20,7 @@ public class Sale extends Data {
     private Date start;
     private Date end;
     private Date publish;
+    private ArrayList<Tag> tags;
 
     public Sale(int id, String name, String description, Picture picture, double price, Date start, Date end, Date publish, Dealer parentDealer, int updateNumber) {
         super(id, updateNumber);
@@ -29,6 +32,7 @@ public class Sale extends Data {
         this.end = end;
         this.publish = publish;
         this.parentDealer = parentDealer;
+        tags = new ArrayList<>();
     }
 
     public Sale(int id, String name, String description, Picture picture, double price, Date start, Date end, Date publish, Store parentStore, int updateNumber) {
@@ -42,6 +46,7 @@ public class Sale extends Data {
         this.publish = publish;
         this.parentStore = parentStore;
         this.parentDealer = parentStore.getParent();
+        tags = new ArrayList<>();
     }
 
     public String getName() {
@@ -116,6 +121,14 @@ public class Sale extends Data {
         this.publish = publish;
     }
 
+    public ArrayList<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(ArrayList<Tag> tags) {
+        this.tags = tags;
+    }
+
     @Override
     public String toString() {
         String s = "name: " + name + " description: " + description + " picture: " + picture + " price: " + price + " start: " + start.toString() + " end: " + end.toString() + " publish: " + publish.toString();
@@ -127,5 +140,34 @@ public class Sale extends Data {
         }
 
         return s;
+    }
+
+    @Override
+    public JSONObject getJSONObject() {
+        JSONObject obj = new JSONObject();
+        obj.put("id", getId());
+        obj.put("name", name);
+        obj.put("description", description);
+        obj.put("picture", picture.getId());
+        obj.put("price", price);
+        if (parentStore != null) {
+            obj.put("parentstore", parentStore.getId());
+        } else {
+            obj.put("parentstore", -1);
+        }
+        if(parentDealer != null) {
+            obj.put("parentdealer", parentDealer.getId());
+        } else {
+            obj.put("parentdealer", -1);
+        }
+        obj.put("start", start.getTime());
+        obj.put("end", end.getTime());
+        obj.put("publish", publish.getTime());
+//        int count = 0;
+//        for(Tag t : tags) {
+//            count++;
+//            obj.put("tag" + count, t.getId());
+//        }
+        return obj;
     }
 }
