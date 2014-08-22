@@ -10,7 +10,7 @@ import model.data.UserRegister;
  * @param <DATATYPE>
  * @param <PERMISSIONTYPE>
  */
-public abstract class PermissionDAO<DATATYPE, PERMISSIONTYPE> {
+public abstract class PermissionDAO<DATATYPE extends Data, PERMISSIONTYPE> {
 
     protected final UserRegister userRegister;
     protected final Register<DATATYPE> register;

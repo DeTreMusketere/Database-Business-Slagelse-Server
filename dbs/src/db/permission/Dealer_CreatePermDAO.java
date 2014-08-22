@@ -1,6 +1,7 @@
 
 package db.permission;
 
+import abstracts.Data;
 import abstracts.PermissionDAO;
 import abstracts.Register;
 import db.DBTool;
@@ -16,7 +17,7 @@ import model.permission.Dealer_CreatePerm;
  *
  * @author Patrick
  */
-public class Dealer_CreatePermDAO extends PermissionDAO<Object, Dealer_CreatePerm> {
+public class Dealer_CreatePermDAO extends PermissionDAO<Data, Dealer_CreatePerm> {
 
     /**
      * Constructs a Dealer_CreatePermDAO object. 
@@ -24,7 +25,7 @@ public class Dealer_CreatePermDAO extends PermissionDAO<Object, Dealer_CreatePer
      * @param userRegister
      * @param register (Not used)
      */
-    public Dealer_CreatePermDAO(UserRegister userRegister, Register<Object> register) {
+    public Dealer_CreatePermDAO(UserRegister userRegister, Register<Data> register) {
         super(userRegister, register);
         table = "create_dealer_perm";
     }

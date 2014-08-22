@@ -1,5 +1,6 @@
 package db.permission;
 
+import abstracts.Data;
 import abstracts.PermissionDAO;
 import abstracts.Register;
 import db.DBTool;
@@ -15,7 +16,7 @@ import model.permission.AdminPerm;
  *
  * @author Patrick
  */
-public class AdminPermDAO extends PermissionDAO<Object, AdminPerm> {
+public class AdminPermDAO extends PermissionDAO<Data, AdminPerm> {
 
     /**
      * Constructs a AdminPermDAO object. 
@@ -23,7 +24,7 @@ public class AdminPermDAO extends PermissionDAO<Object, AdminPerm> {
      * @param userRegister
      * @param register (Not used)
      */
-    public AdminPermDAO(UserRegister userRegister, Register<Object> register) {
+    public AdminPermDAO(UserRegister userRegister, Register<Data> register) {
         super(userRegister, register);
         table = "admin_perm";
     }
