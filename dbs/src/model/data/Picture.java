@@ -41,7 +41,7 @@ public class Picture extends Data implements Serializable {
     }
 
     @Override
-    public JSONObject getJSONObject() {
+    public JSONObject toJSONObject() {
         return null;
     }
 

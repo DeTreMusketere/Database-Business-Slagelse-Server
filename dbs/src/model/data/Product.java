@@ -109,7 +109,7 @@ public class Product extends Data {
     }
 
     @Override
-    public JSONObject getJSONObject() {
+    public JSONObject toJSONObject() {
         JSONObject obj = new JSONObject();
         obj.put("id", getId());
         obj.put("name", name);
@@ -131,6 +131,7 @@ public class Product extends Data {
             count++;
             obj.put("tag" + count, t.getId());
         }
+        obj.put("updatenumber", getUpdateNumber());
         return obj;
     }
 
