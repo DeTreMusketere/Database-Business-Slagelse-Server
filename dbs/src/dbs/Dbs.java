@@ -12,7 +12,7 @@ import java.util.Date;
 import javax.imageio.ImageIO;
 import json.JSONBuilder;
 import networking.NetServer;
-import networking.ServerGUI;
+import std.STDController;
 
 /**
  *
@@ -23,8 +23,8 @@ public class Dbs {
     public static final String TITLE = "DBS";
     public static final String VERSION = "0.0.0.0";
     
+    private STDController stdController;
     private NetServer netServer;
-    private ServerGUI serverGUI;
     private JSONBuilder jsonBuilder;
 
     private DealerDAO dealerDAO;
@@ -100,81 +100,61 @@ public class Dbs {
         jsonBuilder = new JSONBuilder(saleRegister, pictureRegister);
         netServer = new NetServer(6666, jsonBuilder);
         
-        constructGUI();
+        stdController = new STDController(this,netServer);
+        stdController.start();
     }
     
-    private void constructGUI() {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ServerGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ServerGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ServerGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ServerGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    public void status() {
+        System.out.println("");
+        System.out.println("### - Register STATUS - ###");
+        System.out.println("Pictures: " + pictureRegister.getObjects().size());
+        System.out.println("Dealers: " + dealerRegister.getObjects().size());
+        System.out.println("Stores: " + storeRegister.getObjects().size());
+        System.out.println("Products: " + productRegister.getObjects().size());
+        System.out.println("Sales: " + saleRegister.getObjects().size());
+        System.out.println("Users: " + userRegister.getObjects().size());
+        System.out.println("Tags: " + tagRegister.getObjects().size());
+        System.out.println("");
+        System.out.println("### - SERVER STATUS - ###");
+        if(netServer.getRunning()) {
+            System.out.println("NetServer is running");
+        } else {
+            System.out.println("NetServer is not running");
         }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ServerGUI(netServer).setVisible(true);
-            }
-        });
+        System.out.println("");
     }
 
     private void constructData() {
-        System.out.println("### - STATUS - ###");
         pictureDAO = new PictureDAO(fileHandler);
         pictureRegister = new PictureRegister(idHandler, pictureDAO);
         pictureRegister.load();
-        System.out.println("Pictures: " + pictureRegister.getObjects().size());
         
         dealerDAO = new DealerDAO(pictureRegister);
         dealerRegister = new DealerRegister(idHandler, dealerDAO);
         dealerRegister.load();
-        System.out.println("Dealers: " + dealerRegister.getObjects().size());
         
         storeDAO = new StoreDAO(dealerRegister, pictureRegister);
         storeRegister = new StoreRegister(idHandler, storeDAO);
         storeRegister.load();
-        System.out.println("Stores: " + storeRegister.getObjects().size());
         
         productDAO = new ProductDAO(dealerRegister, storeRegister, pictureRegister);
         productRegister = new ProductRegister(idHandler, productDAO);
         productRegister.load();
-        System.out.println("Products: " + productRegister.getObjects().size());
         
         saleDAO = new SaleDAO(dealerRegister, storeRegister, pictureRegister);
         saleRegister = new SaleRegister(idHandler, saleDAO);
         saleRegister.load();
-        System.out.println("Sales: " + saleRegister.getObjects().size());
         
         userDAO = new UserDAO(dealerRegister, storeRegister);
         userRegister = new UserRegister(idHandler, userDAO);
         userRegister.load();
-        System.out.println("Users: " + userRegister.getObjects().size());
         
         tagDAO = new TagDAO();
         tagRegister = new TagRegister(idHandler, tagDAO);
         tagRegister.load();
-        System.out.println("Tags: " + tagRegister.getObjects().size());
         
         updateNumberDAO = new UpdateNumberDAO();
         updateNumberHandler = new UpdateNumberHandler(updateNumberDAO, fileHandler);
-        System.out.println("### - END - ###");
     }
 
     private void constructPermission() {

@@ -48,6 +48,7 @@ public class Picture extends Data implements Serializable {
         obj.put("name", name);
         String base64String = Base64.encode(byteArray);
         obj.put("array", base64String);
+        obj.put("updatenumber", getUpdateNumber());
         return obj;
     }
 

@@ -21,7 +21,6 @@ public class JSONBuilder {
     }
 
     public JSONArray buildJSONArray(int updateNumber) {
-        System.out.println(updateNumber);
         JSONArray all = new JSONArray();
         JSONArray sales = new JSONArray();
         JSONArray pictures = new JSONArray();
