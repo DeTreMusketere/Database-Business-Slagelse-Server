@@ -106,7 +106,7 @@ public class Dbs {
     
     public void status() {
         System.out.println("");
-        System.out.println("### - Register STATUS - ###");
+        System.out.println("### - REGISTER STATUS - ###");
         System.out.println("Pictures: " + pictureRegister.getObjects().size());
         System.out.println("Dealers: " + dealerRegister.getObjects().size());
         System.out.println("Stores: " + storeRegister.getObjects().size());

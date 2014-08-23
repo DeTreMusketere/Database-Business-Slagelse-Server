@@ -34,22 +34,30 @@ public class SocketReceiver implements Runnable {
         order = comm.receiveStringMessage();
         switch (order) {
             case "getun":
-                System.out.println("Client wants currents updatenumber, sending it");
+                System.out.println("");
+                System.out.println("Client wants current updatenumber, sending it");
+                System.out.println("");
                 int un = UpdateNumberHandler.getUpdateNumber();
                 comm.sendMessage(String.valueOf(un));
                 close();
                 break;
             case "getobjs":
+                System.out.println("");
                 System.out.println("Client wants objects, sending confirm");
+                System.out.println("");
                 comm.sendMessage("ok");
                 int receiveUpdateNumber = Integer.valueOf(comm.receiveStringMessage());
+                System.out.println("");
                 System.out.println("Received updateNumber, sending objects");
+                System.out.println("");
                 JSONArray array = jsonBuilder.buildJSONArray(receiveUpdateNumber);
                 comm.sendMessage(array.toString());
                 close();
                 break;
             default:
+                System.out.println("");
                 System.out.println("Client is saying weird shit");
+                System.out.println("");
                 close();
                 break;
         }

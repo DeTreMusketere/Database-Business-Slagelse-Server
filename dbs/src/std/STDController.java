@@ -43,11 +43,22 @@ public class STDController implements Runnable {
             System.out.print("># ");
             String command = scan.nextLine();
             switch (command.toLowerCase()) {
-                case "stop":
-                    System.out.println("Stopping server...");
-                    netServer.stopServer();
+                case "shutdown":
+                    System.out.println("");
+                    System.out.println("Server is shutting down...");
+                    if(netServer.getRunning()) {
+                        netServer.stopServer();
+                    }
+                    System.out.println("");
                     sleep();
                     System.exit(0);
+                    break;
+                case "stop":
+                    System.out.println("");
+                    System.out.println("Stopping server...");
+                    netServer.stopServer();
+                    System.out.println("");
+                    sleep();
                     break;
                 case "start":
                     System.out.println("");
@@ -61,15 +72,17 @@ public class STDController implements Runnable {
                     break;
                 case "help":
                     System.out.println("");
-                    System.out.println("status  Server status");
-                    System.out.println("start   Starts the NetServer");
-                    System.out.println("stop    Stops the NetServer and kills this process");
+                    System.out.println("status      Server status");
+                    System.out.println("start       Starts the NetServer");
+                    System.out.println("stop        Stops the NetServer");
+                    System.out.println("shutdown    Shuts down the server");
                     System.out.println("");
                     sleep();
                     break;
                 case "":
                     break;
                 default:
+                    System.out.println("");
                     System.out.println("I dont know what that means\nWrite 'help' to get a list of commands");
                     System.out.println("");
                     sleep();
