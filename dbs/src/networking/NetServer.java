@@ -62,7 +62,7 @@ public class NetServer implements Runnable {
             th = null;
             System.out.println("Server stopped");
         } else {
-            System.out.println("Server is already stopped");
+            System.out.println("Server is already stopped\nDid you look for 'shutdown'?");
         }
     }
 
