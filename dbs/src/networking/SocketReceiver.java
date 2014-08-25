@@ -66,7 +66,7 @@ public class SocketReceiver implements Runnable {
 
     private void close() {
         try {
-            System.out.println("># Saying bye to " + socket.getInetAddress());
+            System.out.println("Saying bye to " + socket.getInetAddress());
             socket.close();
         } catch (IOException ex) {
             Logger.getLogger(SocketReceiver.class.getName()).log(Level.SEVERE, null, ex);
