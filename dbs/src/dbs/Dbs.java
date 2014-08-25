@@ -6,12 +6,11 @@ import model.data.*;
 import db.data.*;
 import db.permission.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import java.util.Date;
-import javax.imageio.ImageIO;
 import json.JSONBuilder;
 import networking.NetServer;
+import std.CMDCTRL;
+import std.STDOUTCTRL;
 import std.STDController;
 
 /**
@@ -100,8 +99,12 @@ public class Dbs {
         jsonBuilder = new JSONBuilder(saleRegister, pictureRegister);
         netServer = new NetServer(6666, jsonBuilder);
         
-        stdController = new STDController(this,netServer);
-        stdController.start();
+//        stdController = new STDController(this,netServer);
+//        stdController.start();
+        STDOUTCTRL.getInstance().start();
+        CMDCTRL.getInstance().start();
+        
+        
     }
     
     public void status() {
