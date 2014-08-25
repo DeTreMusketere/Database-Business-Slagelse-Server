@@ -9,8 +9,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import json.JSONBuilder;
 import networking.NetServer;
-import std.CMDCTRL;
-import std.STDOUTCTRL;
 import std.STDController;
 
 /**
@@ -99,11 +97,8 @@ public class Dbs {
         jsonBuilder = new JSONBuilder(saleRegister, pictureRegister);
         netServer = new NetServer(6666, jsonBuilder);
         
-//        stdController = new STDController(this,netServer);
-//        stdController.start();
-        STDOUTCTRL.getInstance().start();
-        CMDCTRL.getInstance().start();
-        
+        stdController = new STDController(this,netServer);
+        stdController.start();
         
     }
     

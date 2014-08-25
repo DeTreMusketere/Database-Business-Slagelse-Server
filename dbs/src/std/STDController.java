@@ -37,7 +37,6 @@ public class STDController implements Runnable {
     public void run() {
         System.out.println(Dbs.TITLE + " - v" + Dbs.VERSION);
         System.out.println("Welcome\nWrite a command, or dont, i dont care...");
-        System.out.println("");
         while (running) {
             Scanner scan = new Scanner(System.in);
             System.out.print("># ");
