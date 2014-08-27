@@ -25,6 +25,18 @@ public class UpdateNumberHandler {
             updateNumber = 1;
         }
     }
+    
+    /**
+     * Reloads update number from database
+     */
+    public void reload() {
+        updateNumber = updateNumberDAO.select();
+        deleteList = fileHandler.getDeleteList();
+        if (updateNumber == -1) {
+            updateNumberDAO.insert(1);
+            updateNumber = 1;
+        }
+    }
 
     /**
      * Gets the current updateNumber without increasing it.

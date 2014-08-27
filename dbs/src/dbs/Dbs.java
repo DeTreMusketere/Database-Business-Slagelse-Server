@@ -93,6 +93,8 @@ public class Dbs {
         constructPermission();
         idHandler.init(dealerRegister, storeRegister, productRegister, saleRegister, userRegister, tagRegister, pictureRegister);
         permissionHandler = new PermissionHandler(adminPermDAO, dealer_AdminPermDAO, dealer_CreatePermDAO, dealer_DeletePermDAO, dealer_ReadPermDAO, dealer_UpdatePermDAO, product_CreatePermDAO, product_DeletePermDAO, product_ReadPermDAO, product_UpdatePermDAO, sale_CreatePermDAO, sale_DeletePermDAO, sale_ReadPermDAO, sale_UpdatePermDAO, store_AdminPermDAO, store_CreatePermDAO, store_DeletePermDAO, store_ReadPermDAO, store_UpdatePermDAO, user_CreatePermDAO, user_DeletePermDAO, user_ReadPermDAO, user_UpdatePermDAO);
+        idHandler.refresh();
+        
         
         jsonBuilder = new JSONBuilder(saleRegister, pictureRegister);
         netServer = new NetServer(6666, jsonBuilder);
@@ -100,6 +102,38 @@ public class Dbs {
         stdController = new STDController(this,netServer);
         stdController.start();
         
+    }
+
+    public DealerRegister getDealerRegister() {
+        return dealerRegister;
+    }
+
+    public StoreRegister getStoreRegister() {
+        return storeRegister;
+    }
+
+    public ProductRegister getProductRegister() {
+        return productRegister;
+    }
+
+    public SaleRegister getSaleRegister() {
+        return saleRegister;
+    }
+
+    public UserRegister getUserRegister() {
+        return userRegister;
+    }
+
+    public TagRegister getTagRegister() {
+        return tagRegister;
+    }
+
+    public PictureRegister getPictureRegister() {
+        return pictureRegister;
+    }
+
+    public UpdateNumberHandler getUpdateNumberHandler() {
+        return updateNumberHandler;
     }
     
     public void status() {
@@ -119,6 +153,7 @@ public class Dbs {
         } else {
             System.out.println("NetServer is not running");
         }
+        System.out.println("UpdateNumber: " + UpdateNumberHandler.getUpdateNumber());
         System.out.println("");
     }
 

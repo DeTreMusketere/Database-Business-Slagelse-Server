@@ -145,13 +145,13 @@ public class IDHandler extends DAO {
             }
         }
 
-        System.out.println("Dealer: " + currentDealerId);
-        System.out.println("Store: " + currentStoreId);
-        System.out.println("Product: " + currentProductId);
-        System.out.println("Sale: " + currentSaleId);
-        System.out.println("User: " + currentUserId);
-        System.out.println("Tag: " + currentTagId);
-        System.out.println("Picture: " + currentPictureId);
+//        System.out.println("Dealer: " + currentDealerId);
+//        System.out.println("Store: " + currentStoreId);
+//        System.out.println("Product: " + currentProductId);
+//        System.out.println("Sale: " + currentSaleId);
+//        System.out.println("User: " + currentUserId);
+//        System.out.println("Tag: " + currentTagId);
+//        System.out.println("Picture: " + currentPictureId);
     }
 
     public void init(DealerRegister dealerRegister, StoreRegister storeRegister, ProductRegister productRegister, SaleRegister saleRegister, UserRegister userRegister, TagRegister tagRegister, PictureRegister pictureRegister) {
