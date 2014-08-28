@@ -1,17 +1,18 @@
-
 package std;
 
 import java.util.Scanner;
 import model.data.Dealer;
 import model.data.Store;
 import dbs.Dbs;
+import java.util.Date;
+import model.data.Product;
 
 /**
  *
  * @author Patrick
  */
 public class CreateObjects {
-    
+
     public static void create(Scanner scan, Dbs dbs) {
         System.out.println("What would you like to create?");
 
@@ -347,31 +348,30 @@ public class CreateObjects {
         String price = "";
         String parentStoreId = "";
         String parentDealerId = "";
-        
+
         System.out.println("======== Create a product ================================");
         System.out.println("You can at any time write 'back' to get back to main menu");
         System.out.println("- You can not choose a picture in this mode");
         System.out.println("---------------------------------------------------------");
-        
         while (!finish) {
             System.out.print("Name:" + name + " ");
             name = scan.nextLine();
             if (name.equalsIgnoreCase("back")) {
                 break;
             }
-            
+
             System.out.print("Description:" + description + " ");
             description = scan.nextLine();
             if (description.equalsIgnoreCase("back")) {
                 break;
             }
-            
+
             System.out.print("Price:" + price + " ");
             price = scan.nextLine();
             if (price.equalsIgnoreCase("back")) {
                 break;
             }
-            
+
             boolean ok = false;
 
             while (!ok) {
@@ -412,18 +412,17 @@ public class CreateObjects {
                     }
                 }
             }
-            
-            
+
             System.out.println("");
             System.out.println("Is this right?");
             System.out.println("Name: " + name);
             System.out.println("Description: " + description);
             System.out.println("Price: " + price);
-            if(!parentStoreId.equalsIgnoreCase("null")) {
+            if (!parentStoreId.equalsIgnoreCase("null")) {
                 System.out.println("Store Id: " + parentStoreId);
             }
             System.out.println("Dealer Id: " + parentDealerId);
-            
+
             ok = false;
             while (!ok) {
                 System.out.print("[y/n]: ");
@@ -452,12 +451,124 @@ public class CreateObjects {
                         break;
                 }
             }
-            
+
         }
     }
 
     private static void createSale(Scanner scan, Dbs dbs) {
-        System.out.println("Not implemented yet");
+        boolean finish = false;
+        String productId = "";
+        String price = "";
+        String start = "";
+        String end = "";
+        String publish = "";
+
+        System.out.println("======== Create a sale ================================");
+        System.out.println("You can at any time write 'back' to get back to main menu");
+        System.out.println("- You can not choose a picture in this mode");
+        System.out.println("---------------------------------------------------------");
+        while (!finish) {
+            boolean ok = false;
+            while (!ok) {
+                ok = true;
+                System.out.print("Product Id:" + productId + " ");
+                productId = scan.nextLine();
+                if (productId.equalsIgnoreCase("back")) {
+                    break;
+                } else {
+                    Product p = dbs.getProductRegister().get(Integer.valueOf(productId));
+                    if (p == null) {
+                        System.out.println("The product was not found, try again...");
+                        ok = false;
+                    }
+                }
+            }
+
+            System.out.print("New price:" + price + " ");
+            price = scan.nextLine();
+            if (price.equalsIgnoreCase("back")) {
+                break;
+            }
+            
+            System.out.print("Start date [dd:mm:yyyy:HH:MM]:" + start + " ");
+            start = scan.nextLine();
+            if (start.equalsIgnoreCase("back")) {
+                break;
+            }
+            
+            System.out.print("End date [dd:mm:yyyy:HH:MM]:" + end + " ");
+            end = scan.nextLine();
+            if (end.equalsIgnoreCase("back")) {
+                break;
+            }
+            
+            System.out.print("Publish date [dd:mm:yyyy:HH:MM]:" + publish + " ");
+            publish = scan.nextLine();
+            if (publish.equalsIgnoreCase("back")) {
+                break;
+            }
+            
+            System.out.println("");
+            System.out.println("Is this right?");
+            System.out.println("Product Id: " + productId);
+            System.out.println("New price: " + price);
+            System.out.println("Start date: " + start);
+            System.out.println("End date: " + end);
+            System.out.println("Publish date: " + publish);
+            
+            ok = false;
+            while (!ok) {
+                System.out.print("[y/n]: ");
+                String answer = scan.nextLine();
+                switch (answer.toLowerCase()) {
+                    case "y":
+                        String[] startSplit = start.split(":");
+                        int startDay = Integer.valueOf(startSplit[0]);
+                        int startMonth = Integer.valueOf(startSplit[1]);
+                        int startYear = Integer.valueOf(startSplit[2]);
+                        int startHour = Integer.valueOf(startSplit[3]);
+                        int startMinute = Integer.valueOf(startSplit[4]);
+                        Date startDate = new Date(startYear, startMonth, startDay, startHour, startMinute);
+                        
+                        String[] endSplit = end.split(":");
+                        int endDay = Integer.valueOf(endSplit[0]);
+                        int endMonth = Integer.valueOf(endSplit[1]);
+                        int endYear = Integer.valueOf(endSplit[2]);
+                        int endHour = Integer.valueOf(endSplit[3]);
+                        int endMinute = Integer.valueOf(endSplit[4]);
+                        Date endDate = new Date(endYear, endMonth, endDay, endHour, endMinute);
+                        
+                        String[] publishSplit = publish.split(":");
+                        int publishDay = Integer.valueOf(publishSplit[0]);
+                        int publishMonth = Integer.valueOf(publishSplit[1]);
+                        int publishYear = Integer.valueOf(publishSplit[2]);
+                        int publishHour = Integer.valueOf(publishSplit[3]);
+                        int publishMinute = Integer.valueOf(publishSplit[4]);
+                        Date publishDate = new Date(publishYear, publishMonth, publishDay, publishHour, publishMinute);
+                        
+                        Product p = dbs.getProductRegister().get(Integer.valueOf(productId));
+                        
+                        if(p.getParentStore() == null) {
+                            dbs.getSaleRegister().create(p.getName(), p.getDescription(), p.getPicture(), Double.valueOf(price), startDate, endDate, publishDate, p.getParentDealer());
+                        } else {
+                            dbs.getSaleRegister().create(p.getName(), p.getDescription(), p.getPicture(), Double.valueOf(price), startDate, endDate, publishDate, p.getParentStore());
+                        }
+                        System.out.println("Sale created");
+                        finish = true;
+                        ok = true;
+                        break;
+                    case "n":
+                        System.out.println("OK then, lets try again");
+                        System.out.println("");
+                        ok = true;
+                        break;
+                    default:
+                        System.out.println("That was a stupid answer, try again...");
+                        System.out.println("");
+                        break;
+                }
+            }
+        }
     }
 
     private static void createTag(Scanner scan, Dbs dbs) {
