@@ -20,6 +20,16 @@ public class JSONBuilder {
         this.pictureRegister = pictureRegister;
     }
 
+    /**
+     * Builds a JSONArray containing two JSONArrays. One containing all sales
+     * created or updated with a higher update number than the one given as a
+     * parameter. One containing all pictures created or updated with a higher
+     * update number than the one given as a parameter
+     *
+     * @param updateNumber
+     * @return JSONArray containing a JSONArray of new sales and a JSONArray pf
+     * new pictures.
+     */
     public JSONArray buildJSONArray(int updateNumber) {
         JSONArray all = new JSONArray();
         JSONArray sales = new JSONArray();
@@ -34,10 +44,10 @@ public class JSONBuilder {
         for (Picture p : pictureRegister.getObjects()) {
             if (p.getUpdateNumber() > updateNumber) {
                 pictures.put(p.toJSONObject());
-                
+
             }
         }
-        
+
         all.put(sales);
         all.put(pictures);
         return all;

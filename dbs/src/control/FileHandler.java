@@ -27,24 +27,28 @@ public class FileHandler {
     private File deleteListFile = new File("data/deleteList.data");
     private static final String dataFolder = "data";
     private static final String pictureFolder = dataFolder + "/pictures";
-    
+
+    /**
+     * Creates necesarry folders to store local files.
+     */
     public static void makeFolders() {
         File data = new File(dataFolder);
         data.mkdir();
-        
+
         File picture = new File(pictureFolder);
         picture.mkdir();
     }
-    
+
     /**
-     * Converts an bufferedimage to a bytearray
+     * Converts a bufferedimage to a bytearray
+     *
      * @param image
      * @return ByteArray
      */
     public static byte[] convertBufferedImageToArray(BufferedImage image, String type) {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write( image, type, baos );
+            ImageIO.write(image, type, baos);
             baos.flush();
             byte[] imageInByte = baos.toByteArray();
             baos.close();
@@ -94,7 +98,7 @@ public class FileHandler {
     }
 
     /**
-     * Deletes the saved bye array of a picture.
+     * Deletes the saved byte array of a picture.
      *
      * @param id id of the picture
      */

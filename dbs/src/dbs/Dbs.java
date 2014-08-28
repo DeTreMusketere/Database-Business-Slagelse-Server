@@ -19,7 +19,7 @@ public class Dbs {
 
     public static final String TITLE = "DBS";
     public static final String VERSION = "0.0.0.0";
-    
+
     private TerminalController stdController;
     private NetServer netServer;
     private JSONBuilder jsonBuilder;
@@ -79,7 +79,7 @@ public class Dbs {
 
     private PermissionHandler permissionHandler;
     private FileHandler fileHandler;
-    
+
     private IDHandler idHandler;
 
     public Dbs() throws IOException {
@@ -92,14 +92,13 @@ public class Dbs {
         idHandler.init(dealerRegister, storeRegister, productRegister, saleRegister, userRegister, tagRegister, pictureRegister);
         permissionHandler = new PermissionHandler(adminPermDAO, dealer_AdminPermDAO, dealer_CreatePermDAO, dealer_DeletePermDAO, dealer_ReadPermDAO, dealer_UpdatePermDAO, product_CreatePermDAO, product_DeletePermDAO, product_ReadPermDAO, product_UpdatePermDAO, sale_CreatePermDAO, sale_DeletePermDAO, sale_ReadPermDAO, sale_UpdatePermDAO, store_AdminPermDAO, store_CreatePermDAO, store_DeletePermDAO, store_ReadPermDAO, store_UpdatePermDAO, user_CreatePermDAO, user_DeletePermDAO, user_ReadPermDAO, user_UpdatePermDAO);
         idHandler.refresh();
-        
-        
+
         jsonBuilder = new JSONBuilder(saleRegister, pictureRegister);
         netServer = new NetServer(6666, jsonBuilder);
-        
-        stdController = new TerminalController(this,netServer);
+
+        stdController = new TerminalController(this, netServer);
         stdController.start();
-        
+
     }
 
     public DealerRegister getDealerRegister() {
@@ -133,7 +132,13 @@ public class Dbs {
     public UpdateNumberHandler getUpdateNumberHandler() {
         return updateNumberHandler;
     }
-    
+
+    /**
+     * Prints out the status of the program. Prints the amount of objects
+     * currently held in the different data registers as well as the current
+     * update number. Also prints out a status message stating whether the
+     * netserver is running or not
+     */
     public void status() {
         System.out.println("");
         System.out.println("### - REGISTER STATUS - ###");
@@ -146,7 +151,7 @@ public class Dbs {
         System.out.println("Tags: " + tagRegister.getObjects().size());
         System.out.println("");
         System.out.println("### - SERVER STATUS - ###");
-        if(netServer.getRunning()) {
+        if (netServer.getRunning()) {
             System.out.println("NetServer is running");
         } else {
             System.out.println("NetServer is not running");
@@ -159,31 +164,31 @@ public class Dbs {
         pictureDAO = new PictureDAO(fileHandler);
         pictureRegister = new PictureRegister(idHandler, pictureDAO);
         pictureRegister.load();
-        
+
         dealerDAO = new DealerDAO(pictureRegister);
         dealerRegister = new DealerRegister(idHandler, dealerDAO);
         dealerRegister.load();
-        
+
         storeDAO = new StoreDAO(dealerRegister, pictureRegister);
         storeRegister = new StoreRegister(idHandler, storeDAO);
         storeRegister.load();
-        
+
         productDAO = new ProductDAO(dealerRegister, storeRegister, pictureRegister);
         productRegister = new ProductRegister(idHandler, productDAO);
         productRegister.load();
-        
+
         saleDAO = new SaleDAO(dealerRegister, storeRegister, pictureRegister);
         saleRegister = new SaleRegister(idHandler, saleDAO);
         saleRegister.load();
-        
+
         userDAO = new UserDAO(dealerRegister, storeRegister);
         userRegister = new UserRegister(idHandler, userDAO);
         userRegister.load();
-        
+
         tagDAO = new TagDAO();
         tagRegister = new TagRegister(idHandler, tagDAO);
         tagRegister.load();
-        
+
         updateNumberDAO = new UpdateNumberDAO();
         updateNumberHandler = new UpdateNumberHandler(updateNumberDAO, fileHandler);
     }

@@ -32,6 +32,10 @@ public abstract class Data {
         this.updateNumber = updateNumber;
     }
     
+    /**
+     * Creates and returns a JSONObject of this object.
+     * @return JSONObject.
+     */
     public abstract JSONObject toJSONObject();
 
 }
