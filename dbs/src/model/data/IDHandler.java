@@ -1,6 +1,5 @@
 package model.data;
 
-import abstracts.DAO;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -9,7 +8,7 @@ import java.util.HashMap;
  *
  * @author Patrick
  */
-public class IDHandler extends DAO {
+public class IDHandler {
 
     private int currentDealerId;
     private int currentStoreId;

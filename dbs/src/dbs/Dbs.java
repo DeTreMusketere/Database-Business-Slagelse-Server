@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import json.JSONBuilder;
 import networking.NetServer;
-import std.STDController;
+import std.TerminalController;
 
 /**
  *
@@ -20,7 +20,7 @@ public class Dbs {
     public static final String TITLE = "DBS";
     public static final String VERSION = "0.0.0.0";
     
-    private STDController stdController;
+    private TerminalController stdController;
     private NetServer netServer;
     private JSONBuilder jsonBuilder;
 
@@ -82,9 +82,6 @@ public class Dbs {
     
     private IDHandler idHandler;
 
-    //test
-    private static BufferedImage test = null;
-
     public Dbs() throws IOException {
         fileHandler = new FileHandler();
 
@@ -99,7 +96,7 @@ public class Dbs {
         jsonBuilder = new JSONBuilder(saleRegister, pictureRegister);
         netServer = new NetServer(6666, jsonBuilder);
         
-        stdController = new STDController(this,netServer);
+        stdController = new TerminalController(this,netServer);
         stdController.start();
         
     }
@@ -221,19 +218,6 @@ public class Dbs {
         user_ReadPermDAO = new User_ReadPermDAO(userRegister, userRegister);
         user_UpdatePermDAO = new User_UpdatePermDAO(userRegister, userRegister);
     }
-    
-    public void test() {
-//        Testing permissionTest = new Testing(dealerRegister, storeRegister, productRegister, saleRegister, userRegister, tagRegister, pictureRegister, permissionHandler);
-//        permissionTest.doTest();
-        
-        
-        System.out.println(UpdateNumberHandler.getDeleteList().toString());        
-        Dealer test = dealerRegister.create("TestDealer", "Hello I am test", "25252525", null);
-        Dealer test2 = dealerRegister.create("TestDealer", "Hello I am test", "25252525", null);
-        dealerRegister.delete(test);
-        dealerRegister.delete(test2);
-        System.out.println(UpdateNumberHandler.getDeleteList().toString());
-    }
 
     /**
      * @param args the command line arguments
@@ -241,64 +225,6 @@ public class Dbs {
     public static void main(String[] args) throws IOException {
 
         Dbs dbs = new Dbs();
-
-        //dbs.idHandler.refresh();
-        //dbs.test();
-        
-        
-//        User u = dbs.userRegister.getObjects().get(0);
-//        UserPermissionSet ups = dbs.permissionHandler.constructUserPermissionSet(u);
-//        System.out.println(ups.toString());
-        
-        
-
-//        FileHandler fh = new FileHandler();
-//        HashMap<Integer, String> map = fh.getDeleteList();
-//        System.out.println(map.toString());
-//        System.out.println(map.get(1));
-//        
-//        HashMap<Integer, String> map = new HashMap<>();
-//        map.put(1, "one");
-//        fh.saveDeleteList(map);
-//        Saves a picture (Edit filepath for testing or riot)
-//        byte[] imageInByte = null;              
-//        try {
-//            test = ImageIO.read(new File("C:\\Users\\PK\\Downloads\\DSC_0019.jpg"));
-//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//            ImageIO.write(test, "jpg", baos);
-//            baos.flush();
-//            imageInByte = baos.toByteArray();
-//            baos.close();
-//            fh.saveByteArray(imageInByte, 2);
-//        } catch (IOException ex) {
-//            Logger.getLogger(Dbs.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-
-//        Loads a picture and paints it in a JFrame
-//        byte[] array = fh.getByteArray(2);
-//        InputStream in = new ByteArrayInputStream(array);
-//        try {
-//            test = ImageIO.read(in);
-//        } catch (IOException ex) {
-//            Logger.getLogger(Dbs.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//
-//        JFrame frame = new JFrame();
-//        JPanel panel = new JPanel() {
-//            @Override
-//            public void paint(Graphics g) {
-//                  g.drawImage(test, 0, 0, null);
-//            }
-//        };
-//
-//        frame.setContentPane(panel);
-//
-//        frame.pack();
-//        frame.setSize(test.getWidth(), test.getHeight());
-//        frame.setLocationRelativeTo(null);
-//        frame.setResizable(false);
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.setVisible(true);
     }
 
 }

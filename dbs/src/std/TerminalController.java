@@ -13,16 +13,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import model.data.Dealer;
-import model.data.Picture;
-import model.data.Store;
 import networking.NetServer;
 
 /**
  *
  * @author Patrick
  */
-public class STDController implements Runnable {
+public class TerminalController implements Runnable {
 
     private Thread th;
     private boolean running;
@@ -31,7 +28,7 @@ public class STDController implements Runnable {
     private boolean autostart;
     private Properties prop;
 
-    public STDController(Dbs dbs, NetServer netServer) {
+    public TerminalController(Dbs dbs, NetServer netServer) {
         this.dbs = dbs;
         this.netServer = netServer;
         getConfig();
@@ -65,14 +62,14 @@ public class STDController implements Runnable {
             out = new FileOutputStream(f);
             prop.store(out, null);
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(STDController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TerminalController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(STDController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TerminalController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 out.close();
             } catch (IOException ex) {
-                Logger.getLogger(STDController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(TerminalController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -176,6 +173,7 @@ public class STDController implements Runnable {
                     dbs.getUserRegister().load();
                     dbs.getUpdateNumberHandler().reload();
                     System.out.println("Registers reloaded");
+                    break;
                 case "create":
                     CreateObjects.create(scan, dbs);
                     break;
@@ -197,7 +195,7 @@ public class STDController implements Runnable {
             Thread.sleep(1000);
 
         } catch (InterruptedException ex) {
-            Logger.getLogger(STDController.class
+            Logger.getLogger(TerminalController.class
                     .getName()).log(Level.SEVERE, null, ex);
         }
     }

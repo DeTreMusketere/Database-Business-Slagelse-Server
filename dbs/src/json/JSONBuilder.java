@@ -21,7 +21,6 @@ public class JSONBuilder {
     }
 
     public JSONArray buildJSONArray(int updateNumber) {
-        System.out.println("BUILDING JSON SHIT");
         JSONArray all = new JSONArray();
         JSONArray sales = new JSONArray();
         JSONArray pictures = new JSONArray();
@@ -29,7 +28,6 @@ public class JSONBuilder {
         for (Sale s : saleRegister.getObjects()) {
             if (s.getUpdateNumber() > updateNumber) {
                 sales.put(s.toJSONObject());
-                System.out.println("MADE A SALE JSON");
             }
         }
 
@@ -39,8 +37,7 @@ public class JSONBuilder {
                 
             }
         }
-
-        System.out.println("SENDING THEM NOW");
+        
         all.put(sales);
         all.put(pictures);
         return all;
