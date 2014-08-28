@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.data.Picture;
 import model.data.Product;
 
 /**
@@ -359,10 +360,10 @@ public class CreateObjects {
         String price = "";
         String parentStoreId = "";
         String parentDealerId = "";
+        String pictureId = "";
 
         System.out.println("======== Create a product ================================");
         System.out.println("You can at any time write 'back' to get back to main menu");
-        System.out.println("- You can not choose a picture in this mode");
         System.out.println("---------------------------------------------------------");
         while (!finish) {
             System.out.print("Name:" + name + " ");
@@ -409,7 +410,6 @@ public class CreateObjects {
 
                 while (!ok) {
                     ok = true;
-                    System.out.println("Write 'null' if there is no dealer");
                     System.out.print("Dealer ID:" + parentDealerId + " ");
                     parentDealerId = scan.nextLine();
                     if (parentStoreId.equalsIgnoreCase("back")) {
@@ -424,6 +424,28 @@ public class CreateObjects {
                 }
             }
 
+            ok = false;
+
+            while (!ok) {
+                ok = true;
+                System.out.println("Write 'null' if there is no picture");
+                System.out.print("Picture Id:" + pictureId + " ");
+                pictureId = scan.nextLine();
+                if (pictureId.equalsIgnoreCase("back")) {
+                    break;
+                }
+                
+                if(pictureId.equalsIgnoreCase("back")) {
+                    break;
+                } else if(!pictureId.equalsIgnoreCase("null")) {
+                    Picture p = dbs.getPictureRegister().get(Integer.valueOf(pictureId));
+                    if(p == null) {
+                        System.out.println("The picture was not found, try again...");
+                        ok = false;
+                    }
+                }
+            }
+
             System.out.println("");
             System.out.println("Is this right?");
             System.out.println("Name: " + name);
@@ -433,6 +455,9 @@ public class CreateObjects {
                 System.out.println("Store Id: " + parentStoreId);
             }
             System.out.println("Dealer Id: " + parentDealerId);
+            if(!pictureId.equalsIgnoreCase("null")) {
+                System.out.println("Picture Id: " + pictureId);
+            }
 
             ok = false;
             while (!ok) {
@@ -440,12 +465,16 @@ public class CreateObjects {
                 String answer = scan.nextLine();
                 switch (answer.toLowerCase()) {
                     case "y":
+                        Picture p = null;
+                        if(!pictureId.equalsIgnoreCase("null")) {
+                            p = dbs.getPictureRegister().get(Integer.valueOf(pictureId));
+                        }
                         if (!parentStoreId.equalsIgnoreCase("null")) {
                             Store s = dbs.getStoreRegister().get(Integer.valueOf(parentStoreId));
-                            dbs.getProductRegister().create(name, description, null, Double.valueOf(price), s);
+                            dbs.getProductRegister().create(name, description, p, Double.valueOf(price), s);
                         } else {
                             Dealer d = dbs.getDealerRegister().get(Integer.valueOf(parentDealerId));
-                            dbs.getProductRegister().create(name, description, null, Double.valueOf(price), d);
+                            dbs.getProductRegister().create(name, description, p, Double.valueOf(price), d);
                         }
                         System.out.println("Product created");
                         finish = true;
@@ -664,12 +693,12 @@ public class CreateObjects {
                     System.out.println("The picture was not found, try again");
                 }
             }
-            
+
             System.out.println("");
             System.out.println("Is this right?");
             System.out.println("Name: " + name);
             System.out.println("Path: " + path);
-            
+
             ok = false;
 
             while (!ok) {
