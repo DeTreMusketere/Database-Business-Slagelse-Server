@@ -25,6 +25,16 @@ import javax.imageio.ImageIO;
 public class FileHandler {
 
     private File deleteListFile = new File("data/deleteList.data");
+    private static final String dataFolder = "data";
+    private static final String pictureFolder = dataFolder + "/pictures";
+    
+    public static void makeFolders() {
+        File data = new File(dataFolder);
+        data.mkdir();
+        
+        File picture = new File(pictureFolder);
+        picture.mkdir();
+    }
     
     /**
      * Converts an bufferedimage to a bytearray

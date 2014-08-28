@@ -4,7 +4,12 @@ import java.util.Scanner;
 import model.data.Dealer;
 import model.data.Store;
 import dbs.Dbs;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.data.Product;
 
 /**
@@ -23,6 +28,7 @@ public class CreateObjects {
         System.out.println("4   Product");
         System.out.println("5   Sale");
         System.out.println("6   Tag");
+        System.out.println("7   Picture");
 
         boolean ok = false;
         while (!ok) {
@@ -56,6 +62,11 @@ public class CreateObjects {
                     break;
                 case "6":
                     createTag(scan, dbs);
+                    System.out.println("");
+                    ok = true;
+                    break;
+                case "7":
+                    createPicture(scan, dbs);
                     System.out.println("");
                     ok = true;
                     break;
@@ -489,25 +500,25 @@ public class CreateObjects {
             if (price.equalsIgnoreCase("back")) {
                 break;
             }
-            
+
             System.out.print("Start date [dd:mm:yyyy:HH:MM]:" + start + " ");
             start = scan.nextLine();
             if (start.equalsIgnoreCase("back")) {
                 break;
             }
-            
+
             System.out.print("End date [dd:mm:yyyy:HH:MM]:" + end + " ");
             end = scan.nextLine();
             if (end.equalsIgnoreCase("back")) {
                 break;
             }
-            
+
             System.out.print("Publish date [dd:mm:yyyy:HH:MM]:" + publish + " ");
             publish = scan.nextLine();
             if (publish.equalsIgnoreCase("back")) {
                 break;
             }
-            
+
             System.out.println("");
             System.out.println("Is this right?");
             System.out.println("Product Id: " + productId);
@@ -515,7 +526,7 @@ public class CreateObjects {
             System.out.println("Start date: " + start);
             System.out.println("End date: " + end);
             System.out.println("Publish date: " + publish);
-            
+
             ok = false;
             while (!ok) {
                 System.out.print("[y/n]: ");
@@ -529,7 +540,7 @@ public class CreateObjects {
                         int startHour = Integer.valueOf(startSplit[3]);
                         int startMinute = Integer.valueOf(startSplit[4]);
                         Date startDate = new Date(startYear, startMonth, startDay, startHour, startMinute);
-                        
+
                         String[] endSplit = end.split(":");
                         int endDay = Integer.valueOf(endSplit[0]);
                         int endMonth = Integer.valueOf(endSplit[1]);
@@ -537,7 +548,7 @@ public class CreateObjects {
                         int endHour = Integer.valueOf(endSplit[3]);
                         int endMinute = Integer.valueOf(endSplit[4]);
                         Date endDate = new Date(endYear, endMonth, endDay, endHour, endMinute);
-                        
+
                         String[] publishSplit = publish.split(":");
                         int publishDay = Integer.valueOf(publishSplit[0]);
                         int publishMonth = Integer.valueOf(publishSplit[1]);
@@ -545,10 +556,10 @@ public class CreateObjects {
                         int publishHour = Integer.valueOf(publishSplit[3]);
                         int publishMinute = Integer.valueOf(publishSplit[4]);
                         Date publishDate = new Date(publishYear, publishMonth, publishDay, publishHour, publishMinute);
-                        
+
                         Product p = dbs.getProductRegister().get(Integer.valueOf(productId));
-                        
-                        if(p.getParentStore() == null) {
+
+                        if (p.getParentStore() == null) {
                             dbs.getSaleRegister().create(p.getName(), p.getDescription(), p.getPicture(), Double.valueOf(price), startDate, endDate, publishDate, p.getParentDealer());
                         } else {
                             dbs.getSaleRegister().create(p.getName(), p.getDescription(), p.getPicture(), Double.valueOf(price), startDate, endDate, publishDate, p.getParentStore());
@@ -606,6 +617,68 @@ public class CreateObjects {
                     case "y":
                         dbs.getTagRegister().create(name, description);
                         System.out.println("Tag created");
+                        finish = true;
+                        ok = true;
+                        break;
+                    case "n":
+                        System.out.println("OK then, lets try again");
+                        System.out.println("");
+                        ok = true;
+                        break;
+                    default:
+                        System.out.println("That was a stupid answer, try again...");
+                        System.out.println("");
+                        break;
+                }
+            }
+        }
+    }
+
+    private static void createPicture(Scanner scan, Dbs dbs) {
+        boolean finish = false;
+        String name = "";
+        String path = "";
+
+        System.out.println("======== Create a picture ===============================");
+        System.out.println("You can at any time write 'back' to get back to main menu");
+        System.out.println("---------------------------------------------------------");
+        while (!finish) {
+            System.out.print("Name:" + name + " ");
+            name = scan.nextLine();
+            if (name.equalsIgnoreCase("back")) {
+                break;
+            }
+
+            boolean ok = false;
+            while (!ok) {
+                System.out.print("Path:" + path + " ");
+                path = scan.nextLine();
+                if (name.equalsIgnoreCase("back")) {
+                    break;
+                }
+                File f = new File(path);
+                try {
+                    FileInputStream in = new FileInputStream(f);
+                    ok = true;
+                } catch (FileNotFoundException ex) {
+                    System.out.println("The picture was not found, try again");
+                }
+            }
+            
+            System.out.println("");
+            System.out.println("Is this right?");
+            System.out.println("Name: " + name);
+            System.out.println("Path: " + path);
+            
+            ok = false;
+
+            while (!ok) {
+                System.out.print("[y/n]: ");
+                String answer = scan.nextLine();
+                switch (answer.toLowerCase()) {
+                    case "y":
+                        dbs.getPictureRegister().create(name, path);
+                        System.out.println("Picture created");
                         finish = true;
                         ok = true;
                         break;

@@ -84,6 +84,7 @@ public class Dbs {
 
     public Dbs() throws IOException {
         fileHandler = new FileHandler();
+        FileHandler.makeFolders();
 
         idHandler = new IDHandler();
         constructData();
