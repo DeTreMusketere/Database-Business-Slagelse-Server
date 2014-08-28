@@ -1,5 +1,6 @@
 package std;
 
+import db.DBTool;
 import dbs.Dbs;
 import java.io.File;
 import java.io.FileInputStream;
@@ -172,6 +173,7 @@ public class TerminalController implements Runnable {
                     dbs.getSaleRegister().load();
                     dbs.getUserRegister().load();
                     dbs.getUpdateNumberHandler().reload();
+                    DBTool.close();
                     System.out.println("Registers reloaded");
                     break;
                 case "create":

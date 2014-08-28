@@ -30,6 +30,7 @@ public abstract class Register<DATATYPE extends Data> {
     public void insert(DATATYPE source) {
         objects.add(source);
         dao.insert(source);
+        dao.close();
     }
 
     /**
@@ -43,7 +44,7 @@ public abstract class Register<DATATYPE extends Data> {
         source.setUpdateNumber(updateNumber);
         objects.set(objects.indexOf(target), source);
         dao.update(source, target);
-        
+        dao.close();
     }
 
     /**
@@ -54,6 +55,7 @@ public abstract class Register<DATATYPE extends Data> {
     public void delete(DATATYPE target) {
         objects.remove(target);
         dao.delete(target);
+        dao.close();
     }
 
     /**

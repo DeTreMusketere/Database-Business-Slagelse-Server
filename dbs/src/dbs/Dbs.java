@@ -2,6 +2,7 @@ package dbs;
 
 import control.FileHandler;
 import control.PermissionHandler;
+import db.DBTool;
 import model.data.*;
 import db.data.*;
 import db.permission.*;
@@ -176,6 +177,7 @@ public class Dbs {
         productDAO = new ProductDAO(dealerRegister, storeRegister, pictureRegister);
         productRegister = new ProductRegister(idHandler, productDAO);
         productRegister.load();
+        Product p = productRegister.get(1);
 
         saleDAO = new SaleDAO(dealerRegister, storeRegister, pictureRegister);
         saleRegister = new SaleRegister(idHandler, saleDAO);
@@ -191,6 +193,8 @@ public class Dbs {
 
         updateNumberDAO = new UpdateNumberDAO();
         updateNumberHandler = new UpdateNumberHandler(updateNumberDAO, fileHandler);
+        
+        DBTool.close();
     }
 
     private void constructPermission() {

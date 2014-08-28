@@ -124,7 +124,7 @@ public class ProductDAO extends DataDAO<Product> {
                         parentDealer = dealerRegister.get(parentDealerId);
                     }
 
-                    int pictureId = rs.getInt(5);
+                    int pictureId = rs.getInt(4);
                     Picture picture = null;
                     if (pictureId != 0) {
                         picture = pictureRegister.get(pictureId);
@@ -169,7 +169,7 @@ public class ProductDAO extends DataDAO<Product> {
 
                     Product product;
 
-                    int pictureId = rs.getInt(5);
+                    int pictureId = rs.getInt(4);
                     Picture picture = null;
                     if (pictureId != 0) {
                         picture = pictureRegister.get(pictureId);
