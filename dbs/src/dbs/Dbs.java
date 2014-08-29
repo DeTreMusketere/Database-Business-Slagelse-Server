@@ -161,6 +161,9 @@ public class Dbs {
         System.out.println("");
     }
 
+    /**
+     * Creates instances of all the data model and DAO classes.
+     */
     private void constructData() {
         pictureDAO = new PictureDAO(fileHandler);
         pictureRegister = new PictureRegister(idHandler, pictureDAO);
@@ -193,10 +196,13 @@ public class Dbs {
 
         updateNumberDAO = new UpdateNumberDAO();
         updateNumberHandler = new UpdateNumberHandler(updateNumberDAO, fileHandler);
-        
+
         DBTool.close();
     }
 
+    /**
+     * Creates instances of all the permission DAOs.
+     */
     private void constructPermission() {
         adminPermDAO = new AdminPermDAO(userRegister, null);
 

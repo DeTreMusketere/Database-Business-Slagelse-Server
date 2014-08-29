@@ -13,6 +13,18 @@ public class ProductRegister extends Register<Product> {
         super(idHandler, dao);
     }
 
+    /**
+     * Use this for products with a dealer parent. Creates a product with the
+     * given parameters and an updated update number and the newest id from the
+     * idHandler. Then inserts it into the database and into the ArrayList.
+     *
+     * @param name The product's name.
+     * @param description Description of the product.
+     * @param picture A picture to represent the product.
+     * @param price The price of the product.
+     * @param parentDealer The parent dealer.
+     * @return The created product.
+     */
     public Product create(String name, String description, Picture picture, double price, Dealer parentDealer) {
         int updateNumber = UpdateNumberHandler.update();
         int id = idHandler.nextProductId();

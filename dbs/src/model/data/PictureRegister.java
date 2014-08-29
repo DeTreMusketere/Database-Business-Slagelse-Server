@@ -20,6 +20,15 @@ public class PictureRegister extends Register<Picture> {
         super(idHandler, dao);
     }
 
+    /**
+     * Creates a picture object with the given parameters and an updated update
+     * number and the newest id from the idHandler. Then inserts it into the
+     * database and into the ArrayList.
+     *
+     * @param name Name of the picture.
+     * @param imageArray A byteArray of a picture.
+     * @return The created picture.
+     */
     public Picture create(String name, byte[] imageArray) {
         int updateNumber = UpdateNumberHandler.update();
         int id = idHandler.nextPictureId();
@@ -28,6 +37,15 @@ public class PictureRegister extends Register<Picture> {
         return p;
     }
 
+    /**
+     * Creates a picture object with the given parameters and an updated update
+     * number and the newest id from the idHandler. Then inserts it into the
+     * database and into the ArrayList.
+     *
+     * @param name Name of the picture.
+     * @param imagePath Filepath of the picture to create.
+     * @return The created picture.
+     */
     public Picture create(String name, String imagePath) {
         try {
             File file = new File(imagePath);
@@ -49,6 +67,11 @@ public class PictureRegister extends Register<Picture> {
         return null;
     }
 
+    /**
+     * Deletes a picture and writes an entry in the deleteList for this object.
+     *
+     * @param target The picture to be deleted.
+     */
     @Override
     public void delete(Picture target) {
         int id = target.getId();
