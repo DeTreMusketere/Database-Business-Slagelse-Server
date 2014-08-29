@@ -48,7 +48,7 @@ public class SocketReceiver implements Runnable {
                 comm.sendMessage("ok");
                 int receiveUpdateNumber = Integer.valueOf(comm.receiveStringMessage());
                 System.out.println("");
-                System.out.println("Received updateNumber "+receiveUpdateNumber+", sending objects");
+                System.out.println("Received updateNumber " + receiveUpdateNumber + ", sending objects");
                 System.out.println("");
                 JSONArray array = jsonBuilder.buildJSONArray(receiveUpdateNumber);
                 comm.sendMessage(array.toString());
@@ -64,6 +64,9 @@ public class SocketReceiver implements Runnable {
 
     }
 
+    /**
+     * Closes the socket.
+     */
     private void close() {
         try {
             System.out.println("Saying bye to " + socket.getInetAddress());

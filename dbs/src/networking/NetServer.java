@@ -29,6 +29,9 @@ public class NetServer implements Runnable {
         return running;
     }
 
+    /**
+     * Starts the server in a new thread. Does nothing if it is already running.
+     */
     public void startServer() {
         if (!running) {
             try {
@@ -52,6 +55,9 @@ public class NetServer implements Runnable {
 
     }
 
+    /**
+     * Stops the server. Does nothing if it isn't running.
+     */
     public void stopServer() {
         if (running) {
             try {
