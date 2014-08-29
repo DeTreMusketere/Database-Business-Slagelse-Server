@@ -13,6 +13,15 @@ public class TagRegister extends Register<Tag> {
         super(idHandler, dao);
     }
 
+    /**
+     * Creates a tag with the given parameters and an updated update number and
+     * the newest id from the idHandler. Then inserts it into the database and
+     * into the ArrayList.
+     *
+     * @param name Name of the tag.
+     * @param description Description of the tag.
+     * @return The created tag.
+     */
     public Tag create(String name, String description) {
         int updateNumber = UpdateNumberHandler.update();
         int id = idHandler.nextTagId();
@@ -21,6 +30,11 @@ public class TagRegister extends Register<Tag> {
         return t;
     }
 
+    /**
+     * Deletes a tag and writes an entry in the deleteList for this object.
+     *
+     * @param target The tag to be deleted.
+     */
     @Override
     public void delete(Tag target) {
         int id = target.getId();

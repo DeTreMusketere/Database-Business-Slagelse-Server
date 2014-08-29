@@ -33,6 +33,11 @@ public class StoreRegister extends Register<Store> {
         return s;
     }
 
+    /**
+     * Deletes a store and writes an entry in the deleteList for this object.
+     *
+     * @param target The store to be deleted.
+     */
     @Override
     public void delete(Store target) {
         int id = target.getId();
