@@ -13,6 +13,18 @@ public class StoreRegister extends Register<Store> {
         super(idHandler, dao);
     }
 
+    /**
+     * Creates a store with the given parameters and an updated update number
+     * and the newest id from the idHandler. Then inserts it into the database
+     * and into the ArrayList.
+     *
+     * @param name The name of the store.
+     * @param address The address of the store.
+     * @param phone The phone number associated with the store.
+     * @param picture A picture to represent the store.
+     * @param parentDealer The parent dealer.
+     * @return The created store.
+     */
     public Store create(String name, String address, String phone, Picture picture, Dealer parentDealer) {
         int updateNumber = UpdateNumberHandler.update();
         int id = idHandler.nextStoreId();

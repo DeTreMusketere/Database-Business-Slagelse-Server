@@ -33,6 +33,18 @@ public class ProductRegister extends Register<Product> {
         return p;
     }
 
+    /**
+     * Use this for products with a storre parent. Creates a product with the
+     * given parameters and an updated update number and the newest id from the
+     * idHandler. Then inserts it into the database and into the ArrayList.
+     *
+     * @param name The product's name.
+     * @param description Description of the product.
+     * @param picture A picture to represent the product.
+     * @param price The price of the product.
+     * @param parentStore The parent store.
+     * @return The created product.
+     */
     public Product create(String name, String description, Picture picture, double price, Store parentStore) {
         int updateNumber = UpdateNumberHandler.update();
         int id = idHandler.nextProductId();
@@ -42,6 +54,11 @@ public class ProductRegister extends Register<Product> {
         return p;
     }
 
+    /**
+     * Deletes a product and writes an entry in the deleteList for this object.
+     *
+     * @param target The product to be deleted.
+     */
     @Override
     public void delete(Product target) {
         int id = target.getId();

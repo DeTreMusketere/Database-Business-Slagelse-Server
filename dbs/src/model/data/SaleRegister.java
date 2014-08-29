@@ -14,6 +14,22 @@ public class SaleRegister extends Register<Sale> {
         super(idHandler, dao);
     }
 
+    /**
+     * Use this for sales with a dealer parent. Creates a sale with the given
+     * parameters and an updated update number and the newest id from the
+     * idHandler. Then inserts it into the database and into the ArrayList.
+     *
+     * @param name The sale's name.
+     * @param description Description of the sale.
+     * @param picture A picture to represent the sale.
+     * @param price The price of the sale.
+     * @param start A date object of the time the sale is supposed to start.
+     * @param end A date object of the time the sale is supposed to end.
+     * @param publish A date object of the time the sale is going to be visible
+     * for the clients.
+     * @param parentDealer The parent dealer.
+     * @return The created sale.
+     */
     public Sale create(String name, String description, Picture picture, double price, Date start, Date end, Date publish, Dealer parentDealer) {
         int updateNumber = UpdateNumberHandler.update();
         int id = idHandler.nextSaleId();
@@ -22,6 +38,22 @@ public class SaleRegister extends Register<Sale> {
         return s;
     }
 
+    /**
+     * Use this for sales with a store parent. Creates a sale with the given
+     * parameters and an updated update number and the newest id from the
+     * idHandler. Then inserts it into the database and into the ArrayList.
+     *
+     * @param name The sale's name.
+     * @param description Description of the sale.
+     * @param picture A picture to represent the sale.
+     * @param price The price of the sale.
+     * @param start A date object of the time the sale is supposed to start.
+     * @param end A date object of the time the sale is supposed to end.
+     * @param publish A date object of the time the sale is going to be visible
+     * for the clients.
+     * @param parentStore The parent store.
+     * @return The created sale.
+     */
     public Sale create(String name, String description, Picture picture, double price, Date start, Date end, Date publish, Store parentStore) {
         int updateNumber = UpdateNumberHandler.update();
         int id = idHandler.nextSaleId();
@@ -30,6 +62,11 @@ public class SaleRegister extends Register<Sale> {
         return s;
     }
 
+    /**
+     * Deletes a sale and writes an entry in the deleteList for this object.
+     *
+     * @param target The sale to be deleted.
+     */
     @Override
     public void delete(Sale target) {
         int id = target.getId();
