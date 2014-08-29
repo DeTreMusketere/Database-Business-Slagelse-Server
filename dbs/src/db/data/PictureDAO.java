@@ -21,6 +21,12 @@ public class PictureDAO extends DataDAO<Picture> {
         this.fileHandler = fileHandler;
     }
 
+    /**
+     * Saves a picture's id, name and update number in the database. Saves the
+     * bytearray in a local file.
+     *
+     * @param source The picture to insert.
+     */
     @Override
     public void insert(Picture source) {
         try {
@@ -40,6 +46,12 @@ public class PictureDAO extends DataDAO<Picture> {
         }
     }
 
+    /**
+     * Updates a picture in the database and the locally saved bytearray.
+     *
+     * @param source The picture to overwrite the target.
+     * @param target The picture to be changed.
+     */
     @Override
     public void update(Picture source, Picture target) {
         try {
@@ -58,6 +70,12 @@ public class PictureDAO extends DataDAO<Picture> {
         }
     }
 
+    /**
+     * Deletes a picture in the database and deletes the corresponding local
+     * file.
+     *
+     * @param target Picture to delete.
+     */
     @Override
     public void delete(Picture target) {
         try {
@@ -74,6 +92,13 @@ public class PictureDAO extends DataDAO<Picture> {
         }
     }
 
+    /**
+     * Gets a picture from the database and attaches the bytearray from a local
+     * file.
+     *
+     * @param id The id of the picture to get.
+     * @return Returns the picture with the given id.
+     */
     @Override
     public Picture select(int id) {
         try {
@@ -97,6 +122,12 @@ public class PictureDAO extends DataDAO<Picture> {
         return null;
     }
 
+    /**
+     * Gets all pictures from the database including their bytearrays from local
+     * files
+     *
+     * @return ArrayList<Picture> containing all existing pictures.
+     */
     @Override
     public ArrayList<Picture> selectAll() {
         ArrayList<Picture> pictures = new ArrayList<>();
