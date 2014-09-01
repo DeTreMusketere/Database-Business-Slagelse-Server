@@ -7,6 +7,7 @@ import db.data.ProductDAO;
 import db.data.SaleDAO;
 import db.data.StoreDAO;
 import db.data.TagDAO;
+import db.data.UpdateNumberDAO;
 import db.data.UserDAO;
 import db.permission.AdminPermDAO;
 import db.permission.Dealer_AdminPermDAO;
@@ -32,11 +33,13 @@ import db.permission.User_DeletePermDAO;
 import db.permission.User_ReadPermDAO;
 import db.permission.User_UpdatePermDAO;
 import model.data.DealerRegister;
+import model.data.IDHandler;
 import model.data.PictureRegister;
 import model.data.ProductRegister;
 import model.data.SaleRegister;
 import model.data.StoreRegister;
 import model.data.TagRegister;
+import model.data.UpdateNumberHandler;
 import model.data.UserRegister;
 
 /**
@@ -94,34 +97,38 @@ public abstract class InstanceTests {
     protected User_DeletePermDAO user_DeletePermDAO;
     protected User_ReadPermDAO user_ReadPermDAO;
     protected User_UpdatePermDAO user_UpdatePermDAO;
-    
+
     protected FileHandler fileHandler;
+    protected IDHandler idHandler;
+    protected UpdateNumberDAO updateNumberDAO;
+    protected UpdateNumberHandler updateNumberHandler;
 
     public InstanceTests() {
         fileHandler = new FileHandler();
-        
+        idHandler = new IDHandler();
+        updateNumberDAO = new UpdateNumberDAO();
+        updateNumberHandler = new UpdateNumberHandler(updateNumberDAO, fileHandler);
+
         constructData();
         constructPermission();
         load();
     }
-    
-    
 
     protected void constructData() {
         pictureDAO = new PictureDAO(fileHandler);
-        pictureRegister = new PictureRegister(pictureDAO);
+        pictureRegister = new PictureRegister(idHandler, pictureDAO);
         dealerDAO = new DealerDAO(pictureRegister);
-        dealerRegister = new DealerRegister(dealerDAO);
+        dealerRegister = new DealerRegister(idHandler, dealerDAO);
         storeDAO = new StoreDAO(dealerRegister, pictureRegister);
-        storeRegister = new StoreRegister(storeDAO);
+        storeRegister = new StoreRegister(idHandler, storeDAO);
         productDAO = new ProductDAO(dealerRegister, storeRegister, pictureRegister);
-        productRegister = new ProductRegister(productDAO);
+        productRegister = new ProductRegister(idHandler, productDAO);
         saleDAO = new SaleDAO(dealerRegister, storeRegister, pictureRegister);
-        saleRegister = new SaleRegister(saleDAO);
+        saleRegister = new SaleRegister(idHandler, saleDAO);
         userDAO = new UserDAO(dealerRegister, storeRegister);
-        userRegister = new UserRegister(userDAO);
+        userRegister = new UserRegister(idHandler, userDAO);
         tagDAO = new TagDAO();
-        tagRegister = new TagRegister(tagDAO);
+        tagRegister = new TagRegister(idHandler, tagDAO);
     }
 
     protected void constructPermission() {
