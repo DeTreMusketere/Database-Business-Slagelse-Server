@@ -41,26 +41,28 @@ public class Dealer_CreatePermDAOTest extends InstanceTests {
     
     @Before
     public void setUp() {
-        dealer = TestCore.getTestDealer(null);
-        int idDealer = dealerDAO.insert(dealer);
-        dealer.setId(idDealer);
-        user = TestCore.getTestUser(dealer);
-        int idUser = userDAO.insert(user);
-        user.setId(idUser);
+        String name = "InterSport";
+        String description = "Vi har Nikadidas";
+        String phone = "25252525";
+        dealer = dealerRegister.create(name, description, phone, null);
+
+        String nameUser = "Torben";
+        String username = "BigPecs007";
+        String password = "1234";
+        String email = "CristianoRonaldofan48327643@gmail.com";
+        String phoneUser = "23446543";
+        user = userRegister.create(nameUser, username, password, email, phoneUser, dealer);
         
         dealer_CreatePerm = new Dealer_CreatePerm(user);
         dealer_CreatePermDAO.insert(dealer_CreatePerm);
         
-        dealerRegister.load();
-        storeRegister.load();
-        userRegister.load();
     }
     
     @After
     public void tearDown() {
         dealer_CreatePermDAO.delete(dealer_CreatePerm);
-        userDAO.delete(user);
-        dealerDAO.delete(dealer);
+        userRegister.delete(user);
+        dealerRegister.delete(dealer);
     }
 
     /**

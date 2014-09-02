@@ -27,7 +27,6 @@ public class Dealer_AdminPermDAOTest extends InstanceTests {
     private Dealer dealer;
     private Dealer_AdminPerm dealer_AdminPerm;
 
-
     @BeforeClass
     public static void setUpClass() {
 
@@ -39,25 +38,28 @@ public class Dealer_AdminPermDAOTest extends InstanceTests {
 
     @Before
     public void setUp() {
-        dealer = TestCore.getTestDealer(null);
-        int idDealer = dealerDAO.insert(dealer);
-        dealer.setId(idDealer);
-        user = TestCore.getTestUser(dealer);
-        int idUser = userDAO.insert(user);
-        user.setId(idUser);
+        String name = "Kiwi";
+        String description = "Meget ost";
+        String phone = "25252525";
+        dealer = dealerRegister.create(name, description, phone, null);
+
+        String nameUser = "Gert";
+        String username = "HyggeligFyr45";
+        String password = "1234";
+        String email = "watisemail@gmail.com";
+        String phoneUser = "23446543";
+        user = userRegister.create(nameUser, username, password, email, phoneUser, dealer);
+
         dealer_AdminPerm = new Dealer_AdminPerm(dealer, user);
         dealer_AdminPermDAO.insert(dealer_AdminPerm);
 
-        dealerRegister.load();
-        storeRegister.load();
-        userRegister.load();
     }
 
     @After
     public void tearDown() {
         dealer_AdminPermDAO.delete(dealer_AdminPerm);
-        userDAO.delete(user);
-        dealerDAO.delete(dealer);
+        userRegister.delete(user);
+        dealerRegister.delete(dealer);
     }
 
     @Test
@@ -75,11 +77,11 @@ public class Dealer_AdminPermDAOTest extends InstanceTests {
         for (Dealer_AdminPerm dap : result) {
             resultUser = dap.getExecutorUser().toString();
             resultDealer = dap.getTargetDealer().toString();
-            if(resultUser.equals(expUser) && resultDealer.equals(expDealer)) {
+            if (resultUser.equals(expUser) && resultDealer.equals(expDealer)) {
                 break;
             }
         }
-        
+
         assertEquals(expUser, resultUser);
         assertEquals(expDealer, resultDealer);
     }
