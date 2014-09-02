@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package db.permission;
 
 import db.InstanceTests;
@@ -33,44 +32,44 @@ public class Dealer_DeletePermDAOTest extends InstanceTests {
     private static User user;
     private static Dealer dealer;
     private static Dealer_DeletePerm dealer_DeletePerm;
-    
+
     public Dealer_DeletePermDAOTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
 
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
-        dealer = TestCore.getTestDealer(null);
-        int idDealer = dealerDAO.insert(dealer);
-        dealer.setId(idDealer);
-        user = TestCore.getTestUser(dealer);
-        int idUser = userDAO.insert(user);
-        user.setId(idUser);
-        
+        String name = "H&M";
+        String description = "Alt det tøj du ikke kan lide";
+        String phone = "25252525";
+        dealer = dealerRegister.create(name, description, phone, null);
+
+        String nameUser = "Gustav";
+        String username = "mmMMMmmMmmm";
+        String password = "1234";
+        String email = "faaaaabuloouusssss@gmail.com";
+        String phoneUser = "23446543";
+        user = userRegister.create(nameUser, username, password, email, phoneUser, dealer);
+
         dealer_DeletePerm = new Dealer_DeletePerm(dealer, user);
         dealer_DeletePermDAO.insert(dealer_DeletePerm);
-        
-        dealerRegister.load();
-        storeRegister.load();
-        userRegister.load();
+
     }
-    
+
     @After
     public void tearDown() {
         dealer_DeletePermDAO.delete(dealer_DeletePerm);
-        userDAO.delete(user);
-        dealerDAO.delete(dealer);
+        userRegister.delete(user);
+        dealerRegister.delete(dealer);
     }
-
-    
 
     @Test
     public void testSelect() {
@@ -79,14 +78,14 @@ public class Dealer_DeletePermDAOTest extends InstanceTests {
         String expResult = dealer_DeletePerm.toString();
         String result = null;
         ArrayList<Dealer_DeletePerm> dealer_DeletePerms = dealer_DeletePermDAO.select(executor);
-        for(Dealer_DeletePerm deletePerm : dealer_DeletePerms){
+        for (Dealer_DeletePerm deletePerm : dealer_DeletePerms) {
             result = deletePerm.toString();
-            if(expResult.equals(result)){
+            if (expResult.equals(result)) {
                 break;
             }
         }
-        
+
         assertEquals(expResult, result);
     }
-    
+
 }

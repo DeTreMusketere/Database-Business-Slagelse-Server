@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package db.permission;
 
 import db.InstanceTests;
@@ -27,42 +26,43 @@ public class Dealer_ReadPermDAOTest extends InstanceTests {
     private Dealer dealer;
     private User user;
     private Dealer_ReadPerm dealer_ReadPerm;
-    
-    
+
     public Dealer_ReadPermDAOTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
 
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
-        dealer = TestCore.getTestDealer(null);
-        int idDealer = dealerDAO.insert(dealer);
-        dealer.setId(idDealer);
-        user = TestCore.getTestUser(dealer);
-        int idUser = userDAO.insert(user);
-        user.setId(idUser);
-        
+        String name = "Fætter BR";
+        String description = "Vi elsker børn, på den gode måde";
+        String phone = "25252525";
+        dealer = dealerRegister.create(name, description, phone, null);
+
+        String nameUser = "Preben";
+        String username = "SlikBaronen";
+        String password = "1234";
+        String email = "barnetsbedsteven@gmail.com";
+        String phoneUser = "23446543";
+        user = userRegister.create(nameUser, username, password, email, phoneUser, dealer);
+
         dealer_ReadPerm = new Dealer_ReadPerm(dealer, user);
         dealer_ReadPermDAO.insert(dealer_ReadPerm);
-        
-        dealerRegister.load();
-        storeRegister.load();
-        userRegister.load();
+
     }
-    
+
     @After
     public void tearDown() {
         dealer_ReadPermDAO.delete(dealer_ReadPerm);
-        userDAO.delete(user);
-        dealerDAO.delete(dealer);
+        userRegister.delete(user);
+        dealerRegister.delete(dealer);
     }
 
     /**
@@ -70,25 +70,25 @@ public class Dealer_ReadPermDAOTest extends InstanceTests {
      */
     @Test
     public void testSelect() {
-        
+
         String expUser = user.toString();
         String expDealer = dealer.toString();
-        
+
         ArrayList<Dealer_ReadPerm> result = dealer_ReadPermDAO.select(user);
-        
+
         String resultUser = null;
         String resultDealer = null;
-        
-        for(Dealer_ReadPerm drp : result) {
+
+        for (Dealer_ReadPerm drp : result) {
             resultUser = drp.getExecutorUser().toString();
             resultDealer = drp.getTargetDealer().toString();
-            if(resultUser.equals(expUser) && resultDealer.equals(expDealer)) {
+            if (resultUser.equals(expUser) && resultDealer.equals(expDealer)) {
                 break;
             }
         }
-        
+
         assertEquals(expUser, resultUser);
         assertEquals(expDealer, resultDealer);
     }
-    
+
 }
