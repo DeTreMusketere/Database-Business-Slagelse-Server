@@ -6,7 +6,6 @@ import db.DBTool;
 import model.data.*;
 import db.data.*;
 import db.permission.*;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import json.JSONBuilder;
 import networking.NetServer;
@@ -94,7 +93,7 @@ public class Dbs {
         permissionHandler = new PermissionHandler(adminPermDAO, dealer_AdminPermDAO, dealer_CreatePermDAO, dealer_DeletePermDAO, dealer_ReadPermDAO, dealer_UpdatePermDAO, product_CreatePermDAO, product_DeletePermDAO, product_ReadPermDAO, product_UpdatePermDAO, sale_CreatePermDAO, sale_DeletePermDAO, sale_ReadPermDAO, sale_UpdatePermDAO, store_AdminPermDAO, store_CreatePermDAO, store_DeletePermDAO, store_ReadPermDAO, store_UpdatePermDAO, user_CreatePermDAO, user_DeletePermDAO, user_ReadPermDAO, user_UpdatePermDAO);
         idHandler.refresh();
 
-        jsonBuilder = new JSONBuilder(saleRegister, pictureRegister);
+        jsonBuilder = new JSONBuilder(saleRegister, pictureRegister, tagRegister);
         netServer = new NetServer(6666, jsonBuilder);
 
         stdController = new TerminalController(this, netServer);

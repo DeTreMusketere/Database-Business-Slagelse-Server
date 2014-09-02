@@ -4,6 +4,8 @@ import model.data.Picture;
 import model.data.PictureRegister;
 import model.data.Sale;
 import model.data.SaleRegister;
+import model.data.Tag;
+import model.data.TagRegister;
 import org.json.JSONArray;
 
 /**
@@ -14,10 +16,12 @@ public class JSONBuilder {
 
     private SaleRegister saleRegister;
     private PictureRegister pictureRegister;
+    private TagRegister tagRegister;
 
-    public JSONBuilder(SaleRegister saleRegister, PictureRegister pictureRegister) {
+    public JSONBuilder(SaleRegister saleRegister, PictureRegister pictureRegister, TagRegister tagRegister) {
         this.saleRegister = saleRegister;
         this.pictureRegister = pictureRegister;
+        this.tagRegister = tagRegister;
     }
 
     /**
@@ -34,6 +38,7 @@ public class JSONBuilder {
         JSONArray all = new JSONArray();
         JSONArray sales = new JSONArray();
         JSONArray pictures = new JSONArray();
+        JSONArray tags = new JSONArray();
 
         for (Sale s : saleRegister.getObjects()) {
             if (s.getUpdateNumber() > updateNumber) {
@@ -47,9 +52,17 @@ public class JSONBuilder {
 
             }
         }
+        
+        for (Tag t : tagRegister.getObjects()) {
+            if (t.getUpdateNumber() > updateNumber) {
+                tags.put(t.toJSONObject());
+
+            }
+        }
 
         all.put(sales);
         all.put(pictures);
+        all.put(tags);
         return all;
     }
 
