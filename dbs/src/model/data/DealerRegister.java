@@ -28,9 +28,7 @@ public class DealerRegister extends Register<Dealer> {
     public Dealer create(String name, String description, String phone, Picture picture) {
         int updateNumber = UpdateNumberHandler.update();
         int id = idHandler.nextDealerId();
-        String convertedName = StringTool.convertÆØÅ(name);
-        String convertedDescription = StringTool.convertÆØÅ(description);
-        Dealer d = new Dealer(id, convertedName, convertedDescription, phone, picture, updateNumber);
+        Dealer d = new Dealer(id, name, description, phone, picture, updateNumber);
         insert(d);
         return d;
     }
