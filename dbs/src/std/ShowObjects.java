@@ -3,6 +3,7 @@ package std;
 
 import dbs.Dbs;
 import java.util.Scanner;
+import model.data.Tag;
 
 /**
  *
@@ -87,7 +88,27 @@ public class ShowObjects {
     }
     
     private static void showTag(Scanner scan, Dbs dbs) {
-        System.out.println("Not implementet yet");
+        System.out.print("Tag ID: ");
+        String input = scan.nextLine();
+        Tag t = dbs.getTagRegister().get(Integer.valueOf(input));
+        if(t == null) {
+            System.out.println("Did not find tag, bye");
+        } else {
+            System.out.println("How would you like to show it?");
+            System.out.print("[json/plain]: ");
+            input = scan.nextLine();
+            switch(input.toLowerCase()) {
+                case "json":
+                    System.out.println(t.toJSONObject().toString(2));
+                    break;
+                case "plain":
+                    System.out.println("Not implementet yet");
+                    break;
+                default:
+                    System.out.println("What?? bye");
+                    break;
+            }
+        }
     }
 
 }
