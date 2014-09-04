@@ -2,6 +2,7 @@ package model.data;
 
 import abstracts.DataDAO;
 import abstracts.Register;
+import control.StringTool;
 
 /**
  *
@@ -25,7 +26,9 @@ public class TagRegister extends Register<Tag> {
     public Tag create(String name, String description) {
         int updateNumber = UpdateNumberHandler.update();
         int id = idHandler.nextTagId();
-        Tag t = new Tag(id, name, description, updateNumber);
+        String convertedName = StringTool.convertÆØÅ(name);
+        String convertedDescription = StringTool.convertÆØÅ(description);
+        Tag t = new Tag(id, convertedName, convertedDescription, updateNumber);
         insert(t);
         return t;
     }

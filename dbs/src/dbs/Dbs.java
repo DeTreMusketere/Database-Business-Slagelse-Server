@@ -179,7 +179,6 @@ public class Dbs {
         productDAO = new ProductDAO(dealerRegister, storeRegister, pictureRegister);
         productRegister = new ProductRegister(idHandler, productDAO);
         productRegister.load();
-        Product p = productRegister.get(1);
 
         saleDAO = new SaleDAO(dealerRegister, storeRegister, pictureRegister);
         saleRegister = new SaleRegister(idHandler, saleDAO);
