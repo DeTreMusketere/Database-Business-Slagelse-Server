@@ -102,7 +102,7 @@ public class TerminalController implements Runnable {
         System.out.println(Dbs.TITLE + " - v" + Dbs.VERSION);
         System.out.println("Welcome\nWrite a command, or dont, i dont care...");
         while (running) {
-            Scanner scan = new Scanner(System.in);
+            Scanner scan = new Scanner(System.in, "ISO-8859-1");
             System.out.print("># ");
             String command = scan.nextLine();
             switch (command.toLowerCase()) {

@@ -26,9 +26,7 @@ public class TagRegister extends Register<Tag> {
     public Tag create(String name, String description) {
         int updateNumber = UpdateNumberHandler.update();
         int id = idHandler.nextTagId();
-        String convertedName = StringTool.convertÆØÅ(name);
-        String convertedDescription = StringTool.convertÆØÅ(description);
-        Tag t = new Tag(id, convertedName, convertedDescription, updateNumber);
+        Tag t = new Tag(id, name, description, updateNumber);
         insert(t);
         return t;
     }
