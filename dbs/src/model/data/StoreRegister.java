@@ -2,6 +2,7 @@ package model.data;
 
 import abstracts.DataDAO;
 import abstracts.Register;
+import control.StringTool;
 
 /**
  *
@@ -28,7 +29,9 @@ public class StoreRegister extends Register<Store> {
     public Store create(String name, String address, String phone, Picture picture, Dealer parentDealer) {
         int updateNumber = UpdateNumberHandler.update();
         int id = idHandler.nextStoreId();
-        Store s = new Store(id, name, address, phone, picture, parentDealer, updateNumber);
+        String formattedName = StringTool.capitalizeWords(name);
+        String formattedAddress = StringTool.capitalizeWords(address);
+        Store s = new Store(id, formattedName, formattedAddress, phone, picture, parentDealer, updateNumber);
         insert(s);
         return s;
     }

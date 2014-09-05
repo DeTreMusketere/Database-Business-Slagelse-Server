@@ -3,6 +3,7 @@ package model.data;
 import abstracts.DataDAO;
 import abstracts.Register;
 import control.FileHandler;
+import control.StringTool;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -32,7 +33,8 @@ public class PictureRegister extends Register<Picture> {
     public Picture create(String name, byte[] imageArray) {
         int updateNumber = UpdateNumberHandler.update();
         int id = idHandler.nextPictureId();
-        Picture p = new Picture(id, name, imageArray, updateNumber);
+        String formattedName = StringTool.capitalizeWords(name);
+        Picture p = new Picture(id, formattedName, imageArray, updateNumber);
         insert(p);
         return p;
     }

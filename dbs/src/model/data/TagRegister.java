@@ -26,7 +26,9 @@ public class TagRegister extends Register<Tag> {
     public Tag create(String name, String description) {
         int updateNumber = UpdateNumberHandler.update();
         int id = idHandler.nextTagId();
-        Tag t = new Tag(id, name, description, updateNumber);
+        String formattedName = StringTool.capitalizeWords(name);
+        String formattedDescription = StringTool.capitalizeSentences(description);
+        Tag t = new Tag(id, formattedName, formattedDescription, updateNumber);
         insert(t);
         return t;
     }

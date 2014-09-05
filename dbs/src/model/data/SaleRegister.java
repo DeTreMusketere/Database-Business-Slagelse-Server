@@ -2,6 +2,7 @@ package model.data;
 
 import abstracts.DataDAO;
 import abstracts.Register;
+import control.StringTool;
 import java.util.Date;
 
 /**
@@ -33,7 +34,9 @@ public class SaleRegister extends Register<Sale> {
     public Sale create(String name, String description, Picture picture, double price, Date start, Date end, Date publish, Dealer parentDealer) {
         int updateNumber = UpdateNumberHandler.update();
         int id = idHandler.nextSaleId();
-        Sale s = new Sale(id, name, description, picture, price, start, end, publish, parentDealer, updateNumber);
+        String formattedName = StringTool.capitalizeWords(name);
+        String formattedDescription = StringTool.capitalizeSentences(description);
+        Sale s = new Sale(id, formattedName, formattedDescription, picture, price, start, end, publish, parentDealer, updateNumber);
         insert(s);
         return s;
     }

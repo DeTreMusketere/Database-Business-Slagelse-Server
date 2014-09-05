@@ -2,6 +2,7 @@ package model.data;
 
 import abstracts.DataDAO;
 import abstracts.Register;
+import control.StringTool;
 
 /**
  *
@@ -29,7 +30,8 @@ public class UserRegister extends Register<User> {
     public User create(String name, String username, String password, String email, String phone, Dealer parentDealer) {
         int updateNumber = UpdateNumberHandler.update();
         int id = idHandler.nextUserId();
-        User u = new User(id, name, username, password, email, phone, parentDealer, updateNumber);
+        String formattedName = StringTool.capitalizeWords(name);
+        User u = new User(id, formattedName, username, password, email, phone, parentDealer, updateNumber);
         insert(u);
         return u;
     }
