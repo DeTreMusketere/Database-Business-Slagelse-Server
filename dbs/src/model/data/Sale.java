@@ -3,6 +3,7 @@ package model.data;
 import abstracts.Data;
 import java.util.ArrayList;
 import java.util.Date;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -167,11 +168,11 @@ public class Sale extends Data {
         obj.put("start", start.getTime());
         obj.put("end", end.getTime());
         obj.put("publish", publish.getTime());
-//        int count = 0;
-//        for(Tag t : tags) {
-//            count++;
-//            obj.put("tag" + count, t.getId());
-//        }
+        JSONArray tArray = new JSONArray();
+        for(Tag t : tags) {
+            tArray.put(t.getId());
+        }
+        obj.put("tags", tArray);
         obj.put("updatenumber", getUpdateNumber());
 
         return obj;
