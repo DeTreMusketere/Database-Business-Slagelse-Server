@@ -144,49 +144,36 @@ public class Sale extends Data {
 
     @Override
     public JSONObject toJSONObject() {
-        System.out.println("MAKING JSON SALE OBJECT");
         JSONObject obj = new JSONObject();
-        System.out.println("INSERTING ID");
         obj.put("id", getId());
-        System.out.println("INSERTING NAME");
         obj.put("name", name);
-        System.out.println("INSERTING DESC");
         obj.put("description", description);
-        System.out.println("INSERTING PICTURE");
         if (picture != null) {
             obj.put("picture", picture.getId());
         } else {
             obj.put("picture", -1);
         }
-        System.out.println("INSERTING PRICE");
         obj.put("price", price);
         if (parentStore != null) {
-            System.out.println("INSERTING STORE");
             obj.put("parentstore", parentStore.getId());
         } else {
             obj.put("parentstore", -1);
         }
         if (parentDealer != null) {
-            System.out.println("INSERTING DEALER");
             obj.put("parentdealer", parentDealer.getId());
         } else {
             obj.put("parentdealer", -1);
         }
-        System.out.println("INSERTING START");
         obj.put("start", start.getTime());
-        System.out.println("INSERTING END");
         obj.put("end", end.getTime());
-        System.out.println("INSERTING PUBLISH");
         obj.put("publish", publish.getTime());
 //        int count = 0;
 //        for(Tag t : tags) {
 //            count++;
 //            obj.put("tag" + count, t.getId());
 //        }
-        System.out.println("INSERTING UN");
         obj.put("updatenumber", getUpdateNumber());
 
-        System.out.println("RETURNING");
         return obj;
     }
 }
