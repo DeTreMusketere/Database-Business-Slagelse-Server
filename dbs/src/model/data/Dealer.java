@@ -71,7 +71,11 @@ public class Dealer extends Data {
         obj.put("name", name);
         obj.put("description", description);
         obj.put("phone", phone);
-        obj.put("picture", picture.getId());
+        try {
+            obj.put("picture", picture.getId());
+        } catch (NullPointerException ex) {
+            obj.put("picture", -1);
+        }
         obj.put("updatenumber", getUpdateNumber());
         return obj;
     }

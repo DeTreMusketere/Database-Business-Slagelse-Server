@@ -133,6 +133,11 @@ public class User extends Data {
         } else {
             obj.put("parentdealer", -1);
         }
+        if(parentStore != null) {
+            obj.put("parentstore", parentStore.getId());
+        } else {
+            obj.put("parentstore", -1);
+        }
         obj.put("updatenumber", getUpdateNumber());
         return obj;
     }

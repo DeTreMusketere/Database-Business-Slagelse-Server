@@ -1,17 +1,18 @@
-
 package std;
 
 import dbs.Dbs;
 import java.util.Scanner;
 import model.data.Dealer;
+import model.data.Store;
 import model.data.Tag;
+import model.data.User;
 
 /**
  *
  * @author Patrick
  */
 public class ShowObjects {
-    
+
     public static void show(Scanner scan, Dbs dbs) {
         System.out.println("What would you like to show?");
 
@@ -67,58 +68,59 @@ public class ShowObjects {
             }
         }
     }
-    
+
     private static void showDealer(Scanner scan, Dbs dbs) {
         System.out.print("Dealer ID: ");
         String input = scan.nextLine();
         Dealer d = dbs.getDealerRegister().get(Integer.valueOf(input));
-        if(d == null) {
+        if (d == null) {
             System.out.println("Did not find dealer, bye");
         } else {
-            System.out.println("How would you like to show it?");
-            System.out.print("[json/plain]: ");
-            input = scan.nextLine();
-            switch(input.toLowerCase()) {
-                case "json":
-                    System.out.println(d.toJSONObject().toString(2));
-                    break;
-                case "plain":
-                    System.out.println("Not implementet yet");
-                    break;
-                default:
-                    System.out.println("What?? bye");
-                    break;
-            }
+            System.out.println(d.toJSONObject().toString(2));
         }
     }
-    
+
     private static void showStore(Scanner scan, Dbs dbs) {
-        System.out.println("Not implementet yet");
+        System.out.print("Store ID: ");
+        String input = scan.nextLine();
+        Store s = dbs.getStoreRegister().get(Integer.valueOf(input));
+        if (s == null) {
+            System.out.println("Did not find store, bye");
+        } else {
+            System.out.println(s.toJSONObject().toString(2));
+        }
     }
-    
+
     private static void showUser(Scanner scan, Dbs dbs) {
-        System.out.println("Not implementet yet");
+        System.out.print("User ID: ");
+        String input = scan.nextLine();
+        User u = dbs.getUserRegister().get(Integer.valueOf(input));
+        if (u == null) {
+            System.out.println("Did not find User, bye");
+        } else {
+            System.out.println(u.toJSONObject().toString(2));
+        }
     }
-    
+
     private static void showProduct(Scanner scan, Dbs dbs) {
         System.out.println("Not implementet yet");
     }
-    
+
     private static void showSale(Scanner scan, Dbs dbs) {
         System.out.println("Not implementet yet");
     }
-    
+
     private static void showTag(Scanner scan, Dbs dbs) {
         System.out.print("Tag ID: ");
         String input = scan.nextLine();
         Tag t = dbs.getTagRegister().get(Integer.valueOf(input));
-        if(t == null) {
+        if (t == null) {
             System.out.println("Did not find tag, bye");
         } else {
             System.out.println("How would you like to show it?");
             System.out.print("[json/plain]: ");
             input = scan.nextLine();
-            switch(input.toLowerCase()) {
+            switch (input.toLowerCase()) {
                 case "json":
                     System.out.println(t.toJSONObject().toString(2));
                     break;

@@ -76,7 +76,11 @@ public class Store extends Data {
         obj.put("name", name);
         obj.put("address", address);
         obj.put("phone", phone);
-        obj.put("picture", picture.getId());
+        try {
+            obj.put("picture", picture.getId());
+        } catch (NullPointerException ex) {
+            obj.put("picture", -1);
+        }
         obj.put("parentdealer", parentDealer.getId());
         obj.put("updatenumber", getUpdateNumber());
         return obj;
