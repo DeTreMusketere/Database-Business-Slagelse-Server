@@ -1,5 +1,8 @@
 package control;
 
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  *
  * @author Patrick
@@ -51,6 +54,19 @@ public class StringTool {
             resultString += ".";
         }
         return resultString;
+    }
+    
+    public static boolean checkDateFormat(String dateString){
+        String[] split = dateString.split(":");
+        if(split.length != 5){
+            return false;
+        }
+        Date currentDate = new Date();
+        if(Integer.parseInt(split[2]) < Calendar.YEAR || Integer.parseInt(split[2]) > Calendar.YEAR + 2){
+            return false;
+        }
+//[dd:mm:yyyy:HH:MM]
+        return true;
     }
 
 }
