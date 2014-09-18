@@ -3,6 +3,8 @@ package std;
 import dbs.Dbs;
 import java.util.Scanner;
 import model.data.Dealer;
+import model.data.Product;
+import model.data.Sale;
 import model.data.Store;
 import model.data.Tag;
 import model.data.User;
@@ -103,11 +105,25 @@ public class ShowObjects {
     }
 
     private static void showProduct(Scanner scan, Dbs dbs) {
-        System.out.println("Not implementet yet");
+        System.out.print("Product ID: ");
+        String input = scan.nextLine();
+        Product p = dbs.getProductRegister().get(Integer.valueOf(input));
+        if (p == null) {
+            System.out.println("Did not find Product, bye");
+        } else {
+            System.out.println(p.toJSONObject().toString(2));
+        }
     }
 
     private static void showSale(Scanner scan, Dbs dbs) {
-        System.out.println("Not implementet yet");
+        System.out.print("Sale ID: ");
+        String input = scan.nextLine();
+        Sale s = dbs.getSaleRegister().get(Integer.valueOf(input));
+        if (s == null) {
+            System.out.println("Did not find Sale, bye");
+        } else {
+            System.out.println(s.toJSONObject().toString(2));
+        }
     }
 
     private static void showTag(Scanner scan, Dbs dbs) {
@@ -117,20 +133,7 @@ public class ShowObjects {
         if (t == null) {
             System.out.println("Did not find tag, bye");
         } else {
-            System.out.println("How would you like to show it?");
-            System.out.print("[json/plain]: ");
-            input = scan.nextLine();
-            switch (input.toLowerCase()) {
-                case "json":
-                    System.out.println(t.toJSONObject().toString(2));
-                    break;
-                case "plain":
-                    System.out.println("Not implementet yet");
-                    break;
-                default:
-                    System.out.println("What?? bye");
-                    break;
-            }
+            System.out.println(t.toJSONObject().toString(2));
         }
     }
 

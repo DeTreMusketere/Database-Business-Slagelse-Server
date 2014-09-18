@@ -114,20 +114,24 @@ public class Product extends Data {
         obj.put("id", getId());
         obj.put("name", name);
         obj.put("description", description);
-        obj.put("picture", picture.getId());
+        try {
+            obj.put("picture", picture.getId());
+        } catch (NullPointerException ex) {
+            obj.put("picture", -1);
+        }
         obj.put("price", price);
         if (parentStore != null) {
             obj.put("parentstore", parentStore.getId());
         } else {
             obj.put("parentstore", -1);
         }
-        if(parentDealer != null) {
+        if (parentDealer != null) {
             obj.put("parentdealer", parentDealer.getId());
         } else {
             obj.put("parentdealer", -1);
         }
         int count = 0;
-        for(Tag t : tags) {
+        for (Tag t : tags) {
             count++;
             obj.put("tag" + count, t.getId());
         }

@@ -149,9 +149,9 @@ public class Sale extends Data {
         obj.put("id", getId());
         obj.put("name", name);
         obj.put("description", description);
-        if (picture != null) {
+        try {
             obj.put("picture", picture.getId());
-        } else {
+        } catch (NullPointerException ex) {
             obj.put("picture", -1);
         }
         obj.put("price", price);
