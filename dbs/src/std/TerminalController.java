@@ -172,6 +172,7 @@ public class TerminalController implements Runnable {
                     dbs.getProductRegister().load();
                     dbs.getSaleRegister().load();
                     dbs.getUserRegister().load();
+                    dbs.getTagRegister().load();
                     dbs.getUpdateNumberHandler().reload();
                     DBTool.close();
                     System.out.println("Registers reloaded");
