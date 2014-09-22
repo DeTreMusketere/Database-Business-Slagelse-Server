@@ -103,7 +103,7 @@ public class DBTool {
         try {
             instance = DriverManager.getConnection(dbURL, dbUser, dbPass); // Creates and gets the MySQL connection and saves it to the instance variable
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(new JFrame(), "Could not connect to database", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(new JFrame(), "Could not connect to database\nUser: " + dbUser + "\nPass: " + dbPass + "\nURL: " + dbURL, "Error", JOptionPane.ERROR_MESSAGE);
             ex.printStackTrace();
             System.exit(0);
         }
