@@ -1,7 +1,8 @@
 package control;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 /**
  *
@@ -26,6 +27,12 @@ public class StringTool {
         return string;
     }
 
+    /**
+     * Capitalizes all words in a string. Use this for capitalizing names.
+     *
+     * @param string The string to capitalize.
+     * @return The original string with capitalized words.
+     */
     public static String capitalizeWords(String string) {
         String resultString = "";
         String[] split = string.split(" ");
@@ -39,6 +46,14 @@ public class StringTool {
         return resultString;
     }
 
+    /**
+     * Capitalizes sentences and will add a "." at the end of the string, if it
+     * isn't already there.
+     *
+     * @param string The string to capitalize.
+     * @return The original string with capitalized sentences and a "." at the
+     * end.
+     */
     public static String capitalizeSentences(String string) {
         String resultString = "";
         String[] split = string.split("\\Q. \\E");
@@ -55,17 +70,56 @@ public class StringTool {
         }
         return resultString;
     }
-    
-    public static boolean checkDateFormat(String dateString){
+
+    /**
+     * Checks if a string uses the proper dateFormat used in this program.
+     *
+     * @param dateString The string to check. Has to be written
+     * "dd:MM:yyyy:HH:mm"
+     * @return True if the format is correct, false if not.
+     */
+    public static boolean checkDateFormat(String dateString) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd:MM:yyyy:HH:mm");
+        LocalDateTime time = null;
+        try {
+            time = LocalDateTime.parse(dateString, formatter);
+        } catch (DateTimeParseException ex) {
+            return false;
+        }
         String[] split = dateString.split(":");
-        if(split.length != 5){
-            return false;
+        int day = Integer.parseInt(split[0]);
+        switch (time.getMonthValue()) {
+            case 2:
+                if (time.getYear() % 4 == 0) {
+                    if (day > 29) {
+                        return false;
+                    }
+                    break;
+                } else if (day > 28) {
+                    return false;
+                }
+                break;
+            case 4:
+                if (day > 30) {
+                    return false;
+                }
+                break;
+            case 6:
+                if (day > 30) {
+                    return false;
+                }
+                break;
+            case 9:
+                if (day > 30) {
+                    return false;
+                }
+                break;
+            case 11:
+                if (day > 30) {
+                    return false;
+                }
+                break;
         }
-        Date currentDate = new Date();
-        if(Integer.parseInt(split[2]) < Calendar.YEAR || Integer.parseInt(split[2]) > Calendar.YEAR + 2){
-            return false;
-        }
-//[dd:mm:yyyy:HH:MM]
         return true;
     }
 
