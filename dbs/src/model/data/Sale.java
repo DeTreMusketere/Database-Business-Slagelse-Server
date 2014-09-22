@@ -108,6 +108,7 @@ public class Sale extends Data {
         JSONArray tArray = new JSONArray();
         for(Tag t : product.getTags()) {
             tArray.put(t.getId());
+            System.out.println("TAG ADDED");
         }
         obj.put("tags", tArray);
         obj.put("updatenumber", getUpdateNumber());

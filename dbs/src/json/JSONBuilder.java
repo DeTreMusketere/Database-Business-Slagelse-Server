@@ -56,7 +56,6 @@ public class JSONBuilder {
         for (Tag t : tagRegister.getObjects()) {
             if (t.getUpdateNumber() > updateNumber) {
                 tags.put(t.toJSONObject());
-
             }
         }
 
