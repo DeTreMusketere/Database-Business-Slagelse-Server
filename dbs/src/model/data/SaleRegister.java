@@ -16,51 +16,21 @@ public class SaleRegister extends Register<Sale> {
     }
 
     /**
-     * Use this for sales with a dealer parent. Creates a sale with the given
-     * parameters and an updated update number and the newest id from the
-     * idHandler. Then inserts it into the database and into the ArrayList.
+     * Creates a sale with the given parameters and an updated update number and the newest id from the idHandler. Then inserts it into the database and into the ArrayList.
      *
-     * @param name The sale's name.
-     * @param description Description of the sale.
-     * @param picture A picture to represent the sale.
+     * @param product The product to create a sale of.
      * @param price The price of the sale.
      * @param start A date object of the time the sale is supposed to start.
      * @param end A date object of the time the sale is supposed to end.
-     * @param publish A date object of the time the sale is going to be visible
-     * for the clients.
-     * @param parentDealer The parent dealer.
-     * @return The created sale.
+     * @param publish A date object of the time the sale is going to be visible for the clients.
+     * @return The created sale
      */
-    public Sale create(String name, String description, Picture picture, double price, Date start, Date end, Date publish, Dealer parentDealer) {
+    public Sale create(Product product, double price, Date start, Date end, Date publish) {
         int updateNumber = UpdateNumberHandler.update();
         int id = idHandler.nextSaleId();
-        String formattedName = StringTool.capitalizeWords(name);
-        String formattedDescription = StringTool.capitalizeSentences(description);
-        Sale s = new Sale(id, formattedName, formattedDescription, picture, price, start, end, publish, parentDealer, updateNumber);
-        insert(s);
-        return s;
-    }
-
-    /**
-     * Use this for sales with a store parent. Creates a sale with the given
-     * parameters and an updated update number and the newest id from the
-     * idHandler. Then inserts it into the database and into the ArrayList.
-     *
-     * @param name The sale's name.
-     * @param description Description of the sale.
-     * @param picture A picture to represent the sale.
-     * @param price The price of the sale.
-     * @param start A date object of the time the sale is supposed to start.
-     * @param end A date object of the time the sale is supposed to end.
-     * @param publish A date object of the time the sale is going to be visible
-     * for the clients.
-     * @param parentStore The parent store.
-     * @return The created sale.
-     */
-    public Sale create(String name, String description, Picture picture, double price, Date start, Date end, Date publish, Store parentStore) {
-        int updateNumber = UpdateNumberHandler.update();
-        int id = idHandler.nextSaleId();
-        Sale s = new Sale(id, name, description, picture, price, start, end, publish, parentStore, updateNumber);
+        String formattedName = StringTool.capitalizeWords(product.getName());
+        String formattedDescription = StringTool.capitalizeSentences(product.getDescription());
+        Sale s = new Sale(id, product, price, start, end, publish, updateNumber);
         insert(s);
         return s;
     }

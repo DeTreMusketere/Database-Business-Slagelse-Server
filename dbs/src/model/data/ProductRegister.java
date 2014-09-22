@@ -3,6 +3,7 @@ package model.data;
 import abstracts.DataDAO;
 import abstracts.Register;
 import control.StringTool;
+import java.util.ArrayList;
 
 /**
  *
@@ -24,14 +25,15 @@ public class ProductRegister extends Register<Product> {
      * @param picture A picture to represent the product.
      * @param price The price of the product.
      * @param parentDealer The parent dealer.
+     * @param tags
      * @return The created product.
      */
-    public Product create(String name, String description, Picture picture, double price, Dealer parentDealer) {
+    public Product create(String name, String description, Picture picture, double price, Dealer parentDealer, ArrayList<Tag> tags) {
         int updateNumber = UpdateNumberHandler.update();
         int id = idHandler.nextProductId();
         String formattedName = StringTool.capitalizeWords(name);
         String formattedDescription = StringTool.capitalizeSentences(description);
-        Product p = new Product(id, formattedName, formattedDescription, picture, price, parentDealer, updateNumber);
+        Product p = new Product(id, formattedName, formattedDescription, picture, price, parentDealer, tags, updateNumber);
         insert(p);
         return p;
     }
@@ -46,12 +48,13 @@ public class ProductRegister extends Register<Product> {
      * @param picture A picture to represent the product.
      * @param price The price of the product.
      * @param parentStore The parent store.
+     * @param tags
      * @return The created product.
      */
-    public Product create(String name, String description, Picture picture, double price, Store parentStore) {
+    public Product create(String name, String description, Picture picture, double price, Store parentStore, ArrayList<Tag> tags) {
         int updateNumber = UpdateNumberHandler.update();
         int id = idHandler.nextProductId();
-        Product p = new Product(id, name, description, picture, price, parentStore, updateNumber);
+        Product p = new Product(id, name, description, picture, price, parentStore, tags, updateNumber);
         insert(p);
         p.setId(id);
         return p;

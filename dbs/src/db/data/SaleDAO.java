@@ -9,13 +9,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.data.Dealer;
-import model.data.DealerRegister;
-import model.data.Picture;
-import model.data.PictureRegister;
+import model.data.Product;
+import model.data.ProductRegister;
 import model.data.Sale;
-import model.data.Store;
-import model.data.StoreRegister;
 
 /**
  *
@@ -23,14 +19,10 @@ import model.data.StoreRegister;
  */
 public class SaleDAO extends DataDAO<Sale> {
 
-    private DealerRegister dealerRegister;
-    private StoreRegister storeRegister;
-    private PictureRegister pictureRegister;
+    private ProductRegister productRegister;
 
-    public SaleDAO(DealerRegister dealerRegister, StoreRegister storeRegister, PictureRegister pictureRegister) {
-        this.dealerRegister = dealerRegister;
-        this.storeRegister = storeRegister;
-        this.pictureRegister = pictureRegister;
+    public SaleDAO(ProductRegister productRegister) {
+        this.productRegister = productRegister;
     }
 
     @Override
@@ -39,27 +31,14 @@ public class SaleDAO extends DataDAO<Sale> {
             Statement statement = DBTool.getStatement();
 
             int id = source.getId();
-            String name = source.getName();
-            String description = source.getDescription();
-            int picture = 0;
-            if (source.getPicture() != null) {
-                picture = source.getPicture().getId();
-            }
-            double price = source.getPrice();
+            int productId = source.getProduct().getId();
+            String price = String.valueOf(source.getPrice());
             long start = source.getStart().getTime();
             long end = source.getEnd().getTime();
             long publish = source.getPublish().getTime();
-            int parentStoreId = 0;
-            int parentDealerId = 0;
-            if (source.getParentStore() != null) {
-                parentStoreId = source.getParentStore().getId();
-            }
-            if (source.getParentDealer() != null) {
-                parentDealerId = source.getParentDealer().getId();
-            }
             int updateNumber = source.getUpdateNumber();
 
-            String sql = "INSERT INTO sale (id_sale, name, description, picture, price, start, end, publish, parent_store_id, parent_dealer_id, update_number) VALUES(" + id + ",'" + name + "', '" + description + "', " + picture + ", " + price + ", " + start + ", " + end + ", " + publish + ", " + parentStoreId + ", " + parentDealerId + ", " + updateNumber + ");";
+            String sql = "INSERT INTO sale (id_sale, target_product_id, price, start, end, publish, update_number) VALUES(" + id + ", " + productId + ", '" + price + "', " + start + ", " + end + ", " + publish + ", " + updateNumber + ");";
             statement.execute(sql);
         } catch (SQLException ex) {
             Logger.getLogger(DealerDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -71,27 +50,15 @@ public class SaleDAO extends DataDAO<Sale> {
         try {
             Statement statement = DBTool.getStatement();
 
-            String name = source.getName();
-            String description = source.getDescription();
-            int picture = 0;
-            if (source.getPicture() != null) {
-                picture = source.getPicture().getId();
-            }
-            double price = source.getPrice();
+            int targetId = target.getId();
+            int productId = source.getProduct().getId();
+            String price = String.valueOf(source.getPrice());
             long start = source.getStart().getTime();
             long end = source.getEnd().getTime();
             long publish = source.getPublish().getTime();
-            int parentStoreId = 0;
-            int parentDealerId = 0;
-            if (source.getParentStore() != null) {
-                parentStoreId = source.getParentStore().getId();
-            }
-            if (source.getParentDealer() != null) {
-                parentDealerId = source.getParentDealer().getId();
-            }
             int updateNumber = source.getUpdateNumber();
 
-            String sql = "UPDATE sale SET name='" + name + "', description='" + description + "', picture=" + picture + ", price=" + price + ", start=" + start + ", end=" + end + ", publish=" + publish + ", parent_store_id=" + parentStoreId + ", parent_dealer_id=" + parentDealerId + ", update_number=" + updateNumber + " WHERE id_sale=" + target.getId() + ";";
+            String sql = "UPDATE sale SET productId=" + productId + ", price='" + price + "', start=" + start + ", end=" + end + ", publish=" + publish + ", update_number=" + updateNumber + " WHERE id_sale=" + targetId + ";";
             statement.executeUpdate(sql);
         } catch (SQLException ex) {
             Logger.getLogger(DealerDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -116,39 +83,23 @@ public class SaleDAO extends DataDAO<Sale> {
     public Sale select(int id) {
         try {
             Statement statement = DBTool.getStatement();
-            Sale sale = null;
-            String sql = "SELECT * FROM sale WHERE id_sale=" + id;
+            String sql = "SELECT * FROM sale WHERE id_sale=" + id + ";";
+
             try (ResultSet rs = statement.executeQuery(sql)) {
                 while (rs.next()) {
-                    int parentStoreId = rs.getInt(6);
-                    int parentDealerId = rs.getInt(7);
-                    Store parentStore = null;
-                    Dealer parentDealer = null;
-                    if (parentStoreId != 0) {
-                        parentStore = storeRegister.get(parentStoreId);
-                    }
-                    if (parentDealerId != 0) {
-                        parentDealer = dealerRegister.get(parentDealerId);
-                    }
-
-                    int pictureId = rs.getInt(4);
-                    Picture picture = null;
-                    if (pictureId != 0) {
-                        picture = pictureRegister.get(pictureId);
-                    }
-                    Date start = new Date(rs.getLong(8));
-                    Date end = new Date(rs.getLong(9));
-                    Date publish = new Date(rs.getLong(10));
-                    int updateNumber = rs.getInt(11);
-
-                    if (parentStore != null) {
-                        sale = new Sale(rs.getInt(1), rs.getString(2), rs.getString(3), picture, rs.getDouble(5), start, end, publish, parentStore, updateNumber);
-                    } else {
-                        sale = new Sale(rs.getInt(1), rs.getString(2), rs.getString(3), picture, rs.getDouble(5), start, end, publish, parentDealer, updateNumber);
+                    int productId = rs.getInt(2);
+                    Product product = productRegister.get(productId);
+                    if (product != null) {
+                        double price = Double.valueOf(rs.getString(3));
+                        Date start = new Date(rs.getLong(4));
+                        Date end = new Date(rs.getLong(5));
+                        Date publish = new Date(rs.getLong(6));
+                        int updateNumber = rs.getInt(7);
+                        Sale sale = new Sale(id, product, price, start, end, publish, updateNumber);
+                        return sale;
                     }
                 }
             }
-            return sale;
         } catch (SQLException ex) {
             Logger.getLogger(DealerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -159,46 +110,25 @@ public class SaleDAO extends DataDAO<Sale> {
     public ArrayList<Sale> selectAll() {
         ArrayList<Sale> sales = new ArrayList<>();
         try {
-            Statement st = DBTool.getStatement();
-
+            Statement statement = DBTool.getStatement();
             String sql = "SELECT * FROM sale;";
-            try (ResultSet rs = st.executeQuery(sql)) {
+
+            try (ResultSet rs = statement.executeQuery(sql)) {
                 while (rs.next()) {
-                    int parentStoreId = rs.getInt(6);
-                    int parentDealerId = rs.getInt(7);
-                    Store parentStore = null;
-                    Dealer parentDealer = null;
-                    if (parentStoreId != 0) {
-                        parentStore = storeRegister.get(parentStoreId);
+                    int id = rs.getInt(1);
+                    int productId = rs.getInt(2);
+                    Product product = productRegister.get(productId);
+                    if (product != null) {
+                        double price = Double.valueOf(rs.getString(3));
+                        Date start = new Date(rs.getLong(4));
+                        Date end = new Date(rs.getLong(5));
+                        Date publish = new Date(rs.getLong(6));
+                        int updateNumber = rs.getInt(7);
+                        Sale sale = new Sale(id, product, price, start, end, publish, updateNumber);
+                        sales.add(sale);
                     }
-                    if (parentDealerId != 0) {
-                        parentDealer = dealerRegister.get(parentDealerId);
-                    }
-
-                    Sale sale;
-
-                    int pictureId = rs.getInt(4);
-                    Picture picture = null;
-                    if (pictureId != 0) {
-                        picture = pictureRegister.get(pictureId);
-                    }
-
-                    Date start = new Date(rs.getLong(8));
-                    Date end = new Date(rs.getLong(9));
-                    Date publish = new Date(rs.getLong(10));
-                    
-                    int updateNumber = rs.getInt(11);
-
-                    if (parentStore != null) {
-                        sale = new Sale(rs.getInt(1), rs.getString(2), rs.getString(3), picture, rs.getDouble(5), start, end, publish, parentStore, updateNumber);
-                    } else {
-                        sale = new Sale(rs.getInt(1), rs.getString(2), rs.getString(3), picture, rs.getDouble(5), start, end, publish, parentDealer, updateNumber);
-                    }
-
-                    sales.add(sale);
                 }
             }
-
             return sales;
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);

@@ -12,66 +12,27 @@ import org.json.JSONObject;
  */
 public class Sale extends Data {
 
-    private String name;
-    private String description;
-    private Picture picture;
+    private Product product;
     private double price;
-    private Store parentStore;
-    private Dealer parentDealer;
     private Date start;
     private Date end;
     private Date publish;
-    private ArrayList<Tag> tags;
 
-    public Sale(int id, String name, String description, Picture picture, double price, Date start, Date end, Date publish, Dealer parentDealer, int updateNumber) {
+    public Sale(int id, Product product, double price, Date start, Date end, Date publish, int updateNumber) {
         super(id, updateNumber);
-        this.name = name;
-        this.description = description;
-        this.picture = picture;
+        this.product = product;
         this.price = price;
         this.start = start;
         this.end = end;
         this.publish = publish;
-        this.parentDealer = parentDealer;
-        tags = new ArrayList<>();
     }
 
-    public Sale(int id, String name, String description, Picture picture, double price, Date start, Date end, Date publish, Store parentStore, int updateNumber) {
-        super(id, updateNumber);
-        this.name = name;
-        this.description = description;
-        this.picture = picture;
-        this.price = price;
-        this.start = start;
-        this.end = end;
-        this.publish = publish;
-        this.parentStore = parentStore;
-        this.parentDealer = parentStore.getParent();
-        tags = new ArrayList<>();
+    public Product getProduct() {
+        return product;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Picture getPicture() {
-        return picture;
-    }
-
-    public void setPicture(Picture picture) {
-        this.picture = picture;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public double getPrice() {
@@ -80,22 +41,6 @@ public class Sale extends Data {
 
     public void setPrice(double price) {
         this.price = price;
-    }
-
-    public Store getParentStore() {
-        return parentStore;
-    }
-
-    public void setParentStore(Store parentStore) {
-        this.parentStore = parentStore;
-    }
-
-    public Dealer getParentDealer() {
-        return parentDealer;
-    }
-
-    public void setParentDealer(Dealer parentDealer) {
-        this.parentDealer = parentDealer;
     }
 
     public Date getStart() {
@@ -122,22 +67,14 @@ public class Sale extends Data {
         this.publish = publish;
     }
 
-    public ArrayList<Tag> getTags() {
-        return tags;
-    }
-
-    public void setTags(ArrayList<Tag> tags) {
-        this.tags = tags;
-    }
-
     @Override
     public String toString() {
-        String s = "name: " + name + " description: " + description + " picture: " + picture + " price: " + price + " start: " + start.toString() + " end: " + end.toString() + " publish: " + publish.toString();
-        if (parentDealer != null) {
-            s += " parent dealer: " + parentDealer.getName();
+        String s = "name: " + product.getName() + " description: " + product.getDescription() + " picture: " + product.getPicture().getId() + " price: " + price + " start: " + start.getTime() + " end: " + end.getTime() + " publish: " + publish.getTime();
+        if (product.getParentDealer() != null) {
+            s += " parent dealer: " + product.getParentDealer().getName();
         }
-        if (parentStore != null) {
-            s += " parent store: " + parentStore.getName();
+        if (product.getParentStore() != null) {
+            s += " parent store: " + product.getParentStore().getName();
         }
 
         return s;
@@ -147,21 +84,21 @@ public class Sale extends Data {
     public JSONObject toJSONObject() {
         JSONObject obj = new JSONObject();
         obj.put("id", getId());
-        obj.put("name", name);
-        obj.put("description", description);
+        obj.put("name", product.getName());
+        obj.put("description", product.getDescription());
         try {
-            obj.put("picture", picture.getId());
+            obj.put("picture", product.getPicture().getId());
         } catch (NullPointerException ex) {
             obj.put("picture", -1);
         }
         obj.put("price", price);
-        if (parentStore != null) {
-            obj.put("parentstore", parentStore.getId());
+        if (product.getParentStore() != null) {
+            obj.put("parentstore", product.getParentStore().getId());
         } else {
             obj.put("parentstore", -1);
         }
-        if (parentDealer != null) {
-            obj.put("parentdealer", parentDealer.getId());
+        if (product.getParentDealer() != null) {
+            obj.put("parentdealer", product.getParentDealer().getId());
         } else {
             obj.put("parentdealer", -1);
         }
@@ -169,7 +106,7 @@ public class Sale extends Data {
         obj.put("end", end.getTime());
         obj.put("publish", publish.getTime());
         JSONArray tArray = new JSONArray();
-        for(Tag t : tags) {
+        for(Tag t : product.getTags()) {
             tArray.put(t.getId());
         }
         obj.put("tags", tArray);

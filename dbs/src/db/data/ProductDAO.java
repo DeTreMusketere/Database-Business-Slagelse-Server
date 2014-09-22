@@ -15,6 +15,8 @@ import model.data.PictureRegister;
 import model.data.Product;
 import model.data.Store;
 import model.data.StoreRegister;
+import model.data.Tag;
+import model.data.TagRegister;
 
 /**
  *
@@ -25,11 +27,13 @@ public class ProductDAO extends DataDAO<Product> {
     private DealerRegister dealerRegister;
     private StoreRegister storeRegister;
     private PictureRegister pictureRegister;
+    private TagRegister tagRegister;
 
-    public ProductDAO(DealerRegister dealerRegister, StoreRegister storeRegister, PictureRegister pictureRegister) {
+    public ProductDAO(DealerRegister dealerRegister, StoreRegister storeRegister, PictureRegister pictureRegister, TagRegister tagRegister) {
         this.dealerRegister = dealerRegister;
         this.storeRegister = storeRegister;
         this.pictureRegister = pictureRegister;
+        this.tagRegister = tagRegister;
     }
 
     @Override
@@ -56,12 +60,20 @@ public class ProductDAO extends DataDAO<Product> {
             int updateNumber = source.getUpdateNumber();
 
             String sql = "INSERT INTO product (id_product, name, description, picture, price, parent_store_id, parent_dealer_id, update_number) VALUES(" + id + ",'" + name + "', '" + description + "', " + picture + ", " + price + ", " + parentStoreId + ", " + parentDealerId + ", " + updateNumber + ");";
-            statement.execute(sql);
+            statement.addBatch(sql);
+
+            ArrayList<Tag> tags = source.getTags();
+            for (Tag t : tags) {
+                int tagId = t.getId();
+                statement.addBatch("INSERT INTO product_tag (target_product_id, target_tag_id, update_number) VALUES(" + id + ", " + tagId + ", " + updateNumber + ");");
+            }
+            statement.executeBatch();
         } catch (SQLException ex) {
             Logger.getLogger(DealerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+    // TODO = Update this method so that i updates product_tag table
     @Override
     public void update(Product source, Product target) {
         try {
@@ -99,7 +111,12 @@ public class ProductDAO extends DataDAO<Product> {
             int targetid = target.getId();
 
             String sql = "DELETE FROM product WHERE id_product =" + targetid;
-            statement.execute(sql);
+            statement.addBatch(sql);
+            
+            String sql2 = "DELETE FROM product_tag WHERE target_product_id =" + targetid;
+            statement.addBatch(sql2);
+            
+            statement.executeBatch();
         } catch (SQLException ex) {
             Logger.getLogger(DealerDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -131,12 +148,29 @@ public class ProductDAO extends DataDAO<Product> {
                     }
 
                     int updateNumber = rs.getInt(8);
+                    
+                    Statement statement2 = DBTool.getInstance().createStatement();
+                    ArrayList<Tag> tags = new ArrayList<>();
+                    String sql2 = "SELECT * FROM product_tag WHERE target_product_id=" + id;
+                    try (ResultSet rs2 = statement2.executeQuery(sql2)) {
+                        while(rs2.next()) {
+                            int tagId = rs2.getInt(2);
+                            Tag tag = tagRegister.get(tagId);
+                            if(tag != null) {
+                                tags.add(tag);
+                            } else {
+                                System.out.println("Tag with id: " + tagId + " was not found!");
+                            }
+                        }
+                    } catch(SQLException ex) {
+                        Logger.getLogger(DealerDAO.class.getName()).log(Level.SEVERE, null, ex);
+                    }
 
                     if (parentStore != null) {
 
-                        product = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), picture, rs.getDouble(5), parentStore, updateNumber);
+                        product = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), picture, rs.getDouble(5), parentStore, tags, updateNumber);
                     } else {
-                        product = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), picture, rs.getDouble(5), parentDealer, updateNumber);
+                        product = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), picture, rs.getDouble(5), parentDealer, tags, updateNumber);
                     }
                 }
             }
@@ -156,6 +190,7 @@ public class ProductDAO extends DataDAO<Product> {
             String sql = "SELECT * FROM product;";
             try (ResultSet rs = st.executeQuery(sql)) {
                 while (rs.next()) {
+                    int productId = rs.getInt(1);
                     int parentStoreId = rs.getInt(6);
                     int parentDealerId = rs.getInt(7);
                     Store parentStore = null;
@@ -176,12 +211,28 @@ public class ProductDAO extends DataDAO<Product> {
                     }
 
                     int updateNumber = rs.getInt(8);
+                    
+                    Statement st2 = DBTool.getInstance().createStatement();
+                    ArrayList<Tag> tags = new ArrayList<>();
+                    String sql2 = "SELECT * FROM product_tag WHERE target_product_id=" + productId;
+                    try (ResultSet rs2 = st2.executeQuery(sql2)) {
+                        while(rs2.next()) {
+                            int tagId = rs2.getInt(2);
+                            Tag tag = tagRegister.get(tagId);
+                            if(tag != null) {
+                                tags.add(tag);
+                            } else {
+                                System.out.println("Tag with id: " + tagId + " was not found!");
+                            }
+                        }
+                    } catch(SQLException ex) {
+                        Logger.getLogger(DealerDAO.class.getName()).log(Level.SEVERE, null, ex);
+                    }
 
                     if (parentStore != null) {
-
-                        product = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), picture, rs.getDouble(5), parentStore, updateNumber);
+                        product = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), picture, rs.getDouble(5), parentStore, tags, updateNumber);
                     } else {
-                        product = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), picture, rs.getDouble(5), parentDealer, updateNumber);
+                        product = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), picture, rs.getDouble(5), parentDealer, tags, updateNumber);
                     }
 
                     products.add(product);

@@ -7,9 +7,11 @@ import dbs.Dbs;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Date;
 import model.data.Picture;
 import model.data.Product;
+import model.data.Tag;
 
 /**
  *
@@ -359,6 +361,7 @@ public class CreateObjects {
         String parentStoreId = "";
         String parentDealerId = "";
         String pictureId = "";
+        ArrayList<Tag> tags = new ArrayList<>();
 
         System.out.println("======== Create a product ================================");
         System.out.println("You can at any time write 'back' to get back to main menu");
@@ -432,15 +435,35 @@ public class CreateObjects {
                 if (pictureId.equalsIgnoreCase("back")) {
                     break;
                 }
-                
-                if(pictureId.equalsIgnoreCase("back")) {
+
+                if (pictureId.equalsIgnoreCase("back")) {
                     break;
-                } else if(!pictureId.equalsIgnoreCase("null")) {
+                } else if (!pictureId.equalsIgnoreCase("null")) {
                     Picture p = dbs.getPictureRegister().get(Integer.valueOf(pictureId));
-                    if(p == null) {
+                    if (p == null) {
                         System.out.println("The picture was not found, try again...");
                         ok = false;
                     }
+                }
+            }
+
+            while (true) {
+                String oks;
+                System.out.print("Do you want to add a tag?[y/n]:");
+                oks = scan.nextLine();
+                if (oks.equalsIgnoreCase("y")) {
+
+                    System.out.print("Tag Id: ");
+                    String tagId = scan.nextLine();
+                    Tag t = dbs.getTagRegister().get(Integer.valueOf(tagId));
+                    if (t != null) {
+                        tags.add(t);
+                        System.out.println("Tag added");
+                    } else {
+                        System.out.println("Did not find tag. try again...");
+                    }
+                } else {
+                    break;
                 }
             }
 
@@ -453,8 +476,12 @@ public class CreateObjects {
                 System.out.println("Store Id: " + parentStoreId);
             }
             System.out.println("Dealer Id: " + parentDealerId);
-            if(!pictureId.equalsIgnoreCase("null")) {
+            if (!pictureId.equalsIgnoreCase("null")) {
                 System.out.println("Picture Id: " + pictureId);
+            }
+            System.out.println("Tags: ");
+            for (Tag t : tags) {
+                System.out.println("   " + t.toString());
             }
 
             ok = false;
@@ -464,15 +491,15 @@ public class CreateObjects {
                 switch (answer.toLowerCase()) {
                     case "y":
                         Picture p = null;
-                        if(!pictureId.equalsIgnoreCase("null")) {
+                        if (!pictureId.equalsIgnoreCase("null")) {
                             p = dbs.getPictureRegister().get(Integer.valueOf(pictureId));
                         }
                         if (!parentStoreId.equalsIgnoreCase("null")) {
                             Store s = dbs.getStoreRegister().get(Integer.valueOf(parentStoreId));
-                            dbs.getProductRegister().create(name, description, p, Double.valueOf(price), s);
+                            dbs.getProductRegister().create(name, description, p, Double.valueOf(price), s, tags);
                         } else {
                             Dealer d = dbs.getDealerRegister().get(Integer.valueOf(parentDealerId));
-                            dbs.getProductRegister().create(name, description, p, Double.valueOf(price), d);
+                            dbs.getProductRegister().create(name, description, p, Double.valueOf(price), d, tags);
                         }
                         System.out.println("Product created");
                         finish = true;
@@ -585,12 +612,8 @@ public class CreateObjects {
                         Date publishDate = new Date(publishYear, publishMonth, publishDay, publishHour, publishMinute);
 
                         Product p = dbs.getProductRegister().get(Integer.valueOf(productId));
-
-                        if (p.getParentStore() == null) {
-                            dbs.getSaleRegister().create(p.getName(), p.getDescription(), p.getPicture(), Double.valueOf(price), startDate, endDate, publishDate, p.getParentDealer());
-                        } else {
-                            dbs.getSaleRegister().create(p.getName(), p.getDescription(), p.getPicture(), Double.valueOf(price), startDate, endDate, publishDate, p.getParentStore());
-                        }
+                        
+                        dbs.getSaleRegister().create(p, Double.valueOf(price), startDate, endDate, publishDate);
                         System.out.println("Sale created");
                         finish = true;
                         ok = true;

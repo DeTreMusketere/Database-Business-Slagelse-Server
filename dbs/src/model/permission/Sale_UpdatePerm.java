@@ -37,7 +37,7 @@ public class Sale_UpdatePerm implements SalePermission {
     
     @Override
     public String toString() {
-        return "target: " + targetSale.getName() + " executor: " + executorUser.getName();
+        return "target: " + targetSale.getProduct().getName() + " executor: " + executorUser.getName();
     }
 
 }

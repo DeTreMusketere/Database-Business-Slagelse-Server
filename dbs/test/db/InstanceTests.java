@@ -121,9 +121,9 @@ public abstract class InstanceTests {
         dealerRegister = new DealerRegister(idHandler, dealerDAO);
         storeDAO = new StoreDAO(dealerRegister, pictureRegister);
         storeRegister = new StoreRegister(idHandler, storeDAO);
-        productDAO = new ProductDAO(dealerRegister, storeRegister, pictureRegister);
+        productDAO = new ProductDAO(dealerRegister, storeRegister, pictureRegister, tagRegister);
         productRegister = new ProductRegister(idHandler, productDAO);
-        saleDAO = new SaleDAO(dealerRegister, storeRegister, pictureRegister);
+        saleDAO = new SaleDAO(productRegister);
         saleRegister = new SaleRegister(idHandler, saleDAO);
         userDAO = new UserDAO(dealerRegister, storeRegister);
         userRegister = new UserRegister(idHandler, userDAO);

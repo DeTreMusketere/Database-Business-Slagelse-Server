@@ -175,12 +175,16 @@ public class Dbs {
         storeDAO = new StoreDAO(dealerRegister, pictureRegister);
         storeRegister = new StoreRegister(idHandler, storeDAO);
         storeRegister.load();
+        
+        tagDAO = new TagDAO();
+        tagRegister = new TagRegister(idHandler, tagDAO);
+        tagRegister.load();
 
-        productDAO = new ProductDAO(dealerRegister, storeRegister, pictureRegister);
+        productDAO = new ProductDAO(dealerRegister, storeRegister, pictureRegister, tagRegister);
         productRegister = new ProductRegister(idHandler, productDAO);
         productRegister.load();
 
-        saleDAO = new SaleDAO(dealerRegister, storeRegister, pictureRegister);
+        saleDAO = new SaleDAO(productRegister);
         saleRegister = new SaleRegister(idHandler, saleDAO);
         saleRegister.load();
 
@@ -188,9 +192,7 @@ public class Dbs {
         userRegister = new UserRegister(idHandler, userDAO);
         userRegister.load();
 
-        tagDAO = new TagDAO();
-        tagRegister = new TagRegister(idHandler, tagDAO);
-        tagRegister.load();
+        
 
         updateNumberDAO = new UpdateNumberDAO();
         updateNumberHandler = new UpdateNumberHandler(updateNumberDAO, fileHandler);
