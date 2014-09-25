@@ -1,5 +1,6 @@
 package std;
 
+import control.StringTool;
 import java.util.Scanner;
 import model.data.Dealer;
 import model.data.Store;
@@ -532,6 +533,8 @@ public class CreateObjects {
         System.out.println("You can at any time write 'back' to get back to main menu");
         System.out.println("- You can not choose a picture in this mode");
         System.out.println("---------------------------------------------------------");
+
+        createSale:
         while (!finish) {
             boolean ok = false;
             while (!ok) {
@@ -555,23 +558,42 @@ public class CreateObjects {
                 break;
             }
 
-            System.out.print("Start date [dd:mm:yyyy:HH:MM]:" + start + " ");
-            start = scan.nextLine();
-            if (start.equalsIgnoreCase("back")) {
-                break;
-            }
+            boolean correctFormat;
+            do {
+                System.out.print("Start date [dd:MM:yyyy:HH:mm]: ");
+                start = scan.nextLine();
+                correctFormat = StringTool.checkDateFormat(start);
+                if (start.equalsIgnoreCase("back")) {
+                    break createSale;
+                }
+                if (!correctFormat) {
+                    System.out.println("Please write the date in the given format.");
+                }
+            } while (!correctFormat);
 
-            System.out.print("End date [dd:mm:yyyy:HH:MM]:" + end + " ");
-            end = scan.nextLine();
-            if (end.equalsIgnoreCase("back")) {
-                break;
-            }
+            do {
+                System.out.print("End date [dd:mm:yyyy:HH:MM]: ");
+                end = scan.nextLine();
+                correctFormat = StringTool.checkDateFormat(end);
+                if (end.equalsIgnoreCase("back")) {
+                    break createSale;
+                }
+                if (!correctFormat) {
+                    System.out.println("Please write the date in the given format.");
+                }
+            } while (!correctFormat);
 
-            System.out.print("Publish date [dd:mm:yyyy:HH:MM]:" + publish + " ");
-            publish = scan.nextLine();
-            if (publish.equalsIgnoreCase("back")) {
-                break;
-            }
+            do {
+                System.out.print("Publish date [dd:mm:yyyy:HH:MM]: ");
+                publish = scan.nextLine();
+                correctFormat = StringTool.checkDateFormat(publish);
+                if (publish.equalsIgnoreCase("back")) {
+                    break createSale;
+                }
+                if (!correctFormat) {
+                    System.out.println("Please write the date in the given format.");
+                }
+            } while (!correctFormat);
 
             System.out.println("");
             System.out.println("Is this right?");
@@ -612,7 +634,7 @@ public class CreateObjects {
                         Date publishDate = new Date(publishYear, publishMonth, publishDay, publishHour, publishMinute);
 
                         Product p = dbs.getProductRegister().get(Integer.valueOf(productId));
-                        
+
                         dbs.getSaleRegister().create(p, Double.valueOf(price), startDate, endDate, publishDate);
                         System.out.println("Sale created");
                         finish = true;
