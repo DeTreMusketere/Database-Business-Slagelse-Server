@@ -73,7 +73,7 @@ public class ProductDAO extends DataDAO<Product> {
         }
     }
 
-    // TODO = Update this method so that i updates product_tag table
+    // TODO = Update this method so that it updates product_tag table
     @Override
     public void update(Product source, Product target) {
         try {
@@ -154,7 +154,7 @@ public class ProductDAO extends DataDAO<Product> {
                     String sql2 = "SELECT * FROM product_tag WHERE target_product_id=" + id;
                     try (ResultSet rs2 = statement2.executeQuery(sql2)) {
                         while(rs2.next()) {
-                            int tagId = rs2.getInt(2);
+                            int tagId = rs2.getInt(3);
                             Tag tag = tagRegister.get(tagId);
                             if(tag != null) {
                                 tags.add(tag);
@@ -217,7 +217,7 @@ public class ProductDAO extends DataDAO<Product> {
                     String sql2 = "SELECT * FROM product_tag WHERE target_product_id=" + productId;
                     try (ResultSet rs2 = st2.executeQuery(sql2)) {
                         while(rs2.next()) {
-                            int tagId = rs2.getInt(2);
+                            int tagId = rs2.getInt(3);
                             Tag tag = tagRegister.get(tagId);
                             if(tag != null) {
                                 tags.add(tag);

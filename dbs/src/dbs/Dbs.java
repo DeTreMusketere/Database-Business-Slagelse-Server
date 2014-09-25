@@ -3,11 +3,13 @@ package dbs;
 import control.FileHandler;
 import control.PermissionHandler;
 import db.DBTool;
-import model.data.*;
 import db.data.*;
 import db.permission.*;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 import json.JSONBuilder;
+import model.data.*;
 import networking.NetServer;
 import std.TerminalController;
 
@@ -240,6 +242,92 @@ public class Dbs {
      */
     public static void main(String[] args) throws IOException {
         Dbs dbs = new Dbs();
+//        
+//        Tag tøj = dbs.getTagRegister().create("Tøj", "Tøj");
+//        Tag fodtøj = dbs.getTagRegister().create("Fodtøj", "Fodtøj");
+//        Tag fødevarer = dbs.getTagRegister().create("Fødevarer", "Fødevarer");
+//        
+//        String pics = "C:\\Users\\Patrick\\Desktop\\App billeder\\";
+//        Picture pic1 = dbs.getPictureRegister().create("Flyverdragt", pics + "Flyverdragt.jpg");
+//        Picture pic2 = dbs.getPictureRegister().create("Converse", pics + "Converse.jpg");
+//        Picture pic3 = dbs.getPictureRegister().create("Pizza", pics + "Pizza.jpg");
+//        Picture pic4 = dbs.getPictureRegister().create("Ost", pics + "Ost.jpg");
+//        Picture pic5 = dbs.getPictureRegister().create("Mælk", pics + "Mælk.jpg");
+//        Picture pic6 = dbs.getPictureRegister().create("Sandaler", pics + "Sandaler.jpg");
+//        Picture pic7 = dbs.getPictureRegister().create("T-shirt", pics + "T-shirt.jpg");
+//        Picture pic8 = dbs.getPictureRegister().create("Spinat", pics + "Spinat.jpg");
+//        Picture pic9 = dbs.getPictureRegister().create("Bukser", pics + "Bukser.jpg");
+//        Picture pic10 = dbs.getPictureRegister().create("Vanter", pics + "Vanter.jpg");
+//        
+//        Dealer dealer = dbs.getDealerRegister().create("Test dealer", "Test dealer", "123456789", null);
+//        
+//        ArrayList<Tag> flyverdragtTags = new ArrayList<>();
+//        flyverdragtTags.add(tøj);
+//        
+//        ArrayList<Tag> converseTags = new ArrayList<>();
+//        converseTags.add(tøj);
+//        converseTags.add(fodtøj);
+//        
+//        ArrayList<Tag> pizzaTags = new ArrayList<>();
+//        pizzaTags.add(fødevarer);
+//        
+//        ArrayList<Tag> ostTags = new ArrayList<>();
+//        ostTags.add(fødevarer);
+//        
+//        ArrayList<Tag> mælkTags = new ArrayList<>();
+//        mælkTags.add(fødevarer);
+//        
+//        ArrayList<Tag> sandalerTags = new ArrayList<>();
+//        sandalerTags.add(tøj);
+//        sandalerTags.add(fodtøj);
+//        
+//        ArrayList<Tag> t_shirtTags = new ArrayList<>();
+//        t_shirtTags.add(tøj);
+//        
+//        ArrayList<Tag> spinatTags = new ArrayList<>();
+//        spinatTags.add(fødevarer);
+//        
+//        ArrayList<Tag> bukserTags = new ArrayList<>();
+//        bukserTags.add(tøj);
+//        
+//        ArrayList<Tag> vanterTags = new ArrayList<>();
+//        vanterTags.add(tøj);
+//        
+//        Product flyverdragt = dbs.getProductRegister().create("Flyverdragt", "Test", pic1, 400, dealer, flyverdragtTags);
+//        Product converse = dbs.getProductRegister().create("Converse sko", "Test", pic2, 600, dealer, converseTags);
+//        Product pizza = dbs.getProductRegister().create("Pizza", "Test", pic3, 70, dealer, pizzaTags);
+//        Product ost = dbs.getProductRegister().create("Ost", "Test", pic4, 25, dealer, ostTags);
+//        Product mælk = dbs.getProductRegister().create("Mælk", "Test", pic5, 400, dealer, mælkTags);
+//        Product sandaler = dbs.getProductRegister().create("Sandaler", "Test", pic6, 400, dealer, sandalerTags);
+//        Product t_shirt = dbs.getProductRegister().create("T-Shirt", "Test", pic7, 400, dealer, t_shirtTags);
+//        Product spinat = dbs.getProductRegister().create("Spinat", "Test", pic8, 400, dealer, spinatTags);
+//        Product bukser = dbs.getProductRegister().create("Bukser", "Test", pic9, 400, dealer, bukserTags);
+//        Product vanter = dbs.getProductRegister().create("Vanter", "Test", pic10, 400, dealer, vanterTags);
+        
+//        Product a = dbs.getProductRegister().get(1);
+//        Product b = dbs.getProductRegister().get(2);
+//        Product c = dbs.getProductRegister().get(3);
+//        Product d = dbs.getProductRegister().get(4);
+//        Product e = dbs.getProductRegister().get(5);
+//        Product f = dbs.getProductRegister().get(6);
+//        Product g = dbs.getProductRegister().get(7);
+//        Product h = dbs.getProductRegister().get(8);
+//        Product i = dbs.getProductRegister().get(9);
+//        Product j = dbs.getProductRegister().get(10);
+//        
+//        Date date = new Date(2014, 01, 01, 12, 00);
+//        
+//        Sale aS = dbs.getSaleRegister().create(a, 400, date, date, date);
+//        Sale bS = dbs.getSaleRegister().create(b, 300, date, date, date);
+//        Sale cS = dbs.getSaleRegister().create(c, 65, date, date, date);
+//        Sale dS = dbs.getSaleRegister().create(d, 29, date, date, date);
+//        Sale eS = dbs.getSaleRegister().create(e, 2, date, date, date);
+//        Sale fS = dbs.getSaleRegister().create(f, 250, date, date, date);
+//        Sale gS = dbs.getSaleRegister().create(g, 50, date, date, date);
+//        Sale hS = dbs.getSaleRegister().create(h, 60, date, date, date);
+//        Sale iS = dbs.getSaleRegister().create(i, 150, date, date, date);
+//        Sale jS = dbs.getSaleRegister().create(j, 250, date, date, date);
+        
     }
 
 }
